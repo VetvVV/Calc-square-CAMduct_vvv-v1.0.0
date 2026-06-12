@@ -1,0 +1,833 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Calc Square</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;700&display=swap"
+rel="stylesheet">
+
+<style>
+
+body{
+
+margin:0;
+
+font-family:'Exo 2',sans-serif;
+
+font-style:italic;
+
+background:#e7e7e7;
+
+position:relative;
+
+overflow-x:hidden;
+
+font-weight:500;
+
+}
+
+
+body::before{
+
+content:"";
+
+position:fixed;
+
+top:50%;
+
+left:50%;
+
+transform:
+translate(-50%,-50%);
+
+width:90vw;
+
+height:90vh;
+
+background:
+
+url("./assets/images/calc_square_logo.png")
+center
+
+no-repeat;
+
+background-size:
+contain;
+
+opacity:.04;
+
+pointer-events:none;
+
+z-index:-1;
+
+filter:
+contrast(.92)
+brightness(.92);
+
+}
+
+.wrap{
+
+max-width:1100px;
+
+margin:auto;
+
+padding:10px 50px 50px;
+
+position:relative;
+
+}
+
+
+
+.subtitle{
+
+width:100%;
+
+text-align:center;
+
+font-family:'Exo 2',sans-serif;
+
+font-style:italic;
+
+font-weight:700;
+
+font-size:40px;
+
+line-height:1;
+
+letter-spacing:1px;
+
+color:#5a616b;
+
+margin:0 0 40px 0;
+
+text-transform:uppercase;
+
+}
+
+.card h2{
+
+text-align:center;
+
+font-family:'Exo 2',sans-serif;
+
+font-style:italic;
+
+font-weight:700;
+
+font-size:22px;
+
+color:#d9821f;
+
+margin:0 0 24px 0;
+
+}
+
+
+
+h1,
+h2,
+.item{
+
+color:#171717;
+
+text-shadow:
+0 1px 2px rgba(255,255,255,.65);
+
+}
+
+
+
+.bottom-card{
+
+grid-column:1 / -1;
+
+display:flex;
+
+justify-content:center;
+
+width:100%;
+
+margin:0 auto;
+
+}
+
+.bottom-card .card{
+
+min-width:920px;
+
+max-width:1200px;
+
+width:fit-content;
+
+}
+
+.card{
+
+display:block;
+
+position:relative;
+
+padding:32px;
+
+width:min(1050px,94vw);
+
+min-height:auto;
+
+box-sizing:border-box;
+
+border-radius:28px;
+
+text-decoration:none;
+
+color:#111;
+
+background:rgba(255,255,255,.03);
+
+border:1px solid rgba(255,255,255,.18);
+
+backdrop-filter:blur(1.5px);
+
+-webkit-backdrop-filter:blur(1.5px);
+
+box-shadow:
+
+0 4px 16px rgba(0,0,0,.015)
+
+inset 0 1px 0 rgba(255,255,255,.35);
+
+overflow:hidden;
+
+transition:.35s;
+
+}
+
+
+.card:hover{
+
+background:rgba(235,235,235,.006);
+
+border-color:rgba(255,255,255,.55);
+
+transform:translateY(-6px);
+
+backdrop-filter:blur(1px);
+-webkit-backdrop-filter:blur(1px);
+
+
+}
+
+
+
+
+
+
+.item span{
+
+margin-top:2px;
+
+}
+
+.round-duct{
+
+width:170px;
+
+height:110px;
+
+object-fit:contain;
+
+margin:0 auto;
+
+}
+
+.round-duct + span{
+
+display:block;
+
+margin-top:20px;
+
+text-align:center;
+
+}
+
+.items{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(140px,1fr));
+
+justify-items:center;
+
+align-items:start;
+
+gap:28px;
+
+width:100%;
+
+margin:0 auto;
+
+}
+
+.item{
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+justify-content:flex-start;
+
+min-width:140px;
+
+text-decoration:none;
+
+color:#171717;
+
+font-style:italic;
+
+font-weight:500;
+
+}
+
+
+.round-elbow{
+
+width:180px;
+
+height:120px;
+
+object-fit:contain;
+
+margin:0 auto;
+
+}
+
+.round-transition{
+
+width:180px;
+
+height:120px;
+
+object-fit:contain;
+
+display:block;
+
+margin:0 auto;
+
+}
+
+.rectangular-duct{
+
+width:180px;
+
+height:120px;
+
+object-fit:contain;
+
+display:block;
+
+margin:0 auto;
+
+}
+
+.rectangular-elbow{
+
+    width:180px;
+
+    height:120px;
+
+    object-fit:contain;
+
+    display:block;
+
+    margin:0 auto;
+
+}
+
+.rectangular-transition{
+
+    width:180px;
+
+    height:120px;
+
+    object-fit:contain;
+
+    display:block;
+
+    margin:0 auto;
+
+}
+
+.round-to-rectangular{
+    width:130px;
+    height:90px;
+    object-fit:contain;
+    display:block;
+    margin:0 auto 8px auto;
+}
+
+
+.round-offset{
+
+width:180px;
+
+height:120px;
+
+object-fit:contain;
+
+display:block;
+
+margin:0 auto;
+
+position:relative;
+
+left:15px;
+
+}
+
+.offset-text{
+
+display:block;
+
+text-align:center;
+
+line-height:1.15;
+
+}
+
+.round-tee{
+
+width:210px;
+
+height:140px;
+
+object-fit:contain;
+
+margin:0 auto;
+
+}
+
+.grid{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:24px;
+
+    width:100%;
+
+    align-items:center;
+
+}
+
+.item:hover{
+
+background:
+
+rgba(255,255,255,.12);
+
+}
+
+.item:hover img{
+transform:scale(1.08);
+}
+
+.icon{
+
+width:90px;
+
+height:90px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:54px;
+
+margin:0 auto 10px;
+
+}
+
+
+
+
+@media (max-width:768px){
+
+.wrap{
+padding:20px 12px;
+}
+
+.card{
+
+padding:24px 12px;
+
+width:100%;
+max-width:100%;
+
+text-align:center;
+
+}
+
+.bottom-card .card{
+
+min-width:auto;
+
+width:100%;
+
+}
+
+.items{
+grid-template-columns:repeat(2,minmax(120px,1fr));
+gap:24px;
+}
+
+.subtitle{
+font-size:30px;
+margin-bottom:28px;
+}
+
+
+
+@media (max-width:480px){
+
+.items{
+grid-template-columns:1fr;
+}
+
+.subtitle{
+font-size:26px;
+}
+
+}
+
+
+.round-duct,
+.round-elbow,
+.round-transition,
+.round-offset,
+.round-tee,
+.rectangular-duct,
+.rectangular-elbow,
+.rectangular-transition,
+.round-to-rectangular
+{
+    width:140px;
+    height:90px;
+}
+
+.round-to-rectangular{
+    width:140px !important;
+    height:90px !important;
+    object-fit:contain;
+}
+
+
+
+.icon{
+
+width:70px;
+
+height:70px;
+
+font-size:42px;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<div class="wrap">
+
+<div class="subtitle" data-i18n="atlasTitle">АТЛАС ИЗДЕЛИЙ</div>
+
+
+<div class="card">
+
+<h2 data-i18n="round">Круглые</h2>
+
+<div class="items">
+
+<a class="item" href="../../modules/round/duct/module.html">
+<img src="../products/round_duct.svg" class="round-duct">
+<span data-i18n="duct">Воздуховод</span>
+</a>
+
+<a class="item" href="../../modules/round/elbow/module.html">
+<img src="../products/round_elbow.svg" class="round-elbow">
+<span data-i18n="elbow">Отвод</span>
+</a>
+
+<a class="item" href="../../modules/round/transition/module.html">
+<img src="../products/round_transition.svg" class="round-transition">
+<span data-i18n="transition">Переход</span>
+</a>
+
+<a class="item" href="../../modules/round/offset-transition/module.html">
+<img src="../products/round_offset.svg" class="round-offset">
+<span class="offset-text" data-i18n-html="offset">Переход<br>со смещением</span>
+</a>
+
+</div>
+
+<a class="item" href="../../modules/round/tee/module.html">
+<img src="../products/round_tee.svg" class="round-tee">
+<span data-i18n="tee">Тройник</span>
+</a>
+</div>
+
+
+<div class="card">
+
+<h2 data-i18n="rectangular">Прямоугольные</h2>
+
+<div class="items">
+
+<a class="item"
+href="../../modules/rectangular/duct/module.html">
+
+    <img
+    src="../products/rectangular_duct.svg"
+    class="rectangular-duct">
+
+    <span data-i18n="duct">Воздуховод</span>
+
+</a>
+
+<a class="item"
+href="../../modules/rectangular/elbow/module.html">
+
+    <img
+    src="../products/rectangular_elbow.svg"
+    class="rectangular-elbow">
+
+    <span data-i18n="elbow">Отвод</span>
+
+</a>
+
+<a class="item"
+href="../../modules/rectangular/transition/module.html">
+
+    <img
+    src="../products/rectangular_transition.svg"
+    class="rectangular-transition">
+
+    <span data-i18n="transition">Переход</span>
+
+</a>
+
+</div>
+
+</div>
+
+<div class="bottom-card">
+
+<div class="card">
+
+
+<h2 data-i18n="combined">Комбинированные</h2>
+
+<div class="items">
+
+<a class="item"
+href="../../modules/combined/round-to-rectangular/module.html">
+
+    <img
+    src="../products/round_to_rectangular.svg"
+    class="round-to-rectangular">
+
+    <span data-i18n="roundToRect">Круг→Прям</span>
+
+</a>
+
+
+<a class="item"
+href="../../modules/round/offset-transition/module.html">
+<div class="icon">в‰€</div>
+<span data-i18n="offsetShort">Смещение</span>
+</a>
+
+</div>
+
+
+</div>
+
+</div>
+
+<script>
+const atlasI18n={
+  "uk": {
+    "atlasTitle": "АТЛАС ВИРОБІВ",
+    "round": "Круглі",
+    "rectangular": "Прямокутні",
+    "combined": "Комбіновані",
+    "duct": "Повітропровід",
+    "elbow": "Відвід",
+    "transition": "Перехід",
+    "offset": "Перехід<br>зі зміщенням",
+    "tee": "Трійник",
+    "roundToRect": "Круг→Прям",
+    "offsetShort": "Зміщення"
+  },
+  "ru": {
+    "atlasTitle": "АТЛАС ИЗДЕЛИЙ",
+    "round": "Круглые",
+    "rectangular": "Прямоугольные",
+    "combined": "Комбинированные",
+    "duct": "Воздуховод",
+    "elbow": "Отвод",
+    "transition": "Переход",
+    "offset": "Переход<br>со смещением",
+    "tee": "Тройник",
+    "roundToRect": "Круг→Прям",
+    "offsetShort": "Смещение"
+  },
+  "en": {
+    "atlasTitle": "PRODUCT ATLAS",
+    "round": "Round",
+    "rectangular": "Rectangular",
+    "combined": "Combined",
+    "duct": "Duct",
+    "elbow": "Elbow",
+    "transition": "Transition",
+    "offset": "Offset<br>transition",
+    "tee": "Tee",
+    "roundToRect": "Round?Rect",
+    "offsetShort": "Offset"
+  }
+};
+
+function atlasLang(){
+    try{
+        const parentLang=
+        window.parent.localStorage.getItem('calcSquareLang');
+
+        if(atlasI18n[parentLang]){
+            return parentLang;
+        }
+    }
+    catch(e){}
+
+    const ownLang=
+    localStorage.getItem('calcSquareLang') || 'uk';
+
+    return atlasI18n[ownLang]
+    ?
+    ownLang
+    :
+    'uk';
+}
+
+function atlasT(key){
+    return atlasI18n[atlasLang()][key] || atlasI18n.uk[key] || key;
+}
+
+function atlasRole(){
+    const allowedRoles=[
+    'guest',
+    'user',
+    'client',
+    'admin'
+    ];
+
+    const fromUrl=
+    new URLSearchParams(window.location.search).get('role');
+
+    if(allowedRoles.includes(fromUrl)){
+        return fromUrl;
+    }
+
+    return 'guest';
+}
+
+function applyAtlasLanguage(){
+    document.documentElement.lang=atlasLang();
+
+    document.querySelectorAll('[data-i18n]').forEach(
+    (node)=>{
+        node.textContent=atlasT(node.dataset.i18n);
+    }
+    );
+
+    document.querySelectorAll('[data-i18n-html]').forEach(
+    (node)=>{
+        node.innerHTML=atlasT(node.dataset.i18nHtml);
+    }
+    );
+}
+
+function openModule(path, role=atlasRole(), lang=atlasLang()){
+    const moduleUrl=
+    new URL(
+    path,
+    window.location.href
+    );
+
+    moduleUrl.searchParams.set('lang', lang);
+    moduleUrl.searchParams.set('role', role);
+    moduleUrl.searchParams.set('v', Date.now());
+
+    if(
+    window.parent
+    &&
+    window.parent !== window
+    ){
+        window.parent.postMessage(
+        {
+            type:'calcSquare:openModule',
+            path:moduleUrl.href,
+            role,
+            lang
+        },
+        '*'
+        );
+
+        return;
+    }
+
+    window.location.href=moduleUrl.href;
+}
+
+document.addEventListener(
+'click',
+(event)=>{
+    const link=
+    event.target.closest('a[href*="module.html"]');
+
+    if(!link){
+        return;
+    }
+
+    event.preventDefault();
+
+    openModule(
+    link.getAttribute('href'),
+    atlasRole(),
+    atlasLang()
+    );
+}
+);
+
+applyAtlasLanguage();
+</script>
+
+</body>
+
+</html>

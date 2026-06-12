@@ -1,0 +1,2604 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Calc Square — ST Spetsmontazh</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#f2f2f2;
+}
+
+.wrap{
+max-width:760px;
+margin:auto;
+padding:24px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:12px;
+
+
+}
+
+.layout{
+
+display:grid;
+
+grid-template-columns:
+
+240px
+
+240px
+
+1fr;
+
+gap:40px;
+
+align-items:start;
+
+}
+
+.left,
+.right{
+display:flex;
+flex-direction:column;
+gap:18px;
+}
+
+.right{
+
+display:flex;
+
+flex-direction:column;
+
+gap:20px;
+
+padding-top:0px;
+
+}
+
+.field{
+position:relative;
+}
+
+label{
+font-size:14px;
+display:block;
+margin-bottom:8px;
+}
+
+input,
+select{
+
+width:140px;
+
+padding:10px;
+
+box-sizing:border-box;
+
+font-size:16px;
+
+}
+
+#material{
+min-width:180px;
+padding:8px;
+}
+
+.dropdown{
+position:absolute;
+top:66px;
+left:0;
+width:140px;
+background:white;
+border:1px solid #ccc;
+border-radius:8px;
+display:none;
+
+max-height:320px;
+
+overflow-y:auto;
+
+z-index:50;
+}
+
+.item{
+padding:8px;
+cursor:pointer;
+}
+
+.item:hover{
+background:#efefef;
+}
+
+.preview{
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+margin-top:-20px;
+
+margin-left:-140px;
+
+}
+
+.preview img{
+
+width:650px;
+
+max-width:none;
+
+height:auto;
+
+object-fit:contain;
+
+}
+
+.result{
+margin-top:20px;
+padding:16px;
+background:#f8f8f8;
+border-radius:10px;
+}
+
+.calc-controls{
+margin-top:18px;
+display:none;
+gap:10px;
+align-items:center;
+flex-wrap:wrap;
+}
+
+.calc-button{
+padding:12px 22px;
+border:none;
+border-radius:10px;
+background:#d97706;
+color:white;
+font-weight:700;
+cursor:pointer;
+}
+
+.calc-button:hover{
+background:#b86510;
+}
+
+.add-project-button{
+margin-top:16px;
+padding:12px 22px;
+border:none;
+border-radius:10px;
+background:#d97706;
+color:white;
+font-weight:700;
+cursor:pointer;
+}
+
+.add-project-button:hover{
+background:#b86510;
+}
+
+.guest-limit-hint{
+font-size:13px;
+color:#666;
+}
+
+.guest-limit-card{
+padding:18px;
+border-radius:12px;
+background:#fff7ed;
+border:1px solid #fed7aa;
+color:#5a3b18;
+line-height:1.45;
+}
+
+.guest-limit-card strong{
+display:block;
+margin-bottom:6px;
+color:#b45309;
+}
+
+.signup-modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.5);
+z-index:9999;
+align-items:center;
+justify-content:center;
+padding:20px;
+box-sizing:border-box;
+}
+
+.signup-modal.open{
+display:flex;
+}
+
+.signup-box{
+width:min(420px,100%);
+background:white;
+border-radius:16px;
+padding:26px;
+box-shadow:0 18px 60px rgba(0,0,0,.25);
+position:relative;
+line-height:1.45;
+}
+
+.signup-box h3{
+margin:0 0 12px;
+font-size:24px;
+color:#5a616b;
+}
+
+.signup-box p{
+margin:0 0 18px;
+color:#555;
+}
+
+.signup-box input{
+width:100%;
+margin-bottom:10px;
+}
+
+.signup-actions{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-top:8px;
+}
+
+.signup-primary,
+.signup-secondary{
+padding:11px 16px;
+border:none;
+border-radius:9px;
+font-weight:700;
+cursor:pointer;
+}
+
+.signup-primary{
+background:#d97706;
+color:white;
+}
+
+.signup-secondary{
+background:#ececec;
+color:#333;
+}
+
+.signup-close{
+position:absolute;
+right:16px;
+top:12px;
+border:none;
+background:transparent;
+font-size:22px;
+cursor:pointer;
+color:#777;
+}
+
+details{
+margin-top:12px;
+}
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+margin-bottom:24px;
+
+padding-bottom:12px;
+
+border-bottom:1px solid #d7d7d7;
+}
+
+.back{
+text-decoration:none;
+
+color:#444;
+
+font-weight:700;
+}
+
+.back:hover{
+opacity:.7;
+}
+
+.brand{
+font-size:18px;
+
+font-weight:700;
+}
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:24px;
+
+padding-bottom:12px;
+
+border-bottom:1px solid #d7d7d7;
+
+}
+
+.back{
+
+text-decoration:none;
+
+color:#444;
+
+font-weight:700;
+
+}
+
+.back:hover{
+
+opacity:.7;
+
+}
+
+.brand{
+
+font-size:18px;
+
+font-weight:700;
+
+}
+}
+
+</style>
+
+</head>
+
+<body>
+
+  <div class="topbar">
+
+<a href="../../../assets/atlas/atlas.html" class="back">
+← Каталог
+</a>
+
+<div class="brand">
+Calc Square
+</div>
+
+</div>
+
+<div class="wrap">
+
+<div class="card">
+
+<h2>
+
+Повітропроводи → Прямокутний
+
+</h2>
+
+<div class="layout">
+
+<div class="left">
+
+<div class="field">
+
+<label>A — Ширина</label>
+
+<input
+id="A"
+value="150"
+>
+
+<div class="dropdown"></div>
+
+</div>
+
+<div class="field">
+
+<label>B — Висота</label>
+
+<input
+id="B"
+value="150"
+>
+
+<div class="dropdown"></div>
+
+</div>
+
+<div class="field">
+
+<label>L — Довжина</label>
+
+<input
+id="L"
+value="300"
+>
+
+<div class="dropdown"></div>
+
+</div>
+
+</div>
+
+<div class="preview">
+
+<img
+<img
+id="previewImage"
+src="./preview.svg"
+alt="Preview">
+</div>
+
+<div class="right">
+
+<label>
+
+Матеріал
+<select id="material">
+<option>Оцинкована сталь</option>
+<option>Нержавіюча сталь 430 технічна</option>
+<option>Нержавіюча сталь 304 харчова</option>
+
+<option>
+Оцинкована сталь
+</option>
+
+<option>
+Нержавіюча сталь
+</option>
+
+</select>
+
+</label>
+
+<label>
+
+Товщина
+
+<select id="t">
+
+<option>0.5</option>
+<option>0.7</option>
+<option>0.9</option>
+<option>1.0</option>
+
+</select>
+
+</label>
+
+<label>
+
+Кількість
+
+<input
+id="qty"
+value="1"
+type="number"
+min="1"
+max="999"
+>
+
+
+
+</select>
+
+</label>
+
+<label>
+
+З'єднання
+
+<select id="connection">
+
+<option>З'єднання 1</option>
+<option>З'єднання 2</option>
+<option>Шинорейка 20</option>
+<option>Шинорейка 30</option>
+<option>Рейка</option>
+
+</select>
+
+</label>
+
+</div>
+
+</div>
+
+<div class="calc-controls" id="calcControls">
+<button class="calc-button" id="btnCalculate" type="button">
+Розрахувати
+</button>
+<div class="guest-limit-hint" id="guestLimitHint"></div>
+</div>
+
+<div
+class="result"
+id="out">
+
+</div>
+
+<div class="signup-modal" id="signupModal">
+<div class="signup-box">
+<button class="signup-close" id="signupClose" type="button">×</button>
+<h3>Ліміт вичерпано</h3>
+<p>
+Увы, ліміт 5/5 розрахунків на сьогодні вже використано.
+Зареєструйтесь, щоб користуватись калькулятором без денного обмеження.
+</p>
+<input type="text" placeholder="Ім'я або компанія">
+<input type="email" placeholder="Email">
+<input type="password" placeholder="Пароль">
+<div class="signup-actions">
+<button class="signup-primary" id="signupSubmit" type="button">Зареєструватися</button>
+<button class="signup-secondary" id="signupLater" type="button">Пізніше</button>
+</div>
+</div>
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const std={
+
+rect:[
+
+100,
+150,
+200,
+250,
+300,
+350,
+400,
+450,
+500,
+600,
+700,
+800,
+900,
+1000,
+1120,
+1250,
+1400,
+1500,
+1600,
+1800,
+2000
+
+],
+
+round:[
+
+80,
+100,
+125,
+160,
+180,
+200,
+224,
+250,
+280,
+315,
+355,
+400,
+450,
+500,
+560,
+630,
+710,
+800,
+900,
+1000
+
+]
+
+};
+
+let manualT=false;
+
+let openLocks=false;
+let openDetails=false;
+
+function bind(id){
+
+const input=
+document.getElementById(
+id
+);
+
+const menu=
+input.nextElementSibling;
+
+function draw(v=""){
+
+menu.innerHTML="";
+
+(
+
+id==="holeA"
+
+&&
+
+document.getElementById(
+"holeType"
+)?.value==="round"
+
+?
+
+std.round
+
+:
+
+std.rect
+
+)
+
+.forEach(
+v=>{
+
+const d=
+document.createElement(
+"div"
+);
+
+d.className=
+"item";
+
+d.innerText=v;
+
+d.onclick=()=>{
+
+input.value=v;
+
+menu.style.display=
+"none";
+
+if(
+id==="holeA"
+||
+id==="holeB"
+){
+
+return;
+
+}
+
+calc();
+
+};
+
+menu.appendChild(
+d
+);
+
+}
+);
+
+menu.style.display=
+"block";
+
+}
+
+input.addEventListener(
+"focus",
+()=>{
+input.select();
+draw();
+}
+);
+
+input.addEventListener(
+"input",
+()=>{
+draw();
+calc();
+}
+);
+
+input.addEventListener("keydown",
+e=>{
+
+if(
+e.key==="Enter"
+)
+
+menu.style.display=
+"none";
+
+}
+);
+
+document.addEventListener(
+"click",
+e=>{
+
+if(
+!input.parentNode.contains(
+e.target
+)
+)
+
+menu.style.display=
+"none";
+
+}
+);
+
+}
+
+bind("A");
+bind("B");
+bind("L");
+
+const materialOptions=[
+"Оцинкована сталь",
+"Нержавіюча сталь 430 технічна",
+"Нержавіюча сталь 304 харчова"
+];
+
+const thicknessByMaterial={
+"Оцинкована сталь":["0.5","0.7","0.9","1.0"],
+"Нержавіюча сталь 430 технічна":["0.55","0.8","1.0"],
+"Нержавіюча сталь 304 харчова":["0.55","0.8","1.0"]
+};
+
+material.innerHTML=
+materialOptions
+.map(
+name=>`<option>${name}</option>`
+)
+.join("");
+
+connection.innerHTML=
+["З'єднання 1","З'єднання 2"]
+.map(
+name=>`<option>${name}</option>`
+)
+.join("");
+
+const connectionTypeLabel=
+document.createElement("label");
+
+connectionTypeLabel.innerHTML=
+`
+<span id="connectionTypeTitle">Тип з'єднання 1</span>
+<select id="connectionType">
+<option>Шинорейка 20</option>
+<option>Шинорейка 30</option>
+<option>Рейка</option>
+<option>ГК</option>
+</select>
+`;
+
+const connectionLabel=
+connection.parentElement;
+
+const qtyLabel=
+qty.closest("label");
+
+if(qtyLabel){
+qtyLabel.before(connectionLabel);
+}
+
+connectionLabel.after(
+connectionTypeLabel
+);
+
+const connectionType=
+document.getElementById("connectionType");
+
+const connectionTypeTitle=
+document.getElementById("connectionTypeTitle");
+
+function updateConnectionTypeTitle(){
+
+connectionTypeTitle.textContent=
+`Тип ${connection.value}`;
+
+}
+
+updateConnectionTypeTitle();
+
+function updateThicknessOptions(
+shouldCalc=true
+){
+
+const previous=
+t.value;
+
+const options=
+thicknessByMaterial[material.value] ||
+thicknessByMaterial["Оцинкована сталь"];
+
+t.innerHTML=
+options
+.map(
+value=>`<option>${value}</option>`
+)
+.join("");
+
+t.value=
+options.includes(previous)
+?
+previous
+:
+options[0];
+
+if(shouldCalc){
+calc();
+}
+
+}
+
+updateThicknessOptions(false);
+
+t.addEventListener(
+"change",
+()=>{
+
+manualT=true;
+
+calc();
+
+}
+);
+
+[
+connection,
+connectionType,
+qty
+]
+
+.forEach(
+x=>
+
+x.addEventListener(
+"change",
+calc
+)
+
+);
+
+connection.addEventListener(
+"change",
+updateConnectionTypeTitle
+);
+
+material.addEventListener(
+"change",
+()=>{
+
+manualT=false;
+updateThicknessOptions();
+
+}
+);
+
+qty.addEventListener(
+"input",
+calc
+);
+
+function autoT(
+A,
+B
+){
+
+const m=
+Math.max(
+A,
+B
+);
+
+if(
+material.value.includes("Нержав")
+){
+
+if(
+m>=1000
+)
+return "1.0";
+
+if(
+m>=500
+)
+return "0.8";
+
+return "0.55";
+
+}
+
+if(
+m>=1000
+)
+return "0.9";
+
+if(
+m>=500
+)
+return "0.7";
+
+return "0.5";
+
+}
+
+function n(id){
+
+return Number(
+document.getElementById(
+id
+).value
+)||0;
+
+}
+
+const guestLimitMax=5;
+
+const calcControls=
+document.getElementById("calcControls");
+
+const btnCalculate=
+document.getElementById("btnCalculate");
+
+const guestLimitHint=
+document.getElementById("guestLimitHint");
+
+let currentProjectItem=null;
+
+const signupModal=
+document.getElementById("signupModal");
+
+const signupClose=
+document.getElementById("signupClose");
+
+const signupLater=
+document.getElementById("signupLater");
+
+const signupSubmit=
+document.getElementById("signupSubmit");
+
+function showSignupModal(){
+
+signupModal.classList.add("open");
+
+}
+
+function hideSignupModal(){
+
+signupModal.classList.remove("open");
+
+}
+
+signupClose.addEventListener(
+"click",
+hideSignupModal
+);
+
+signupLater.addEventListener(
+"click",
+hideSignupModal
+);
+
+signupModal.addEventListener(
+"click",
+(e)=>{
+
+if(
+e.target===signupModal
+){
+hideSignupModal();
+}
+
+}
+);
+
+signupSubmit.addEventListener(
+"click",
+()=>{
+
+if(
+window.parent
+&&
+window.parent !== window
+){
+window.parent.postMessage(
+{
+type:"calcSquare:setRole",
+role:"user"
+},
+"*"
+);
+}
+
+hideSignupModal();
+
+updateGuestControls(
+guestState()
+);
+
+alert(
+"Реєстрацію буде підключено наступним етапом. Зараз увімкнено режим користувача."
+);
+
+}
+);
+
+function appStorage(){
+
+try{
+return window.parent.localStorage;
+}
+catch(e){
+return localStorage;
+}
+
+}
+
+function requestParentResize(){
+
+if(
+window.parent
+&&
+window.parent !== window
+){
+
+window.parent.postMessage(
+{
+type:"calcSquare:resizeModule",
+height:Math.max(
+document.documentElement.scrollHeight,
+document.body.scrollHeight
+)
+},
+"*"
+);
+
+}
+
+}
+
+function todayKey(){
+
+const d=
+new Date();
+
+return [
+d.getFullYear(),
+String(d.getMonth()+1).padStart(2,"0"),
+String(d.getDate()).padStart(2,"0")
+].join("-");
+
+}
+
+function currentRole(){
+
+const allowedRoles=[
+"guest",
+"user",
+"client",
+"admin"
+];
+
+const fromUrl=
+new URLSearchParams(
+window.location.search
+).get("role");
+
+return allowedRoles.includes(
+fromUrl
+)
+?
+fromUrl
+:
+"guest";
+
+}
+
+function guestState(){
+
+let state;
+
+try{
+state=JSON.parse(
+appStorage().getItem("calcSquareGuestLimit") || "{}"
+);
+}
+catch(e){
+state={};
+}
+
+if(
+state.date !== todayKey()
+){
+
+state={
+date:todayKey(),
+count:0,
+signatures:[]
+};
+
+}
+
+if(
+!Array.isArray(state.signatures)
+){
+state.signatures=[];
+}
+
+return state;
+
+}
+
+function saveGuestState(state){
+
+appStorage().setItem(
+"calcSquareGuestLimit",
+JSON.stringify(state)
+);
+
+}
+
+function updateGuestControls(state){
+
+const isGuest=
+currentRole()==="guest";
+
+calcControls.style.display=
+isGuest
+?
+"flex"
+:
+"none";
+
+if(
+isGuest
+){
+
+const left=
+Math.max(
+0,
+guestLimitMax-state.count
+);
+
+guestLimitHint.textContent=
+left>0
+?
+`Доступно розрахунків сьогодні: ${left} з ${guestLimitMax}`
+:
+"Ліміт на сьогодні вичерпано";
+
+}
+
+}
+
+function renderGuestPrompt(state){
+
+updateGuestControls(state);
+
+out.innerHTML=
+`
+<div class="guest-limit-card">
+<strong>Гостьовий режим</strong>
+Натисніть "Розрахувати", щоб виконати розрахунок. Для гостей доступно ${guestLimitMax} розрахунків на добу.
+<br><br>
+Щоб прибрати обмеження, зареєструйтесь і перейдіть у режим користувача.
+</div>
+`;
+
+}
+
+function renderGuestLimitReached(state){
+
+updateGuestControls(state);
+
+showSignupModal();
+
+}
+
+function allowGuestCalculation(
+signature,
+force
+){
+
+if(
+currentRole()!=="guest"
+){
+
+updateGuestControls(
+guestState()
+);
+
+return true;
+
+}
+
+const state=
+guestState();
+
+if(
+state.signatures.includes(
+signature
+)
+){
+
+updateGuestControls(state);
+
+return true;
+
+}
+
+if(
+!force
+){
+
+renderGuestPrompt(state);
+
+return false;
+
+}
+
+if(
+state.count >= guestLimitMax
+){
+
+renderGuestLimitReached(state);
+
+return false;
+
+}
+
+state.count++;
+
+state.signatures.push(
+signature
+);
+
+saveGuestState(state);
+
+updateGuestControls(state);
+
+if(
+state.count >= guestLimitMax
+){
+
+setTimeout(
+showSignupModal,
+0
+);
+
+}
+
+return true;
+
+}
+
+function lockText(
+z1,
+z2,
+name
+){
+
+if(
+name==="Зварювання"
+)
+
+return `15/0 "Зварювання"`;
+
+return `${z1}/${z2} "Американський замок"`;
+
+}
+
+function addCurrentToProject(){
+
+if(
+!currentProjectItem
+){
+return;
+}
+
+if(
+window.parent &&
+window.parent !== window
+){
+
+window.parent.postMessage(
+{
+type:"calcSquare:addProjectItem",
+item:currentProjectItem
+},
+"*"
+);
+
+}
+else{
+
+alert(
+"Відкрийте калькулятор із головної сторінки, щоб додати виріб у проект."
+);
+
+}
+
+}
+
+function calc(
+forceGuestCalculation=false
+){
+
+const holeOpened=
+document.querySelector(
+'details:nth-of-type(2)'
+)?.open;
+
+const A=n("A");
+
+const B=n("B");
+
+const L=n("L");
+
+if(
+!manualT
+)
+
+t.value=
+autoT(
+A,
+B,
+
+);
+
+const T=
++t.value;
+
+const Q=
++qty.value;
+
+let Z1;
+let Z2;
+let lockName;
+
+if(
+L<=200
+){
+
+Z1=15;
+
+Z2=0;
+
+lockName="Зварювання";
+
+}else{
+
+Z1=
+T<0.9
+?
+6
+:
+5;
+
+Z2=
+T<0.9
+?
+30
+:
+28;
+
+lockName="Американський замок";
+
+}
+
+const P=
+2*(A+B);
+
+const clean=
+P
+*
+L
+*
+Q
+/
+1000000;
+
+
+const holeType=
+document.getElementById(
+"holeType"
+)?.value
+||
+"none";
+
+const holeA=
++(
+document.getElementById(
+"holeA"
+)?.value
+||
+0
+);
+
+const holeB=
++(
+document.getElementById(
+"holeB"
+)?.value
+||
+0
+);
+
+const holeQ=
++(
+document.getElementById(
+"holeQ"
+)?.value
+||
+1
+);
+
+const calculationSignature=
+[
+A,
+B,
+L,
+T,
+Q,
+material.value,
+connection.value,
+connectionType.value,
+holeType,
+holeA,
+holeB,
+holeQ
+].join("|");
+
+if(
+!allowGuestCalculation(
+calculationSignature,
+forceGuestCalculation
+)
+){
+return;
+}
+
+let holeArea=0;
+
+if(
+holeType==="round"
+){
+
+holeArea=
+
+Math.PI
+
+*
+
+(
+holeA
+/
+2
+)
+
+**
+
+2
+
+*
+
+holeQ
+
+/
+
+1000000;
+
+}
+
+if(
+holeType==="rect"
+){
+
+holeArea=
+
+holeA
+
+*
+
+holeB
+
+*
+
+holeQ
+
+/
+
+1000000;
+
+}
+
+const cleanFinal=
+
+Math.max(
+0,
+clean-
+holeArea
+);
+
+let layout=
+"ABAB";
+
+let parts=1;
+
+let rus=0;
+
+const unfold=
+P+
+Z1+
+Z2;
+
+const sheetW=
++(
+document.getElementById("sheetW")
+?.value
+||
+1245
+);
+
+const sheetL=
++(
+document.getElementById("sheetL")
+?.value
+||
+2960
+);
+
+const fitABAB=
+(
+(P<=sheetW && L<=sheetL)
+||
+(P<=sheetL && L<=sheetW)
+);
+
+const fitABA=
+(
+(A+B+A<=sheetW && L<=sheetL)
+||
+(A+B+A<=sheetL && L<=sheetW)
+);
+
+const fitAB=
+(
+(A+B<=sheetW && L<=sheetL)
+||
+(A+B<=sheetL && L<=sheetW)
+);
+
+if(
+fitABAB
+){
+
+parts=1;
+
+layout="ABAB";
+
+}
+else if(
+fitABA
+&&
+L<=sheetL
+){
+
+parts=2;
+
+layout="ABA + B";
+
+}
+else if(
+fitAB
+&&
+L<=sheetL
+){
+
+parts=2;
+
+layout="AB + AB";
+
+}
+else{
+
+parts=4;
+
+layout="A + B + A + B";
+
+}
+
+rus=0;
+
+if(
+parts===1
+){
+
+rus=0;
+
+}
+
+else if(
+parts===2
+){
+
+if(L>sheetL){
+rus=2;
+}
+
+}
+
+else{
+
+if(A>sheetW){
+rus+=2;
+}
+
+if(B>sheetW){
+rus+=2;
+}
+
+}
+
+const mainCount=
+parts;
+
+const rusCount=
+rus;
+
+const mainArea=
+
+mainCount
+
+*
+
+(
+Z1+Z2
+)
+
+*
+
+L
+
+*
+
+Q
+
+/
+
+1000000;
+
+const rusArea=
+
+rusCount
+
+*
+
+(
+T<0.9
+?
+25
+:
+28
+)
+
+*
+P
+
+*
+Q
+
+/
+
+1000000;
+
+const full=
+
+cleanFinal
+
++
+
+mainArea
+
++
+
+rusArea;
+
+const rho=
+
+material.value
+.includes(
+"Нержав"
+)
+
+?
+
+8000
+
+:
+
+7850;
+
+const mass=
+
+full
+
+*
+
+T
+
+/
+
+1000
+
+*
+
+rho;
+
+currentProjectItem={
+name:"Повітропровід прямокутний",
+size:`A ${A} × B ${B} × L ${L} мм; ${connection.value}; ${connectionType.value}`,
+quantity:Q,
+material:`${material.value}, t=${T} мм`,
+area:full,
+mass:mass
+};
+
+let layoutView=layout;
+
+if(layout==="ABAB"){
+layoutView="[ABAB]";
+}
+
+else if(layout==="ABA + B"){
+layoutView="[ABA][B]";
+}
+
+else if(layout==="AB + AB"){
+layoutView="[AB][AB]";
+}
+
+else{
+layoutView="[A][B][A][B]";
+}
+
+if(rus>0){
+
+if(layout==="ABAB"){
+layoutView="[a│A│B│A│B]";
+}
+
+else if(layout==="ABA + B"){
+layoutView="[a│A][B]";
+}
+
+else if(layout==="AB + AB"){
+layoutView="[a│A][b│B]";
+}
+
+else{
+layoutView="[a│A][b│B][a│A][b│B]";
+}
+
+}
+
+const isAdmin=
+currentRole()==="admin";
+
+out.innerHTML=
+
+`
+
+Чиста площа
+
+<br>
+
+<b>
+
+${clean.toFixed(3)} м²
+
+<br>
+
+</b>
+
+${isAdmin ? `
+<details id="detailsBlock">
+
+<summary
+style="
+cursor:pointer;
+font-weight:600;
+margin:6px 0;
+"
+>
+
+Розрахунок
+
+</summary>
+
+${isAdmin ? `
+<small>
+
+Формула:
+
+<br>
+
+Sч = 2 × (A + B) × L × Q
+
+<br><br>
+
+где:
+
+<br>
+Sч — Чиста площа
+<br>
+A — ширина
+
+<br>
+
+B — висота
+
+<br>
+
+L — довжина
+
+<br>
+Q — кількість виробів
+<br>
+
+
+<br>
+
+<br><br>
+
+Підстановка:
+
+<br>
+
+2 × (${A} + ${B}) × ${L} × ${Q}
+
+<br>
+
+= ${(2*(A+B)*L*Q).toLocaleString('ru-RU')} мм²
+
+<br>
+
+÷ 1 000 000
+
+<br>
+
+= ${clean.toFixed(3)} м²
+</small>
+` : ""}
+
+</b>
+
+<br><br>
+</small>
+
+
+
+
+
+
+
+
+<br><br>
+
+<hr
+style="
+border:none;
+border-top:1px solid #ddd;
+margin:12px 0;
+"
+>
+
+<b>
+
+Замки и розкладка
+
+</b>
+
+<br><br>
+Лист заготовки
+
+<div style="display:flex;flex-direction:column;gap:8px">
+
+<div>
+<label style="display:inline-block;width:90px">
+Ширина:
+</label>
+
+<input
+id="sheetW"
+value="${sheetW}"
+style="width:80px"
+onchange="calc()"
+>
+
+мм
+</div>
+
+<div>
+<label style="display:inline-block;width:90px">
+Довжина:
+</label>
+
+<input
+id="sheetL"
+value="${sheetL}"
+style="width:80px"
+onchange="calc()"
+>
+
+мм
+</div>
+
+</div>
+
+<br>
+
+<br><br>
+Схема:
+
+<span
+style="
+display:inline-block;
+padding:6px 12px;
+background:#ececec;
+border-radius:8px;
+font-family:monospace;
+font-size:16px;
+"
+>
+
+${layoutView}
+
+</span>
+
+<br>
+
+Частин:
+
+${parts}
+
+<br><br>
+
+Основне з'єднання:
+
+${mainCount}
+
+×
+
+${lockText(
+Z1,
+Z2,
+lockName
+)}
+
+<br>
+
+Площа:
+
+${mainArea.toFixed(3)}
+м²
+
+<br><br>
+
+Додаткові з'єднання:
+
+${rusCount}
+
+${
+rusCount
+?
+
+` × ${
+T<0.9
+?
+"12.5/12.5"
+:
+"14/14"
+}
+"Російський замок"`
+
+:
+""
+}
+
+<br>
+
+Площа:
+
+${rusArea.toFixed(3)}
+м²
+
+<br><br>
+
+Площа замків окремо:
+${(
+mainArea+
+rusArea
+).toFixed(3)}
+
+м²
+
+<br><br>
+</details>
+
+<br><br>
+
+<br><br>
+
+<details
+id="holes"
+ontoggle="
+openHole=this.open
+requestParentResize()
+"
+>
+
+<summary>
+
+Отвори
+
+${
+holeType!=="none"
+
+?
+
+` • `
+
++
+
+(
+holeType==="round"
+
+?
+
+`Кругле D${holeA}`
+
+:
+
+`Прямокутне ${holeA}×${holeB}`
+
+)
+
++
+
+` ×${holeQ}`
+
++
+
+` • ${holeArea.toFixed(3)} м²`
+
+:
+
+""
+
+}
+
+</summary>
+
+<br>
+
+Тип
+
+<select
+id="holeType"
+onchange="
+toggleHole();
+"
+style="width:140px"
+>
+
+<option value="none">
+
+Вибрати
+
+</option>
+
+<option value="round">
+
+Кругле
+
+</option>
+
+<option value="rect">
+
+Прямокутне
+
+</option>
+
+</select>
+
+<br><br>
+
+<div
+id="holeBox"
+style="display:none"
+>
+
+<label id="holeALabel">
+
+Розмір A
+
+</label>
+
+<br>
+
+<div
+style="
+position:relative;
+display:inline-block;
+"
+>
+
+<input
+id="holeA"
+autocomplete="off"
+value="${holeA}"
+style="width:80px"
+onclick="this.select()"
+onchange="calc()"
+>
+
+<div
+class="dropdown"
+style="
+top:100%;
+left:0;
+"
+></div>
+
+</div>
+
+<span>мм</span>
+
+<br><br>
+
+<div id="holeBbox">
+
+<label>
+
+Размер B
+
+</label>
+
+<br>
+
+<div
+style="
+position:relative;
+display:inline-block;
+"
+>
+
+<input
+id="holeB"
+autocomplete="off"
+value="${holeB}"
+style="width:80px"
+onclick="this.select()"
+onchange="calc()"
+>
+
+<div
+class="dropdown"
+style="
+top:100%;
+left:0;
+"
+></div>
+
+</div>
+
+<span>мм</span>
+</div>
+
+<br><br>
+
+Кількість
+
+<br>
+
+<input
+id="holeQ"
+autocomplete="off"
+value="${holeQ}"
+style="width:80px"
+onclick="this.select()"
+onchange="calc()"
+
+>
+
+</div>
+
+<button
+onclick="
+event.preventDefault();
+calc();
+"
+style="
+margin-top:8px;
+padding:8px 14px;
+cursor:pointer;
+"
+>
+
+Перерахувати отвори
+
+</button>
+
+<br><br>
+
+<div
+id="holeAreaBox"
+style="display:none"
+>
+
+<hr
+style="
+border:none;
+border-top:1px solid #ddd;
+margin:18px 0;
+">
+
+Площа отворів
+
+<br>
+
+<b>
+
+${holeArea.toFixed(3)} м²
+
+</b>
+
+<br><br>
+
+</div>
+</details>
+` : ""}
+
+Загальна площа
+
+<br>
+
+<b>
+
+${full.toFixed(3)} м²
+
+</b>
+
+<br>
+
+${isAdmin ? `
+<small>
+
+Sч + Sзам = Sп
+
+<br>
+
+${clean.toFixed(3)}
++
+${(
+mainArea+
+rusArea
+).toFixed(3)}
+
+=
+
+${full.toFixed(3)}
+
+м²
+
+</small>
+` : ""}
+
+<br><br>
+
+Маса виробу
+
+<br>
+
+<b>
+
+${mass.toFixed(2)} кг
+
+</b>
+
+<br>
+
+${isAdmin ? `
+<small>
+
+m = Sп × t × ρ
+
+<br>
+
+${full.toFixed(3)}
+×
+
+${T}
+
+×
+
+${rho}
+
+÷ 1000
+
+<br>
+
+=
+
+${mass.toFixed(2)}
+
+кг
+
+</small>
+` : ""}
+
+${currentRole()==="guest" ? "" : `
+<br><br>
+<button
+class="add-project-button"
+type="button"
+onclick="addCurrentToProject()"
+>
+Додати в проект
+</button>
+`}
+
+`;
+
+if(
+document.getElementById(
+"holeA"
+)
+){
+bind("holeA");
+}
+
+if(
+document.getElementById(
+"holeB"
+)
+){
+bind("holeB");
+}
+
+const detailsBlock=
+document.getElementById(
+"detailsBlock"
+);
+
+if(detailsBlock){
+
+detailsBlock.open=
+openDetails;
+
+detailsBlock.addEventListener(
+"toggle",
+()=>{
+
+openDetails=
+detailsBlock.open;
+
+setTimeout(
+requestParentResize,
+0
+);
+
+setTimeout(
+requestParentResize,
+80
+);
+
+});
+
+}
+
+const d=
+document.getElementById(
+"locks"
+);
+
+if(d){
+
+d.open=
+openLocks;
+
+d.addEventListener(
+"toggle",
+()=>{
+
+openLocks=
+d.open;
+
+setTimeout(
+requestParentResize,
+0
+);
+
+setTimeout(
+requestParentResize,
+80
+);
+
+});
+
+}
+
+}
+
+setTimeout(
+()=>{
+
+if(
+holeOpened
+){
+
+const hole=
+document.getElementById(
+"holes"
+);
+
+if(
+hole
+){
+
+hole.open=
+true;
+
+toggleHole();
+
+}
+
+}
+
+},
+0
+);
+
+function toggleHole(){
+
+const type=
+document.getElementById(
+"holeType"
+);
+
+const box=
+document.getElementById(
+"holeBox"
+);
+const area=
+document.getElementById(
+"holeAreaBox"
+);
+const b=
+document.getElementById(
+"holeBbox"
+);
+
+const label=
+document.getElementById(
+"holeALabel"
+);
+
+if(
+!type
+||
+!box
+){
+return;
+}
+
+box.style.display=
+type.value==="none"
+?
+"none"
+:
+"block";
+if(
+area
+){
+area.style.display=
+type.value==="none"
+?
+"none"
+:
+"block";
+}
+if(
+label
+){
+label.innerText=
+type.value==="round"
+?
+"Діаметр D"
+:
+"Розмір A";
+}
+const a=
+document.getElementById(
+"holeA"
+);
+
+const bb=
+document.getElementById(
+"holeB"
+);
+
+if(
+a
+){
+
+a.value="";
+
+}
+
+if(
+bb
+&&
+type.value==="round"
+){
+
+bb.value="";
+
+}
+if(
+b
+){
+
+b.style.display=
+
+type.value==="rect"
+
+?
+
+"block"
+
+:
+
+"none";
+
+}
+
+setTimeout(
+requestParentResize,
+0
+);
+
+setTimeout(
+requestParentResize,
+80
+);
+
+}
+
+btnCalculate.addEventListener(
+"click",
+()=>{
+calc(true);
+}
+);
+
+calc();
+
+</script>
+
+</body>
+
+</html>

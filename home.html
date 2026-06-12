@@ -1,0 +1,5047 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Calc Square</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+    font-family:'Exo 2',sans-serif;
+    font-style:italic;
+    background:#ececec;
+    color:#222;
+}
+
+.build-marker{
+position:fixed;
+right:8px;
+bottom:6px;
+z-index:99999;
+font-size:11px;
+line-height:1;
+color:rgba(0,0,0,.35);
+font-style:normal;
+pointer-events:none;
+}
+
+.project-table,
+.project-table *{
+    font-style:normal;
+}
+
+
+.topbar{
+height:90px;
+background:white;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:0 40px;
+box-shadow:0 2px 12px rgba(0,0,0,.08);
+}
+
+.logo{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.site-logo{
+width:58px;
+height:58px;
+object-fit:contain;
+margin-right:14px;
+}
+
+.login-modal{
+
+display:none;
+
+position:fixed;
+
+left:0;
+top:0;
+
+width:100%;
+height:100%;
+
+background:rgba(0,0,0,.55);
+
+z-index:9999;
+
+justify-content:center;
+align-items:center;
+
+}
+
+.login-modal[style*="flex"] ~ .workspace-layout .project-cell[data-col="actions"],
+body.login-open .project-cell[data-col="actions"]{
+position:static;
+z-index:auto;
+}
+
+.login-box{
+
+background:white;
+
+width:380px;
+
+padding:30px;
+
+border-radius:18px;
+
+box-shadow:0 10px 40px rgba(0,0,0,.25);
+
+position:relative;
+
+}
+
+.login-box h2{
+
+text-align:center;
+
+margin-bottom:25px;
+
+color:#5a616b;
+
+}
+
+.login-box input{
+
+width:100%;
+
+padding:12px;
+
+margin-bottom:15px;
+
+border:1px solid #ddd;
+
+border-radius:8px;
+
+}
+
+.login-action,
+.guest-action{
+
+width:100%;
+
+padding:12px;
+
+border:none;
+
+border-radius:8px;
+
+cursor:pointer;
+
+font-weight:700;
+
+}
+
+.login-action{
+
+background:#d97706;
+
+color:white;
+
+}
+
+.guest-action{
+
+background:#ececec;
+
+margin-top:10px;
+
+}
+
+.role-panel{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+margin-top:16px;
+}
+
+.role-choice{
+padding:10px;
+border:1px solid #d5d5d5;
+border-radius:8px;
+background:white;
+cursor:pointer;
+font-weight:700;
+color:#5a616b;
+}
+
+.role-choice.active{
+background:#d97706;
+border-color:#d97706;
+color:white;
+}
+
+.login-divider{
+
+text-align:center;
+
+margin:15px 0;
+
+color:#888;
+
+}
+
+.close-login{
+
+position:absolute;
+
+right:15px;
+
+top:10px;
+
+cursor:pointer;
+
+font-size:20px;
+
+}
+
+.brand{
+font-size:18px;
+font-weight:700;
+letter-spacing:0.5px;
+color:#1f2937;
+}
+
+.subbrand{
+font-size:11px;
+letter-spacing:2px;
+color:#6b7280;
+margin-top:2px;
+}
+
+
+nav{
+display:flex;
+gap:50px;
+}
+
+nav a{
+text-decoration:none;
+color:#222;
+font-weight:600;
+}
+
+nav a:hover{
+color:#d97a1c;
+}
+
+nav a.active-section{
+color:#d97a1c;
+}
+
+.language-select{
+padding:9px 12px;
+border:1px solid #d5d5d5;
+border-radius:8px;
+background:white;
+color:#222;
+font-family:'Exo 2',sans-serif;
+font-style:normal;
+font-weight:700;
+cursor:pointer;
+}
+
+.hero{
+padding:40px 20px 20px;
+
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+}
+
+.hero-content{
+max-width:900px;
+}
+
+.hero h1{
+font-size:54px;
+font-style:italic;
+font-weight:700;
+color:#5a616b;
+margin-bottom:8px;
+}
+
+.hero h2{
+font-size:30px;
+margin-bottom:6px;
+}
+
+.hero h3{
+font-size:18px;
+font-weight:700;
+color:#d97a1c;
+margin-bottom:15px;
+}
+
+.hero p{
+font-size:16px;
+margin-bottom:20px;
+}
+
+.hero-btn{
+display:inline-block;
+padding:12px 28px;
+
+background:#d97a1c;
+color:white;
+
+text-decoration:none;
+font-weight:700;
+
+border-radius:12px;
+transition:.3s;
+}
+
+.hero-btn:hover{
+background:#b86510;
+}
+
+.hero-desc span{
+    display:block;
+}
+
+.project-section{
+background:transparent;
+}
+
+.panel-content h2{
+
+text-align:center;
+
+font-size:40px;
+
+font-weight:700;
+
+font-style:italic;
+
+letter-spacing:1px;
+
+color:#5a616b;
+
+margin-top:0;
+
+margin-bottom:40px;
+
+}
+
+.project-info{
+
+display:flex;
+
+gap:20px;
+
+justify-content:center;
+
+flex-wrap:wrap;
+
+margin-bottom:30px;
+
+}
+
+.project-info input{
+
+width:280px;
+
+padding:14px;
+
+border:1px solid #d5d5d5;
+
+border-radius:10px;
+
+font-family:'Exo 2',sans-serif;
+
+}
+
+.project-table{
+width:fit-content;
+max-width:100%;
+min-height:180px;
+
+margin:auto;
+
+background:white;
+
+border-radius:18px;
+
+overflow-x:auto;
+
+box-shadow:0 6px 20px rgba(0,0,0,.08);
+
+}
+
+.column-controls{
+width:fit-content;
+max-width:100%;
+margin:0 auto 10px;
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+font-size:12px;
+}
+
+.column-controls label{
+display:inline-flex;
+align-items:center;
+gap:5px;
+padding:6px 9px;
+border:1px solid #d5d5d5;
+border-radius:8px;
+background:white;
+cursor:pointer;
+}
+
+.column-controls input{
+margin:0;
+}
+
+.column-control-action{
+padding:6px 10px;
+border:1px solid #d5d5d5;
+border-radius:8px;
+background:white;
+font-family:'Exo 2',sans-serif;
+font-size:12px;
+cursor:pointer;
+}
+
+.column-control-action:hover{
+border-color:#d97a1c;
+color:#d97a1c;
+}
+
+.table-head{
+
+display:grid;
+
+grid-template-columns:
+var(--project-columns, 54px 260px 170px 260px 70px 190px 70px 110px 100px 220px 70px);
+
+padding:0;
+
+background:#d97a1c;
+
+color:white;
+
+font-weight:700;
+
+position:sticky;
+top:0;
+z-index:5;
+
+}
+
+.table-head,
+.project-row,
+.project-total{
+width:var(--project-table-width, max-content);
+min-width:var(--project-table-width, max-content);
+margin-left:auto;
+margin-right:auto;
+}
+
+.project-rows{
+display:flex;
+flex-direction:column;
+}
+
+.project-row{
+display:grid;
+grid-template-columns:
+var(--project-columns, 54px 260px 170px 260px 70px 190px 70px 110px 100px 220px 70px);
+align-items:stretch;
+gap:0;
+padding:0;
+border-top:1px solid #ececec;
+font-size:14px;
+}
+
+.project-cell{
+min-width:0;
+height:100%;
+padding:14px 10px;
+border-left:1px solid #e5e7eb;
+overflow:hidden;
+white-space:normal;
+overflow-wrap:anywhere;
+line-height:1.35;
+box-sizing:border-box;
+}
+
+.project-cell.is-numeric,
+.project-cell[data-col="actions"]{
+white-space:nowrap;
+overflow-wrap:normal;
+text-overflow:clip;
+line-height:normal;
+}
+
+.project-cell[data-col="actions"]{
+position:sticky;
+right:0;
+z-index:3;
+background:inherit;
+box-shadow:-1px 0 0 #e5e7eb;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:6px;
+}
+
+.table-head .project-cell[data-col="actions"]{
+z-index:8;
+background:#d97a1c;
+box-shadow:-1px 0 0 rgba(255,255,255,.28);
+}
+
+.project-cell:first-child{
+border-left:none;
+}
+
+.project-cell.is-numeric{
+text-align:center;
+}
+
+.project-cell.is-hidden{
+padding-left:0;
+padding-right:0;
+border-left:none;
+visibility:hidden;
+overflow:hidden;
+white-space:nowrap;
+overflow-wrap:normal;
+font-size:0;
+line-height:0;
+height:0;
+max-height:0;
+}
+
+.table-head .project-cell{
+position:relative;
+display:flex;
+align-items:center;
+gap:6px;
+font-weight:700;
+border-left:1px solid rgba(255,255,255,.28);
+}
+
+.table-head .project-cell:first-child{
+border-left:none;
+}
+
+.column-title{
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+}
+
+.column-hide{
+margin-left:auto;
+width:20px;
+height:20px;
+border:none;
+border-radius:6px;
+background:rgba(255,255,255,.18);
+color:white;
+font-weight:700;
+cursor:pointer;
+line-height:1;
+}
+
+.column-resize{
+position:absolute;
+top:0;
+right:-5px;
+width:11px;
+height:100%;
+cursor:col-resize;
+z-index:2;
+}
+
+.column-resize:hover,
+.column-resize:focus{
+background:rgba(255,255,255,.22);
+}
+
+.floating-table-head-wrap{
+position:fixed;
+top:0;
+left:0;
+z-index:60;
+display:none;
+overflow:hidden;
+box-shadow:0 6px 16px rgba(0,0,0,.18);
+pointer-events:none;
+}
+
+.floating-table-head-wrap .table-head{
+position:relative;
+top:auto;
+box-shadow:none;
+}
+
+.floating-table-head-wrap .column-hide,
+.floating-table-head-wrap .column-resize{
+display:none;
+}
+
+.project-row:nth-child(even){
+background:#fafafa;
+}
+
+.project-row strong{
+display:block;
+font-size:15px;
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+}
+
+.project-row small{
+display:block;
+margin-top:3px;
+color:#777;
+}
+
+.project-dimensions-line{
+font-size:12px;
+color:#777;
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+}
+
+body.hide-project-size-lines .project-dimensions-line{
+display:none;
+}
+
+.project-position-button{
+width:100%;
+height:100%;
+border:none;
+background:transparent;
+font:inherit;
+cursor:pointer;
+color:inherit;
+}
+
+.project-position-button:hover{
+color:#d97a1c;
+font-weight:700;
+}
+
+.project-comment{
+width:100%;
+min-height:38px;
+height:38px;
+padding:6px 8px;
+border:1px solid #d6d6d6;
+border-radius:8px;
+background:white;
+font:inherit;
+line-height:1.35;
+resize:vertical;
+overflow:hidden;
+box-sizing:border-box;
+}
+
+.project-comment:focus{
+outline:2px solid rgba(217,122,28,.28);
+border-color:#d97a1c;
+}
+
+.project-edit-action,
+.project-remove{
+width:30px;
+height:30px;
+border:none;
+border-radius:8px;
+background:#f3f4f6;
+color:#666;
+cursor:pointer;
+font-weight:700;
+}
+
+.project-edit-action:hover{
+background:#fff3e4;
+color:#d97a1c;
+}
+
+.project-remove:hover{
+background:#fee2e2;
+color:#b91c1c;
+}
+
+.project-clear{
+width:30px;
+height:30px;
+border:none;
+border-radius:8px;
+background:rgba(255,255,255,.18);
+color:white;
+cursor:pointer;
+font-weight:700;
+line-height:1;
+}
+
+.project-clear:hover{
+background:rgba(255,255,255,.3);
+}
+
+.empty-project{
+padding:35px;
+text-align:center;
+color:#777;
+}
+
+
+.project-total{
+display:grid;
+grid-template-columns:
+var(--project-columns, 54px 260px 170px 260px 70px 190px 70px 110px 100px 220px 70px);
+align-items:center;
+gap:0;
+padding:0;
+border-top:2px solid #ececec;
+background:#fff;
+font-size:16px;
+font-weight:700;
+}
+
+.project-total span:nth-child(2){
+font-style:italic;
+text-align:right;
+}
+
+.material-summary{
+width:fit-content;
+max-width:100%;
+margin:18px auto 0;
+background:white;
+border-radius:14px;
+box-shadow:0 4px 14px rgba(0,0,0,.06);
+overflow-x:auto;
+display:none;
+}
+
+.material-summary-title{
+padding:14px 18px;
+background:#5a616b;
+color:white;
+font-weight:700;
+}
+
+.material-summary-row{
+display:grid;
+grid-template-columns:
+var(--project-columns, 54px 260px 170px 260px 70px 190px 70px 110px 100px 220px 70px);
+gap:0;
+padding:0;
+border-top:1px solid #ececec;
+font-style:normal;
+width:var(--project-table-width, max-content);
+min-width:var(--project-table-width, max-content);
+margin-left:auto;
+margin-right:auto;
+}
+
+.material-summary-row:nth-child(even){
+background:#fafafa;
+}
+
+.material-summary-row strong{
+font-weight:700;
+}
+
+.material-summary-total{
+background:#f2f4f7;
+font-weight:700;
+}
+
+.material-summary .project-cell{
+padding:12px 10px;
+}
+
+.project-actions{
+
+display:flex;
+
+justify-content:center;
+
+gap:20px;
+
+flex-wrap:wrap;
+
+margin-top:35px;
+
+}
+
+.project-actions button{
+
+padding:14px 28px;
+
+border:none;
+
+border-radius:10px;
+
+background:#d97a1c;
+
+color:white;
+
+font-family:'Exo 2',sans-serif;
+
+font-style:normal;
+
+font-weight:700;
+
+cursor:pointer;
+
+}
+
+.project-actions .icon-button{
+width:48px;
+height:48px;
+padding:0;
+display:inline-flex;
+align-items:center;
+justify-content:center;
+position:relative;
+}
+
+.project-actions .save-icon::before{
+content:"";
+width:22px;
+height:22px;
+box-sizing:border-box;
+border:3px solid currentColor;
+border-radius:3px;
+background:
+linear-gradient(currentColor,currentColor) 5px 14px/12px 3px no-repeat,
+linear-gradient(currentColor,currentColor) 13px 3px/4px 7px no-repeat;
+}
+
+.save-status{
+min-width:120px;
+align-self:center;
+color:#5a616b;
+font-size:13px;
+font-weight:700;
+}
+
+.project-actions button:hover{
+
+background:#b86510;
+
+}
+
+.login-btn{
+
+padding:10px 18px;
+
+background:#d97a1c;
+
+color:white !important;
+
+border-radius:8px;
+
+}
+
+.login-btn:hover{
+
+background:#b86510;
+
+}
+
+.workspace-layout{
+
+display:flex;
+
+gap:0;
+
+width:100%;
+
+min-height:calc(100vh - 90px);
+
+overflow:visible;
+
+}
+
+#moduleContainer{
+    flex:1;
+    min-height:100%;
+}
+
+.module-frame{
+    width:100%;
+    min-height:calc(100vh - 90px);
+    border:none;
+    display:block;
+}
+
+.project-panel{
+
+width:60%;
+
+padding-right:15px;
+
+}
+
+.atlas-panel{
+
+width:40%;
+
+padding-left:15px;
+
+background:rgba(255,255,255,.25);
+
+border-left:1px solid rgba(0,0,0,.1);
+
+display:flex;
+
+flex-direction:column;
+
+overflow:visible;
+
+}
+
+.position-modal{
+position:fixed;
+inset:0;
+z-index:120;
+display:none;
+align-items:center;
+justify-content:center;
+padding:24px;
+background:rgba(20,24,31,.55);
+}
+
+.position-modal.is-open{
+display:flex;
+}
+
+.position-card{
+width:min(720px,calc(100vw - 48px));
+background:white;
+border-radius:12px;
+box-shadow:0 18px 50px rgba(0,0,0,.28);
+overflow:hidden;
+}
+
+.position-card-head{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:16px;
+padding:16px 20px;
+background:#5a616b;
+color:white;
+}
+
+.position-card-head strong{
+display:block;
+font-size:18px;
+}
+
+.position-card-close{
+width:32px;
+height:32px;
+border:none;
+border-radius:8px;
+background:rgba(255,255,255,.16);
+color:white;
+font-size:20px;
+font-weight:700;
+cursor:pointer;
+}
+
+.position-card-body{
+display:grid;
+grid-template-columns:1.2fr .8fr;
+gap:18px;
+padding:20px;
+}
+
+.position-card-visual{
+min-height:260px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#f7f7f7;
+border:1px solid #e5e7eb;
+border-radius:10px;
+}
+
+.position-card-visual svg{
+width:100%;
+max-width:390px;
+height:auto;
+}
+
+.position-card-info{
+display:flex;
+flex-direction:column;
+gap:12px;
+font-size:14px;
+}
+
+.position-card-table{
+display:grid;
+grid-template-columns:48px 1fr;
+border:1px solid #e5e7eb;
+border-bottom:none;
+}
+
+.position-card-table span{
+padding:9px 10px;
+border-bottom:1px solid #e5e7eb;
+}
+
+.position-card-table span:nth-child(odd){
+font-weight:700;
+background:#f6f7f8;
+}
+
+.position-card-description{
+white-space:pre-line;
+line-height:1.35;
+}
+
+@media(max-width:760px){
+.position-card-body{
+grid-template-columns:1fr;
+}
+}
+
+.atlas-panel.module-open{
+height:calc(100vh - 90px);
+position:sticky;
+top:90px;
+align-self:flex-start;
+overflow:hidden;
+}
+
+.atlas-panel.module-open #moduleContainer{
+height:100%;
+min-height:0;
+overflow:hidden;
+}
+
+.atlas-panel.module-open .module-frame{
+height:100% !important;
+min-height:0;
+}
+
+.atlas-panel.calculator-compact .module-frame{
+overflow:hidden;
+}
+
+.atlas-panel.calculator-expanded .module-frame{
+overflow:auto;
+}
+
+body.role-guest .project-panel,
+body.role-guest .resizer,
+body.role-guest .project-tab,
+body.role-guest .atlas-tab{
+display:none !important;
+}
+
+body.role-guest .atlas-panel{
+width:100% !important;
+}
+
+#atlasContent{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    height:100%;
+}
+
+#atlasCatalog{
+    flex:1;
+    height:100%;
+}
+
+#atlasFrame{
+    width:100%;
+    height:100%;
+    border:none;
+    display:block;
+}
+
+.resizer{
+
+display:flex;
+align-items:center;
+justify-content:center;
+position:relative;
+
+width:14px;
+
+background:#5a616b;
+
+cursor:col-resize;
+
+flex-shrink:0;
+
+color:white;
+font-size:11px;
+font-weight:700;
+
+user-select:none;
+
+}
+
+.resizer:hover{
+    background:#6b7280;
+}
+
+.project-tab,
+.atlas-tab{
+    display:none;
+
+    width:32px;
+
+    background:#df7f1b;
+
+    color:white;
+
+    font-size:12px;
+    font-weight:700;
+
+    writing-mode:vertical-rl;
+    text-orientation:mixed;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    user-select:none;
+
+    align-items:center;
+    justify-content:center;
+}
+
+.resizer::before{
+content:"";
+width:12px;
+height:48px;
+
+background-image:
+radial-gradient(#d5d9df 2px, transparent 2px);
+
+background-size:12px 12px;
+background-position:center;
+background-repeat:repeat-y;
+}
+
+
+
+
+@media(max-width:900px){
+
+.topbar{
+height:auto;
+min-height:90px;
+padding:16px 20px;
+gap:16px;
+flex-wrap:wrap;
+}
+
+nav{
+width:100%;
+justify-content:center;
+gap:24px;
+flex-wrap:wrap;
+}
+
+.workspace-layout{
+display:block;
+min-height:calc(100vh - 130px);
+}
+
+.project-panel,
+.atlas-panel{
+width:100%;
+padding:0;
+border-left:none;
+overflow:visible;
+}
+
+#atlasContent,
+#atlasCatalog{
+height:auto;
+min-height:calc(100vh - 130px);
+}
+
+#atlasFrame{
+height:calc(100vh - 130px);
+min-height:1100px;
+overflow:hidden;
+}
+
+.project-tab,
+.atlas-tab{
+display:none !important;
+}
+
+.resizer{
+display:none !important;
+}
+
+}
+
+@media print{
+@page{
+margin:12mm;
+}
+
+body{
+background:white;
+color:#111;
+}
+
+.topbar,
+.hero,
+.atlas-panel,
+.resizer,
+.project-tab,
+.atlas-tab,
+.column-controls,
+.project-actions,
+.build-marker,
+.login-modal,
+.position-modal,
+.floating-table-head-wrap,
+.project-cell[data-col="actions"],
+.table-head .column-hide,
+.table-head .column-resize{
+display:none !important;
+}
+
+.workspace-layout,
+.project-panel,
+.panel-content{
+display:block !important;
+width:100% !important;
+max-width:none !important;
+min-height:auto !important;
+padding:0 !important;
+margin:0 !important;
+background:white !important;
+box-shadow:none !important;
+overflow:visible !important;
+}
+
+.panel-content h2{
+margin:0 0 14px !important;
+font-size:24px !important;
+color:#222 !important;
+}
+
+.project-info{
+margin-bottom:14px !important;
+gap:8px !important;
+}
+
+.project-info input{
+border:none !important;
+border-bottom:1px solid #999 !important;
+border-radius:0 !important;
+background:white !important;
+padding:4px 0 !important;
+}
+
+.project-table,
+.material-summary{
+width:100% !important;
+max-width:none !important;
+overflow:visible !important;
+box-shadow:none !important;
+}
+
+.table-head,
+.project-row,
+.project-total,
+.material-summary-row{
+width:100% !important;
+min-width:100% !important;
+break-inside:avoid;
+}
+
+.project-cell{
+padding:6px 6px !important;
+font-size:11px !important;
+}
+
+.project-comment{
+border:none !important;
+background:transparent !important;
+resize:none !important;
+overflow:visible !important;
+}
+}
+
+</style>
+
+</head>
+<body>
+
+<header class="topbar">
+
+<div class="logo">
+
+<img src="images/logo-circle.png" class="site-logo">
+
+<div>
+<div class="brand">ST SPETSMONTAZH</div>
+<div class="subbrand">VENTILATION SYSTEMS</div>
+</div>
+
+</div>
+
+<nav>
+
+<a href="https://stspecmontag.com.ua/" target="_blank">
+ГОЛОВНА
+</a>
+<a href="#" id="menuProject">ПРОЄКТ</a>
+<a href="#" id="menuAtlas">АТЛАС</a>
+<a href="#">ТАБЛИЦІ</a>
+<select class="language-select" id="languageSelect" aria-label="Мова інтерфейсу">
+<option value="uk">UA</option>
+<option value="ru">RU</option>
+<option value="en">EN</option>
+</select>
+<a href="#" class="login-btn" id="openLogin">
+ВХІД / РЕЄСТРАЦІЯ
+</a>
+
+
+</nav>
+
+</header>
+
+<section class="hero" id="homeSection">
+
+<div class="hero-content">
+
+<h1>Calc Square</h1>
+
+<h2>ST Spetsmontazh</h2>
+
+<h3>CAMduct Edition</h3>
+
+<p class="hero-desc">
+Інженерний калькулятор<br>
+фасонних виробів вентиляції
+</p>
+
+</div>
+
+</section>
+
+
+<div class="workspace-layout">
+
+<div class="project-panel">
+
+<div class="panel-content">
+
+<h2>ПРОЕКТ / СПЕЦИФІКАЦІЯ</h2>
+
+<div class="project-info">
+
+<input
+type="text"
+placeholder="Назва проєкту">
+
+<input
+type="text"
+placeholder="Замовник">
+
+<input
+type="text"
+placeholder="Об'єкт">
+
+</div>
+
+<div class="column-controls" id="projectColumnControls"></div>
+
+<div class="project-table">
+
+<div class="table-head">
+
+<div class="project-cell is-numeric" data-col="no"><span class="column-title">№</span><button class="column-hide" type="button" data-hide-col="no">×</button><span class="column-resize" data-resize-col="no"></span></div>
+<div class="project-cell" data-col="name"><span class="column-title" data-column-title="name">Найменування</span><button class="column-hide" type="button" data-hide-col="name">×</button><span class="column-resize" data-resize-col="name"></span></div>
+<div class="project-cell" data-col="dimensions"><span class="column-title" data-column-title="dimensions">Розміри</span><button class="column-hide" type="button" data-hide-col="dimensions">×</button><span class="column-resize" data-resize-col="dimensions"></span></div>
+<div class="project-cell" data-col="description"><span class="column-title" data-column-title="description">Опис</span><button class="column-hide" type="button" data-hide-col="description">×</button><span class="column-resize" data-resize-col="description"></span></div>
+<div class="project-cell is-numeric" data-col="qty"><span class="column-title" data-column-title="qty">К-ть</span><button class="column-hide" type="button" data-hide-col="qty">×</button><span class="column-resize" data-resize-col="qty"></span></div>
+<div class="project-cell" data-col="material"><span class="column-title" data-column-title="material">Матеріал</span><button class="column-hide" type="button" data-hide-col="material">×</button><span class="column-resize" data-resize-col="material"></span></div>
+<div class="project-cell is-numeric" data-col="thickness"><span class="column-title" data-column-title="thicknessShort">t</span><button class="column-hide" type="button" data-hide-col="thickness">×</button><span class="column-resize" data-resize-col="thickness"></span></div>
+<div class="project-cell is-numeric" data-col="area"><span class="column-title" data-column-title="area">Площа</span><button class="column-hide" type="button" data-hide-col="area">×</button><span class="column-resize" data-resize-col="area"></span></div>
+<div class="project-cell is-numeric" data-col="mass"><span class="column-title" data-column-title="mass">Маса</span><button class="column-hide" type="button" data-hide-col="mass">×</button><span class="column-resize" data-resize-col="mass"></span></div>
+<div class="project-cell" data-col="comments"><span class="column-title" data-column-title="comments">Коментарі</span><button class="column-hide" type="button" data-hide-col="comments">×</button><span class="column-resize" data-resize-col="comments"></span></div>
+<div class="project-cell is-numeric" data-col="actions"><button class="project-clear" type="button" data-clear-project="true" title="Очистити специфікацію">×</button></div>
+
+</div>
+
+<div class="empty-project" id="emptyProject">
+
+Проєкт порожній
+
+</div>
+
+<div class="project-rows" id="projectRows"></div>
+
+<div class="project-total" id="projectTotal">
+
+<span class="project-cell" data-col="no"></span>
+<span class="project-cell" data-col="name">Підсумок</span>
+<span class="project-cell" data-col="dimensions"></span>
+<span class="project-cell" data-col="description"></span>
+<span class="project-cell is-numeric" data-col="qty">0</span>
+<span class="project-cell" data-col="material"></span>
+<span class="project-cell is-numeric" data-col="thickness"></span>
+<span class="project-cell is-numeric" data-col="area">0.000 м²</span>
+<span class="project-cell is-numeric" data-col="mass">0.00 кг</span>
+<span class="project-cell" data-col="comments"></span>
+<span class="project-cell" data-col="actions"></span>
+
+</div>
+
+</div>
+
+<div class="material-summary" id="materialSummary">
+<div class="material-summary-title">
+Підсумок за матеріалами
+</div>
+<div id="materialSummaryRows"></div>
+</div>
+
+<div class="project-actions" id="projectActions">
+
+<button id="btnPrint">Друк</button>
+<button id="btnExport">Експорт</button>
+<button id="btnSave" class="icon-button save-icon" type="button" aria-label="Зберегти" title="Зберегти"></button>
+<span class="save-status" id="saveStatus" aria-live="polite"></span>
+
+</div>
+
+<div class="position-modal" id="positionModal" aria-hidden="true">
+<div class="position-card" role="dialog" aria-modal="true">
+<div class="position-card-head">
+<strong id="positionCardTitle">Позиція</strong>
+<button class="position-card-close" id="positionCardClose" type="button">×</button>
+</div>
+<div class="position-card-body">
+<div class="position-card-visual" id="positionCardVisual"></div>
+<div class="position-card-info">
+<div class="position-card-table" id="positionCardTable"></div>
+<div class="position-card-description" id="positionCardDescription"></div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="project-tab" id="projectTab">
+ПРОЕКТ
+</div>
+
+<div class="resizer" id="resizer"></div>
+
+
+<div class="atlas-tab" id="atlasTab">
+    АТЛАС
+</div>
+
+
+
+
+<div class="atlas-panel">
+
+<div id="moduleContainer"
+style="display:none;width:100%;">
+</div>
+
+
+
+<div id="atlasContent">
+
+
+
+<div id="atlasCatalog">
+
+<iframe
+id="atlasFrame"
+scrolling="no"
+src="assets/atlas/atlas.html">
+</iframe>
+
+</div></div>
+
+<script>
+
+function openModule(modulePath, role=userRole, lang=currentLang()){
+
+currentModulePath =
+modulePath;
+
+const moduleRole =
+validRoles.includes(role)
+?
+role
+:
+userRole;
+
+const moduleLang =
+i18n[lang]
+?
+lang
+:
+currentLang();
+
+const moduleContainer =
+document.getElementById('moduleContainer');
+
+const atlasContent =
+document.getElementById('atlasContent');
+
+moduleContainer.style.display = 'block';
+
+atlasContent.style.display = 'none';
+
+rightPanel.classList.add(
+'module-open'
+);
+
+const url =
+new URL(
+modulePath,
+window.location.href
+);
+
+url.searchParams.set(
+'lang',
+currentLang()
+);
+
+url.searchParams.set(
+'role',
+userRole
+);
+
+url.searchParams.set(
+'v',
+Date.now()
+);
+
+moduleContainer.innerHTML =
+'<iframe class="module-frame" scrolling="auto" src="' +
+url.href +
+'" onload="resizeModuleFrame(this)"></iframe>';
+
+setTimeout(
+updateCalculatorScrollState,
+0
+);
+
+}
+
+function showAtlasCatalog(){
+
+currentModulePath =
+null;
+
+const moduleContainer =
+document.getElementById('moduleContainer');
+
+const atlasContent =
+document.getElementById('atlasContent');
+
+const atlasFrame =
+document.getElementById('atlasFrame');
+
+moduleContainer.style.display = 'none';
+
+moduleContainer.innerHTML = '';
+
+rightPanel.classList.remove(
+'module-open'
+);
+
+atlasContent.style.display = 'flex';
+
+updateCalculatorScrollState();
+
+const url =
+new URL(
+'assets/atlas/atlas.html',
+window.location.href
+);
+
+url.searchParams.set(
+'lang',
+moduleLang
+);
+
+url.searchParams.set(
+'role',
+moduleRole
+);
+
+url.searchParams.set(
+'v',
+Date.now()
+);
+
+atlasFrame.src =
+url.href;
+
+}
+
+function resizeAtlasFrame(){
+
+const atlasFrame =
+document.getElementById('atlasFrame');
+
+if(
+!atlasFrame
+||
+atlasFrame.offsetParent === null
+){
+    return;
+}
+
+try{
+    const doc =
+    atlasFrame.contentDocument ||
+    atlasFrame.contentWindow.document;
+
+    const height =
+    Math.max(
+    doc.documentElement.scrollHeight,
+    doc.body.scrollHeight,
+    window.innerHeight - 130
+    );
+
+    atlasFrame.style.height =
+    height + 'px';
+
+    atlasFrame.style.minHeight =
+    '0';
+}
+catch(e){}
+
+}
+
+function resizeModuleFrame(frame, contentHeight=null){
+
+if(!frame){
+    return;
+}
+
+try{
+    const openPanel =
+    document.querySelector('.atlas-panel.module-open');
+
+    const isMobile =
+    window.innerWidth <= 900;
+
+    if(openPanel && !isMobile){
+        frame.style.height =
+        '100%';
+
+        updateCalculatorScrollState(contentHeight);
+
+        return;
+    }
+
+    const doc =
+    frame.contentDocument ||
+    frame.contentWindow.document;
+
+    const height =
+    Math.max(
+    doc.documentElement.scrollHeight,
+    doc.body.scrollHeight,
+    window.innerHeight - 90
+    );
+
+    frame.style.height =
+    height + 'px';
+
+    updateCalculatorScrollState(contentHeight);
+}
+catch(e){}
+
+}
+
+function modulePathForProductType(productType){
+
+    const paths = {
+        rectangularDuct:'modules/rectangular/duct/module.html',
+        rectangularElbow:'modules/rectangular/elbow/module.html',
+        rectangularTransition:'modules/rectangular/transition/module.html',
+        roundDuct:'modules/round/duct/module.html',
+        roundElbow:'modules/round/elbow/module.html',
+        roundTransition:'modules/round/transition/module.html',
+        roundOffsetTransition:'modules/round/offset-transition/module.html',
+        roundTee:'modules/round/tee/module.html',
+        roundCap:'modules/round/cap/module.html',
+        roundUmbrella:'modules/round/umbrella/module.html',
+        roundDuck:'modules/round/duck/module.html',
+        roundSaddle:'modules/round/saddle/module.html',
+        roundCross:'modules/round/cross/module.html',
+        roundDamper:'modules/round/damper/module.html',
+        roundDeflector:'modules/round/deflector/module.html',
+        roundCheckValve:'modules/round/check-valve/module.html',
+        roundCoupling:'modules/round/coupling/module.html',
+        roundFlange:'modules/round/flange/module.html',
+        roundNipple:'modules/round/nipple/module.html',
+        roundSilencer:'modules/round/silencer/module.html'
+    };
+
+    return paths[productType] || null;
+
+}
+
+function appendEditDimensionParams(params,item){
+
+    const dimensions =
+    detectDimensions(item) || {};
+
+    Object.entries(dimensions).forEach(([key,value])=>{
+        if(/^[A-Z][0-9]?$|^Angle$|^Offset$/.test(key) && value !== ''){
+            params.set(key,String(value));
+        }
+    });
+
+}
+
+function openModuleForProjectEdit(index){
+
+    const item =
+    projectItems[index];
+
+    const modulePath =
+    modulePathForProductType(item?.productType);
+
+    if(!item || !modulePath){
+        return;
+    }
+
+    const params =
+    new URLSearchParams();
+
+    params.set('editIndex', String(index));
+    appendEditDimensionParams(params,item);
+
+    if(item.quantity){
+        params.set('Q', item.quantity);
+    }
+
+    if(item.materialCode){
+        params.set('material', item.materialCode);
+        params.set('materialCode', item.materialCode);
+    }
+
+    if(item.thickness){
+        params.set('thickness', item.thickness);
+    }
+
+    if(item.productType === 'rectangularDuct'){
+        if(item.connection1TypeCode || item.connectors?.C1){
+            params.set('C1', item.connection1TypeCode || item.connectors.C1);
+        }
+
+        if(item.connection2TypeCode || item.connectors?.C2){
+            params.set('C2', item.connection2TypeCode || item.connectors.C2);
+        }
+
+        if(item.holes?.type){
+            params.set('holeType', item.holes.type);
+            params.set('holeA', item.holes.A || item.holes.D || 0);
+            params.set('holeB', item.holes.B || 0);
+            params.set('holeQ', item.holes.quantity || 1);
+        }
+    }
+
+    openModule(
+    `${modulePath}?${params.toString()}`,
+    userRole,
+    currentLang()
+    );
+
+    if(window.innerWidth <= 900){
+        layoutMode = 1;
+    }
+    else{
+        layoutMode = 0;
+    }
+
+    updateLayout();
+
+}
+
+function updateCalculatorScrollState(contentHeight=null){
+
+const panel =
+document.querySelector('.atlas-panel');
+
+const moduleContainer =
+document.getElementById('moduleContainer');
+
+const frame =
+document.querySelector('.module-frame');
+
+if(!panel){
+    return;
+}
+
+panel.classList.remove(
+'calculator-compact',
+'calculator-expanded'
+);
+
+const moduleVisible =
+moduleContainer
+&&
+frame
+&&
+moduleContainer.offsetParent !== null;
+
+const isMobile =
+window.innerWidth <= 900;
+
+if(
+!moduleVisible
+||
+isMobile
+){
+    return;
+}
+
+let moduleContentHeight =
+Number(contentHeight) || 0;
+
+if(
+moduleContentHeight <= 0
+){
+
+try{
+    const doc =
+    frame.contentDocument ||
+    frame.contentWindow.document;
+
+    moduleContentHeight =
+    Math.max(
+    doc.documentElement.scrollHeight,
+    doc.body.scrollHeight
+    );
+
+}
+catch(e){
+    moduleContentHeight =
+    lastModuleContentHeight;
+}
+
+}
+
+if(
+moduleContentHeight > 0
+){
+    lastModuleContentHeight =
+    moduleContentHeight;
+}
+
+const panelHeight =
+panel.clientHeight || window.innerHeight - 90;
+
+const isExpanded =
+moduleContentHeight > panelHeight + 4;
+
+panel.classList.toggle(
+'calculator-expanded',
+isExpanded
+);
+
+panel.classList.toggle(
+'calculator-compact',
+!isExpanded
+);
+
+frame.style.height =
+'100%';
+
+}
+
+function resizeOpenModuleFrames(contentHeight=null){
+
+document.querySelectorAll('.module-frame').forEach(
+(frame)=>{
+    resizeModuleFrame(frame, contentHeight);
+}
+);
+
+updateCalculatorScrollState(contentHeight);
+
+}
+
+document.addEventListener(
+'DOMContentLoaded',
+()=>{
+
+const atlasFrame =
+document.getElementById('atlasFrame');
+
+if(atlasFrame){
+    atlasFrame.addEventListener(
+    'load',
+    ()=>{
+        resizeAtlasFrame();
+        setTimeout(resizeAtlasFrame,100);
+        setTimeout(resizeAtlasFrame,500);
+    }
+    );
+}
+
+}
+);
+
+
+</script>
+
+<div class="login-modal" id="loginModal">
+
+<div class="login-box">
+
+<span class="close-login" id="closeLogin">✕</span>
+
+<h2>КАБІНЕТ</h2>
+
+<input type="text" placeholder="Логін">
+
+<input type="password" placeholder="Пароль">
+
+<button class="login-action">
+УВІЙТИ
+</button>
+
+<div class="login-divider">
+або
+</div>
+
+<button class="guest-action">
+ПРОДОВЖИТИ ЯК ГІСТЬ
+</button>
+
+<div class="role-panel">
+<button class="role-choice" data-role="guest">Гість</button>
+<button class="role-choice" data-role="user">Користувач</button>
+<button class="role-choice" data-role="client">Клієнт</button>
+<button class="role-choice" data-role="admin">Адмін</button>
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const loginModal =
+document.getElementById('loginModal');
+
+const openLogin =
+document.getElementById('openLogin');
+
+const closeLogin =
+document.getElementById('closeLogin');
+
+openLogin.onclick = () => {
+
+loginModal.style.display='flex';
+document.body.classList.add('login-open');
+
+};
+
+closeLogin.onclick = () => {
+
+loginModal.style.display='none';
+document.body.classList.remove('login-open');
+
+};
+
+window.onclick = (e)=>{
+
+if(e.target===loginModal){
+
+loginModal.style.display='none';
+document.body.classList.remove('login-open');
+
+}
+
+};
+
+</script>
+
+<script>
+
+const resizer =
+document.querySelector('.resizer');
+
+const leftPanel =
+document.querySelector('.project-panel');
+
+const rightPanel =
+document.querySelector('.atlas-panel');
+
+const projectTab =
+document.getElementById('projectTab');
+
+const atlasTab =
+document.getElementById('atlasTab');
+
+
+
+const validRoles =
+['guest','user','client','admin'];
+
+const ROLE_RULES = {
+    guest:{
+        project:false,
+        projectActions:false,
+        save:false,
+        print:false,
+        export:false,
+        technical:false,
+        calculationLimit:true
+    },
+    user:{
+        project:true,
+        projectActions:true,
+        save:false,
+        print:false,
+        export:false,
+        technical:false,
+        calculationLimit:false
+    },
+    client:{
+        project:true,
+        projectActions:true,
+        save:true,
+        print:true,
+        export:true,
+        technical:false,
+        calculationLimit:false
+    },
+    admin:{
+        project:true,
+        projectActions:true,
+        save:true,
+        print:true,
+        export:true,
+        technical:true,
+        calculationLimit:false
+    }
+};
+
+function roleRules(role=userRole){
+    return ROLE_RULES[role] || ROLE_RULES.guest;
+}
+
+const requestedRole =
+new URLSearchParams(window.location.search).get('role');
+
+let userRole =
+validRoles.includes(requestedRole)
+?
+requestedRole
+:
+'guest';
+
+if(
+validRoles.includes(requestedRole)
+){
+    localStorage.setItem(
+    'calcSquareRole',
+    requestedRole
+    );
+}
+
+let currentModulePath =
+null;
+
+let lastModuleContentHeight =
+0;
+
+const heroSection =
+document.querySelector('.hero');
+
+const loginButton =
+document.getElementById('openLogin');
+
+const menuProject =
+document.getElementById('menuProject');
+
+const menuAtlas =
+document.getElementById('menuAtlas');
+
+
+const projectActions =
+document.getElementById('projectActions');
+
+const projectRows =
+document.getElementById('projectRows');
+
+const emptyProject =
+document.getElementById('emptyProject');
+
+const projectTotal =
+document.getElementById('projectTotal');
+
+const projectColumnControls =
+document.getElementById('projectColumnControls');
+
+const positionModal =
+document.getElementById('positionModal');
+
+const positionCardTitle =
+document.getElementById('positionCardTitle');
+
+const positionCardClose =
+document.getElementById('positionCardClose');
+
+const positionCardVisual =
+document.getElementById('positionCardVisual');
+
+const positionCardTable =
+document.getElementById('positionCardTable');
+
+const positionCardDescription =
+document.getElementById('positionCardDescription');
+
+const materialSummary =
+document.getElementById('materialSummary');
+
+const materialSummaryRows =
+document.getElementById('materialSummaryRows');
+
+const btnSave =
+document.getElementById('btnSave');
+
+const btnPrint =
+document.getElementById('btnPrint');
+
+const btnExport =
+document.getElementById('btnExport');
+
+const saveStatus =
+document.getElementById('saveStatus');
+
+const loginAction =
+document.querySelector('.login-action');
+
+const guestAction =
+document.querySelector('.guest-action');
+
+const roleChoices =
+document.querySelectorAll('.role-choice');
+
+const languageSelect =
+document.getElementById('languageSelect');
+
+const i18n={
+uk:{
+home:'ГОЛОВНА',
+project:'ПРОЄКТ',
+atlas:'АТЛАС',
+tables:'ТАБЛИЦІ',
+login:'ВХІД / РЕЄСТРАЦІЯ',
+cabinet:'КАБІНЕТ',
+heroDesc:'Інженерний калькулятор<br>фасонних виробів вентиляції',
+projectTitle:'ПРОЄКТ / СПЕЦИФІКАЦІЯ',
+projectName:'Назва проєкту',
+customer:'Замовник',
+object:"Об'єкт",
+name:'Найменування',
+dimensions:'Розміри',
+sizeLine:'Розміри під назвою',
+position:'Позиція',
+qty:'К-ть',
+material:'Матеріал',
+description:'Опис',
+comments:'Коментарі',
+thicknessShort:'t',
+area:'Площа',
+mass:'Маса',
+emptyProject:'Проєкт порожній',
+totalArea:'Загальна площа',
+totalQuantity:'Загальна кількість',
+totalMass:'Загальна маса',
+totalRow:'Підсумок',
+materialSummary:'Підсумок за матеріалами',
+materialKinds:'Матеріалів',
+save:'Зберегти',
+saved:'Збережено',
+exported:'Експортовано',
+print:'Друк',
+export:'Експорт',
+loginTitle:'КАБІНЕТ',
+loginPlaceholder:'Логін',
+password:'Пароль',
+signIn:'УВІЙТИ',
+or:'або',
+continueGuest:'ПРОДОВЖИТИ ЯК ГІСТЬ',
+guest:'Гість',
+user:'Користувач',
+client:'Клієнт',
+admin:'Адмін',
+product:'Виріб',
+noMaterial:'Матеріал не вказано'
+,clearProject:'Очистити специфікацію'
+,language:'Мова інтерфейсу'
+,rectangularDuct:'Повітропровід прямокутний'
+,galv:'Оцинкована сталь'
+,ss430:'Нержавіюча сталь 430 технічна'
+,ss304:'Нержавіюча сталь 304 харчова'
+,conn1:"З'єднання 1"
+,conn2:"З'єднання 2"
+,shin20:'Шинорейка 20'
+,shin30:'Шинорейка 30'
+,shin20Self:'Шинорейка 20 Сам'
+,shin30Self:'Шинорейка 30 Сам'
+,rail:'Рейка'
+,gk:'ГК'
+,screwSelf:'Шинорейка 20 Сам'
+,mm:'мм'
+,kg:'кг'
+},
+ru:{
+home:'ГЛАВНАЯ',
+project:'ПРОЕКТ',
+atlas:'АТЛАС',
+tables:'ТАБЛИЦЫ',
+login:'ВХОД / РЕГИСТРАЦИЯ',
+cabinet:'КАБИНЕТ',
+heroDesc:'Инженерный калькулятор<br>фасонных изделий вентиляции',
+projectTitle:'ПРОЕКТ / СПЕЦИФИКАЦИЯ',
+projectName:'Название проекта',
+customer:'Заказчик',
+object:'Объект',
+name:'Наименование',
+dimensions:'Размеры',
+sizeLine:'Размеры под названием',
+position:'Позиция',
+qty:'Кол-во',
+material:'Материал',
+description:'Описание',
+comments:'Комментарии',
+thicknessShort:'t',
+area:'Площадь',
+mass:'Масса',
+emptyProject:'Проект пуст',
+totalArea:'Общая площадь',
+totalQuantity:'Общее количество',
+totalMass:'Общая масса',
+totalRow:'Итог',
+materialSummary:'Итог по материалам',
+materialKinds:'Материалов',
+save:'Сохранить',
+saved:'Сохранено',
+exported:'Экспортировано',
+print:'Печать',
+export:'Экспорт',
+loginTitle:'КАБИНЕТ',
+loginPlaceholder:'Логин',
+password:'Пароль',
+signIn:'ВОЙТИ',
+or:'или',
+continueGuest:'ПРОДОЛЖИТЬ КАК ГОСТЬ',
+guest:'Гость',
+user:'Пользователь',
+client:'Клиент',
+admin:'Админ',
+product:'Изделие',
+noMaterial:'Материал не указан'
+,clearProject:'Очистить спецификацию'
+,language:'Язык интерфейса'
+,rectangularDuct:'Воздуховод прямоугольный'
+,galv:'Оцинкованная сталь'
+,ss430:'Нержавеющая сталь 430 техническая'
+,ss304:'Нержавеющая сталь 304 пищевая'
+,conn1:'Соединение 1'
+,conn2:'Соединение 2'
+,shin20:'Шинорейка 20'
+,shin30:'Шинорейка 30'
+,shin20Self:'Шинорейка 20 Сам'
+,shin30Self:'Шинорейка 30 Сам'
+,rail:'Рейка'
+,gk:'ГК'
+,screwSelf:'Шинорейка 20 Сам'
+,mm:'мм'
+,kg:'кг'
+},
+en:{
+home:'HOME',
+project:'PROJECT',
+atlas:'ATLAS',
+tables:'TABLES',
+login:'LOGIN / SIGN UP',
+cabinet:'ACCOUNT',
+heroDesc:'Engineering calculator<br>for ventilation fittings',
+projectTitle:'PROJECT / SPECIFICATION',
+projectName:'Project name',
+customer:'Customer',
+object:'Object',
+name:'Item',
+dimensions:'Dimensions',
+sizeLine:'Dimensions under item',
+position:'Position',
+qty:'Qty',
+material:'Material',
+description:'Description',
+comments:'Comments',
+thicknessShort:'t',
+area:'Area',
+mass:'Mass',
+emptyProject:'Project is empty',
+totalArea:'Total area',
+totalQuantity:'Total quantity',
+totalMass:'Total mass',
+totalRow:'Total',
+materialSummary:'Material summary',
+materialKinds:'Materials',
+save:'Save',
+saved:'Saved',
+exported:'Exported',
+print:'Print',
+export:'Export',
+loginTitle:'ACCOUNT',
+loginPlaceholder:'Login',
+password:'Password',
+signIn:'SIGN IN',
+or:'or',
+continueGuest:'CONTINUE AS GUEST',
+guest:'Guest',
+user:'User',
+client:'Client',
+admin:'Admin',
+product:'Item',
+noMaterial:'Material not specified'
+,clearProject:'Clear specification'
+,language:'Interface language'
+,rectangularDuct:'Rectangular duct'
+,galv:'Galvanized steel'
+,ss430:'Stainless steel 430 technical'
+,ss304:'Stainless steel 304 food grade'
+,conn1:'Connection 1'
+,conn2:'Connection 2'
+,shin20:'Slide rail 20'
+,shin30:'Slide rail 30'
+,shin20Self:'Slide rail 20 self'
+,shin30Self:'Slide rail 30 self'
+,rail:'Rail'
+,gk:'GK'
+,screwSelf:'Slide rail 20 self'
+,mm:'mm'
+,kg:'kg'
+}
+};
+
+function currentLang(){
+    const saved=
+    localStorage.getItem('calcSquareLang') || 'ru';
+
+    return i18n[saved]
+    ?
+    saved
+    :
+    'ru';
+}
+
+function t(key){
+    return i18n[currentLang()][key] || i18n.uk[key] || key;
+}
+
+function detectProductType(item){
+    const value=
+    `${item.productType || ''} ${item.name || ''}`.toLowerCase();
+
+    if(
+    value.includes('rectangularduct')
+    ||
+    value.includes('повітропровід прямокутний')
+    ||
+    value.includes('воздуховод прямоугольный')
+    ||
+    value.includes('rectangular duct')
+    ){
+        return 'rectangularDuct';
+    }
+
+    return null;
+}
+
+function detectMaterialCode(item){
+    const value=
+    `${item.materialCode || ''} ${item.material || ''}`.toLowerCase();
+
+    if(value.includes('ss304') || value.includes('304')){
+        return 'ss304';
+    }
+
+    if(value.includes('ss430') || value.includes('430')){
+        return 'ss430';
+    }
+
+    if(
+    value.includes('galv')
+    ||
+    value.includes('оцинк')
+    ||
+    value.includes('galvanized')
+    ){
+        return 'galv';
+    }
+
+    return null;
+}
+
+function detectConnectionCode(item){
+    const value=
+    `${item.connectionCode || ''} ${item.size || ''}`.toLowerCase();
+
+    if(
+    value.includes('conn2')
+    ||
+    value.includes("з'єднання 2")
+    ||
+    value.includes('соединение 2')
+    ||
+    value.includes('connection 2')
+    ){
+        return 'conn2';
+    }
+
+    if(
+    value.includes('conn1')
+    ||
+    value.includes("з'єднання 1")
+    ||
+    value.includes('соединение 1')
+    ||
+    value.includes('connection 1')
+    ){
+        return 'conn1';
+    }
+
+    return null;
+}
+
+function detectConnectionTypeCode(item){
+    const value=
+    `${item.connectionTypeCode || ''} ${item.size || ''}`.toLowerCase();
+
+    if(value.includes('shin30self') || value.includes('шинорейка 30 сам') || value.includes('slide rail 30 self')){
+        return 'shin30Self';
+    }
+
+    if(value.includes('shin20self') || value.includes('шинорейка 20 сам') || value.includes('slide rail 20 self')){
+        return 'shin20Self';
+    }
+
+    if(value.includes('shin30') || value.includes('шинорейка 30') || value.includes('slide rail 30')){
+        return 'shin30';
+    }
+
+    if(value.includes('shin20') || value.includes('шинорейка 20') || value.includes('slide rail 20')){
+        return 'shin20';
+    }
+
+    if(value.includes('rail') || value.includes('рейка')){
+        return 'rail';
+    }
+
+    if(value.includes('screwself') || value.includes('саморез') || value.includes('саморіз') || value.includes('self-tapping')){
+        return 'shin20Self';
+    }
+
+    if(value.includes('gk') || value.includes('гк')){
+        return 'gk';
+    }
+
+    return null;
+}
+
+function detectThickness(item){
+    if(item.thickness !== undefined && item.thickness !== null){
+        return item.thickness;
+    }
+
+    const match=
+    String(item.material || '').match(/t\s*=\s*([0-9.,]+)/i);
+
+    return match
+    ?
+    match[1].replace(',','.')
+    :
+    '';
+}
+
+function detectDimensions(item){
+    if(item.dimensions && typeof item.dimensions === 'object'){
+        return {
+            ...item.dimensions,
+            C:item.dimensions.C || item.dimensions.L || ''
+        };
+    }
+
+    if(typeof item.dimensions === 'string'){
+        const parsed = {};
+        String(item.dimensions).replace(
+        /([A-Z][0-9]?|Angle|Offset)\s*([0-9]+(?:[.,][0-9]+)?)/g,
+        (full,key,value)=>{
+            parsed[key] =
+            value.replace(',','.');
+            return full;
+        }
+        );
+
+        if(Object.keys(parsed).length){
+            return parsed;
+        }
+    }
+
+    const match=
+    String(item.size || '').match(/A\s*([0-9.]+)\s*[×xх]\s*B\s*([0-9.]+)\s*[×xх]\s*[CL]\s*([0-9.]+)/i);
+
+    return match
+    ?
+    {
+        A:match[1],
+        B:match[2],
+        C:match[3]
+    }
+    :
+    null;
+}
+
+function localizedProjectName(item){
+    const type=
+    detectProductType(item);
+
+    return type
+    ?
+    t(type)
+    :
+    (item.name || t('product'));
+}
+
+function localizedProjectSize(item){
+    const dimensions=
+    detectDimensions(item);
+
+    if(!dimensions){
+        return item.size || '';
+    }
+
+    return [
+    `A ${dimensions.A} × B ${dimensions.B} × C ${dimensions.C} ${t('mm')}`,
+    localizedProjectConnections(item)
+    ]
+    .filter(Boolean)
+    .join('; ');
+}
+
+function localizedProjectDimensions(item){
+    const dimensions=
+    detectDimensions(item);
+
+    if(!dimensions){
+        return item.size || '';
+    }
+
+    return `A ${dimensions.A} × B ${dimensions.B} × C ${dimensions.C} ${t('mm')}`;
+}
+
+function localizedProjectMaterial(item){
+    const materialCode=
+    item.materialCode || detectMaterialCode(item);
+
+    const thickness=
+    detectThickness(item);
+
+    if(!materialCode){
+        return item.material || '';
+    }
+
+    return thickness
+    ?
+    `${t(materialCode)}, t=${thickness} ${t('mm')}`
+    :
+    t(materialCode);
+}
+
+function localizedProjectMaterialName(item){
+    const materialCode=
+    item.materialCode || detectMaterialCode(item);
+
+    if(materialCode){
+        return t(materialCode);
+    }
+
+    return String(item.material || '')
+    .replace(/,\s*t\s*=\s*[0-9.,]+\s*(мм|mm|кг|kg)?/i,'');
+}
+
+function connectorDesignation(mark){
+    const labels={
+        uk:{
+            C1:"C1 \u2014 \u0437'\u0454\u0434\u043d\u0430\u043d\u043d\u044f \u043d\u0430 \u0441\u0456\u0447\u0435\u043d\u043d\u0456 1",
+            C2:"C2 \u2014 \u0437'\u0454\u0434\u043d\u0430\u043d\u043d\u044f \u043d\u0430 \u0441\u0456\u0447\u0435\u043d\u043d\u0456 2",
+            S1:"S1 \u2014 \u043f\u043e\u0437\u0434\u043e\u0432\u0436\u043d\u0454 \u0437'\u0454\u0434\u043d\u0430\u043d\u043d\u044f"
+        },
+        ru:{
+            C1:"C1 \u2014 \u0441\u043e\u0435\u0434\u0438\u043d\u0435\u043d\u0438\u0435 \u043d\u0430 \u0441\u0435\u0447\u0435\u043d\u0438\u0438 1",
+            C2:"C2 \u2014 \u0441\u043e\u0435\u0434\u0438\u043d\u0435\u043d\u0438\u0435 \u043d\u0430 \u0441\u0435\u0447\u0435\u043d\u0438\u0438 2",
+            S1:"S1 \u2014 \u043f\u0440\u043e\u0434\u043e\u043b\u044c\u043d\u043e\u0435 \u0441\u043e\u0435\u0434\u0438\u043d\u0435\u043d\u0438\u0435"
+        },
+        en:{
+            C1:"C1 \u2014 connection on section 1",
+            C2:"C2 \u2014 connection on section 2",
+            S1:"S1 \u2014 longitudinal connection"
+        }
+    };
+
+    const langLabels=
+    labels[currentLang()] || labels.uk;
+
+    return langLabels[mark] || mark;
+}
+
+function connectorShortName(code){
+    const labels={
+        shin20:'Ш20',
+        shin30:'Ш30',
+        shin20Self:'Ш20 Сам',
+        shin30Self:'Ш30 Сам',
+        rail:'Рейка',
+        gk:'ГК',
+        screwSelf:'Ш20 Сам'
+    };
+
+    if(currentLang() === 'en'){
+        return {
+            shin20:'SR20',
+            shin30:'SR30',
+            shin20Self:'SR20 self',
+            shin30Self:'SR30 self',
+            rail:'Rail',
+            gk:'GK',
+            screwSelf:'SR20 self'
+        }[code] || t(code);
+    }
+
+    return labels[code] || t(code);
+}
+
+function getProjectConnectorCodes(item){
+    const connectors=
+    item.connectors || {};
+
+    return {
+        C1:
+        connectors.C1 || item.connection1TypeCode || item.connectionTypeCode || detectConnectionTypeCode(item),
+        C2:
+        connectors.C2 || item.connection2TypeCode || null,
+        S1:
+        connectors.S1 || item.longitudinalConnectionTypeCode || null
+    };
+}
+
+function localizedProjectConnections(item, multiline=false){
+    const connectorCodes=
+    getProjectConnectorCodes(item);
+
+    const parts=[
+    connectorCodes.C1
+    ?
+    multiline
+    ?
+    `${connectorDesignation('C1')}: ${t(connectorCodes.C1)}`
+    :
+    `C1 - ${connectorShortName(connectorCodes.C1)}`
+    :
+    '',
+    connectorCodes.C2
+    ?
+    multiline
+    ?
+    `${connectorDesignation('C2')}: ${t(connectorCodes.C2)}`
+    :
+    `C2 - ${connectorShortName(connectorCodes.C2)}`
+    :
+    '',
+    connectorCodes.S1
+    ?
+    multiline
+    ?
+    `${connectorDesignation('S1')}: ${t(connectorCodes.S1)}`
+    :
+    `S1 - ${connectorShortName(connectorCodes.S1)}`
+    :
+    ''
+    ].filter(Boolean);
+
+    return parts.join(multiline ? '\n' : '; ');
+}
+
+function localizedProjectDescription(item){
+    const dimensions=
+    detectDimensions(item);
+
+    const description=
+    localizedProjectConnections(item);
+
+    if(description){
+        return description;
+    }
+
+    return dimensions
+    ?
+    ''
+    :
+    (item.size || '');
+}
+
+let projectItems =
+JSON.parse(
+localStorage.getItem('calcSquareProjectItems') || '[]'
+);
+
+let projectSortState={
+    key:null,
+    direction:'asc'
+};
+
+let projectMeta =
+loadProjectMeta();
+
+let showProjectSizeLine =
+localStorage.getItem('calcSquareProjectSizeLine') !== 'hidden';
+
+function applyProjectSizeLineVisibility(){
+    document.body.classList.toggle(
+    'hide-project-size-lines',
+    !showProjectSizeLine
+    );
+}
+
+
+function escapeHtml(value){
+
+    return String(value)
+    .replaceAll('&','&amp;')
+    .replaceAll('<','&lt;')
+    .replaceAll('>','&gt;')
+    .replaceAll('"','&quot;')
+    .replaceAll("'","&#039;");
+
+}
+
+const projectColumnDefaults=[
+{key:'no',label:'№',width:54,min:42,locked:false},
+{key:'name',labelKey:'name',width:260,min:140,locked:false},
+{key:'dimensions',labelKey:'dimensions',width:170,min:110,locked:false},
+{key:'description',labelKey:'description',width:260,min:120,locked:false},
+{key:'qty',labelKey:'qty',width:96,min:86,locked:false},
+{key:'material',labelKey:'material',width:190,min:120,locked:false},
+{key:'thickness',labelKey:'thicknessShort',width:70,min:50,locked:false},
+{key:'area',labelKey:'area',width:110,min:80,locked:false},
+{key:'mass',labelKey:'mass',width:100,min:80,locked:false},
+{key:'comments',labelKey:'comments',width:220,min:140,locked:false},
+{key:'actions',label:'',width:92,min:86,locked:true}
+];
+
+const PROJECT_COLUMN_SCHEMA_VERSION='6';
+let shouldAutoFitProjectColumnsOnLoad=
+localStorage.getItem('calcSquareProjectColumnsVersion') !== PROJECT_COLUMN_SCHEMA_VERSION;
+
+if(shouldAutoFitProjectColumnsOnLoad){
+    localStorage.removeItem('calcSquareProjectColumns');
+}
+
+function loadProjectColumnState(){
+    let saved={};
+
+    try{
+        saved=JSON.parse(
+        localStorage.getItem('calcSquareProjectColumns') || '{}'
+        );
+    }
+    catch(e){
+        saved={};
+    }
+
+    return projectColumnDefaults.map(
+    (column)=>{
+        const custom=saved[column.key] || {};
+
+        return {
+            ...column,
+            width:Number(custom.width) || column.width,
+            hidden:column.locked ? false : Boolean(custom.hidden)
+        };
+    }
+    );
+}
+
+let projectColumnState=
+loadProjectColumnState();
+
+let isAutoFittingProjectColumns=false;
+
+function saveProjectColumnState(){
+    const state={};
+
+    projectColumnState.forEach(
+    (column)=>{
+        state[column.key]={
+            width:column.width,
+            hidden:column.hidden
+        };
+    }
+    );
+
+    localStorage.setItem(
+    'calcSquareProjectColumns',
+    JSON.stringify(state)
+    );
+
+    localStorage.setItem(
+    'calcSquareProjectColumnsVersion',
+    PROJECT_COLUMN_SCHEMA_VERSION
+    );
+}
+
+function projectColumnLabel(column){
+    return column.labelKey
+    ?
+    t(column.labelKey)
+    :
+    column.label;
+}
+
+function applyProjectColumns(){
+    const visibleWidth=
+    projectColumnState.reduce(
+    (sum,column)=>sum + (column.hidden ? 0 : column.width),
+    0
+    );
+
+    const template=
+    projectColumnState
+    .map(
+    (column)=>
+    column.hidden
+    ?
+    '0px'
+    :
+    `${column.width}px`
+    )
+    .join(' ');
+
+    document.querySelectorAll(
+    '.project-table, .material-summary, .floating-table-head-wrap'
+    ).forEach(
+    (table)=>{
+        table.style.setProperty(
+        '--project-columns',
+        template
+        );
+
+        table.style.setProperty(
+        '--project-table-width',
+        `${visibleWidth}px`
+        );
+    }
+    );
+
+    document.querySelectorAll('[data-col]').forEach(
+    (cell)=>{
+        const column=
+        projectColumnState.find(
+        (item)=>item.key===cell.dataset.col
+        );
+
+        cell.classList.toggle(
+        'is-hidden',
+        Boolean(column && column.hidden)
+        );
+    }
+    );
+}
+
+let floatingProjectHeader=null;
+let floatingProjectHeaderSource='';
+
+function syncFloatingProjectHeader(){
+    const table=
+    document.querySelector('.project-table');
+
+    const header=
+    document.querySelector('.project-table > .table-head');
+
+    if(!table || !header){
+        return;
+    }
+
+    if(!floatingProjectHeader){
+        floatingProjectHeader=
+        document.createElement('div');
+
+        floatingProjectHeader.className=
+        'floating-table-head-wrap';
+
+        document.body.appendChild(
+        floatingProjectHeader
+        );
+    }
+
+    if(
+    floatingProjectHeaderSource !== header.innerHTML
+    ){
+        floatingProjectHeader.innerHTML =
+        header.outerHTML;
+
+        floatingProjectHeaderSource =
+        header.innerHTML;
+
+        applyProjectColumns();
+    }
+
+    const tableRect=
+    table.getBoundingClientRect();
+
+    const headerRect=
+    header.getBoundingClientRect();
+
+    const shouldShow =
+    headerRect.top < 0
+    &&
+    tableRect.bottom > 44
+    &&
+    tableRect.left < window.innerWidth
+    &&
+    tableRect.right > 0;
+
+    floatingProjectHeader.style.display =
+    shouldShow
+    ?
+    'block'
+    :
+    'none';
+
+    if(!shouldShow){
+        return;
+    }
+
+    floatingProjectHeader.style.left =
+    `${Math.max(0,tableRect.left)}px`;
+
+    floatingProjectHeader.style.width =
+    `${Math.min(tableRect.width,window.innerWidth - Math.max(0,tableRect.left))}px`;
+
+    const floatingHead =
+    floatingProjectHeader.querySelector('.table-head');
+
+    if(floatingHead){
+        floatingHead.style.transform =
+        `translateX(${-table.scrollLeft}px)`;
+    }
+}
+
+function renderProjectColumnControls(){
+    if(!projectColumnControls){
+        return;
+    }
+
+    projectColumnControls.innerHTML =
+    `
+    <button class="column-control-action" type="button" data-auto-fit-columns="true">Автоширина</button>
+    <button class="column-control-action" type="button" data-reset-columns="true">Скинути вигляд</button>
+    <button class="column-control-action" type="button" data-reset-sort="true">Скинути сортування</button>
+    <label>
+    <input type="checkbox" data-toggle-size-line="true" ${showProjectSizeLine ? 'checked' : ''}>
+    ${escapeHtml(t('sizeLine'))}
+    </label>
+    ` +
+    projectColumnState
+    .filter(
+    (column)=>!column.locked
+    )
+    .map(
+    (column)=>`
+    <label>
+    <input type="checkbox" data-toggle-col="${column.key}" ${column.hidden ? '' : 'checked'}>
+    ${escapeHtml(projectColumnLabel(column))}
+    </label>
+    `
+    )
+    .join('');
+}
+
+function setProjectColumnHidden(key,hidden){
+    const column=
+    projectColumnState.find(
+    (item)=>item.key===key
+    );
+
+    if(!column || column.locked){
+        return;
+    }
+
+    column.hidden=hidden;
+    saveProjectColumnState();
+    renderProjectColumnControls();
+    applyProjectColumns();
+    syncFloatingProjectHeader();
+}
+
+function resizeProjectColumn(key,width){
+    const column=
+    projectColumnState.find(
+    (item)=>item.key===key
+    );
+
+    if(!column){
+        return;
+    }
+
+    column.width=Math.max(
+    column.min,
+    Math.round(width)
+    );
+
+    if(!isAutoFittingProjectColumns){
+        saveProjectColumnState();
+    }
+
+    applyProjectColumns();
+    syncFloatingProjectHeader();
+}
+
+let projectColumnMeasureNode=null;
+
+function measureProjectTextWidth(text,font){
+    if(!projectColumnMeasureNode){
+        projectColumnMeasureNode=
+        document.createElement('span');
+
+        projectColumnMeasureNode.style.position='fixed';
+        projectColumnMeasureNode.style.left='-10000px';
+        projectColumnMeasureNode.style.top='-10000px';
+        projectColumnMeasureNode.style.visibility='hidden';
+        projectColumnMeasureNode.style.whiteSpace='nowrap';
+        projectColumnMeasureNode.style.pointerEvents='none';
+
+        document.body.appendChild(projectColumnMeasureNode);
+    }
+
+    projectColumnMeasureNode.style.font=font || '14px Arial';
+    projectColumnMeasureNode.textContent=String(text || '').trim();
+
+    return projectColumnMeasureNode.getBoundingClientRect().width;
+}
+
+function autoFitProjectColumn(key){
+    const column=
+    projectColumnState.find(
+    (item)=>item.key===key
+    );
+
+    if(!column || column.hidden){
+        return;
+    }
+
+    const samples=[
+    projectColumnLabel(column)
+    ];
+
+    document.querySelectorAll(
+    `.project-row [data-col="${key}"], .project-total [data-col="${key}"], .material-summary [data-col="${key}"]`
+    ).forEach(
+    (cell)=>{
+        if(cell.classList.contains('is-hidden')){
+            return;
+        }
+
+        const text=
+        (
+        cell.querySelector('textarea')
+        ?
+        cell.querySelector('textarea').value
+        :
+        cell.innerText
+        )
+        .replace(/\s+/g,' ')
+        .trim();
+
+        if(text){
+            samples.push(text);
+        }
+    }
+    );
+
+    const sampleCell=
+    document.querySelector(`.project-row [data-col="${key}"], .table-head [data-col="${key}"]`);
+
+    const computed=
+    sampleCell ? window.getComputedStyle(sampleCell) : null;
+
+    const font=
+    computed
+    ?
+    `${computed.fontStyle} ${computed.fontWeight} ${computed.fontSize} ${computed.fontFamily}`
+    :
+    '';
+
+    const padding=
+    sampleCell
+    ?
+    parseFloat(computed.paddingLeft) + parseFloat(computed.paddingRight)
+    :
+    20;
+
+    const headerExtra=
+    column.locked ? 8 : 24;
+
+    const contentWidth=
+    samples.reduce(
+    (max,text)=>Math.max(max,measureProjectTextWidth(text,font)),
+    0
+    );
+
+    const maxWidthByKey={
+        no:70,
+        qty:112,
+        thickness:82,
+        area:130,
+        mass:130,
+        actions:64,
+        dimensions:260,
+        description:360,
+        comments:360,
+        material:260,
+        name:320
+    };
+
+    const maxWidth =
+    maxWidthByKey[key] || 420;
+
+    resizeProjectColumn(
+    key,
+    Math.min(
+    maxWidth,
+    Math.max(column.min,contentWidth + padding + headerExtra)
+    )
+    );
+}
+
+function autoFitProjectColumns(){
+    isAutoFittingProjectColumns=true;
+
+    projectColumnState.forEach(
+    (column)=>{
+        if(!column.hidden){
+            autoFitProjectColumn(column.key);
+        }
+    }
+    );
+
+    isAutoFittingProjectColumns=false;
+    saveProjectColumnState();
+    applyProjectColumns();
+    syncFloatingProjectHeader();
+}
+
+function resetProjectColumnView(){
+    localStorage.removeItem('calcSquareProjectColumns');
+    localStorage.removeItem('calcSquareProjectColumnsVersion');
+
+    projectColumnState=
+    loadProjectColumnState();
+
+    autoFitProjectColumns();
+    renderProjectColumnControls();
+}
+
+function applyLanguage(){
+    document.documentElement.lang=currentLang();
+
+    const navLinks=
+    document.querySelectorAll('nav a');
+
+    if(navLinks[0]) navLinks[0].textContent=t('home');
+    if(menuProject) menuProject.textContent=t('project');
+    if(menuAtlas) menuAtlas.textContent=t('atlas');
+    if(navLinks[3]) navLinks[3].textContent=t('tables');
+
+    document.querySelector('.hero-desc').innerHTML=t('heroDesc');
+    document.querySelector('.panel-content h2').textContent=t('projectTitle');
+
+    const projectInputs=
+    document.querySelectorAll('.project-info input');
+
+    if(projectInputs[0]) projectInputs[0].placeholder=t('projectName');
+    if(projectInputs[1]) projectInputs[1].placeholder=t('customer');
+    if(projectInputs[2]) projectInputs[2].placeholder=t('object');
+
+    document.querySelectorAll('[data-column-title]').forEach(
+    (node)=>{
+        node.textContent=t(node.dataset.columnTitle);
+    }
+    );
+
+    renderProjectColumnControls();
+    applyProjectColumns();
+    syncFloatingProjectHeader();
+
+    emptyProject.textContent=t('emptyProject');
+    document.querySelector('.material-summary-title').textContent=t('materialSummary');
+
+    btnSave.setAttribute('aria-label', t('save'));
+    btnSave.setAttribute('title', t('save'));
+    btnPrint.textContent=t('print');
+    btnExport.textContent=t('export');
+
+    const clearProjectButtons =
+    document.querySelectorAll('[data-clear-project]');
+
+    clearProjectButtons.forEach(
+    (button)=>{
+        button.setAttribute('title', t('clearProject'));
+    }
+    );
+
+    projectTab.textContent=t('project');
+    atlasTab.textContent=t('atlas');
+
+    document.querySelector('.login-box h2').textContent=t('loginTitle');
+    const loginInputs=
+    document.querySelectorAll('.login-box input');
+
+    if(loginInputs[0]) loginInputs[0].placeholder=t('loginPlaceholder');
+    if(loginInputs[1]) loginInputs[1].placeholder=t('password');
+
+    loginAction.textContent=t('signIn');
+    document.querySelector('.login-divider').textContent=t('or');
+    guestAction.textContent=t('continueGuest');
+
+    const roleLabels={
+        guest:t('guest'),
+        user:t('user'),
+        client:t('client'),
+        admin:t('admin')
+    };
+
+    roleChoices.forEach(
+    (button)=>{
+        button.textContent=roleLabels[button.dataset.role] || button.textContent;
+    }
+    );
+
+    if(languageSelect){
+        languageSelect.value=currentLang();
+        languageSelect.setAttribute('aria-label', t('language'));
+    }
+
+    renderProject();
+    applyRole();
+
+    refreshOpenModuleLanguage();
+}
+
+function projectInfoInputs(){
+    return Array.from(
+    document.querySelectorAll('.project-info input')
+    );
+}
+
+function loadProjectMeta(){
+    try{
+        const saved =
+        JSON.parse(
+        localStorage.getItem('calcSquareProjectMeta') || '{}'
+        );
+
+        return {
+            projectName:saved.projectName || '',
+            customer:saved.customer || '',
+            object:saved.object || '',
+            savedAt:saved.savedAt || ''
+        };
+    }
+    catch(e){
+        return {
+            projectName:'',
+            customer:'',
+            object:'',
+            savedAt:''
+        };
+    }
+}
+
+function readProjectMetaFromInputs(){
+    const inputs =
+    projectInfoInputs();
+
+    return {
+        projectName:inputs[0]?.value || '',
+        customer:inputs[1]?.value || '',
+        object:inputs[2]?.value || '',
+        savedAt:new Date().toISOString()
+    };
+}
+
+function applyProjectMeta(){
+    const inputs =
+    projectInfoInputs();
+
+    if(inputs[0]) inputs[0].value = projectMeta.projectName || '';
+    if(inputs[1]) inputs[1].value = projectMeta.customer || '';
+    if(inputs[2]) inputs[2].value = projectMeta.object || '';
+}
+
+function saveProjectMeta(){
+    projectMeta =
+    readProjectMetaFromInputs();
+
+    localStorage.setItem(
+    'calcSquareProjectMeta',
+    JSON.stringify(projectMeta)
+    );
+}
+
+function saveProject(){
+    saveProjectMeta();
+    saveProjectItems();
+    saveProjectColumnState();
+
+    if(saveStatus){
+        saveStatus.textContent = t('saved');
+
+        setTimeout(
+        ()=>{
+            if(saveStatus){
+                saveStatus.textContent = '';
+            }
+        },
+        2200
+        );
+    }
+}
+
+function setActionStatus(message){
+    if(!saveStatus){
+        return;
+    }
+
+    saveStatus.textContent = message;
+
+    setTimeout(
+    ()=>{
+        if(saveStatus){
+            saveStatus.textContent = '';
+        }
+    },
+    2200
+    );
+}
+
+function csvCell(value){
+    return `"${String(value ?? '').replaceAll('"','""')}"`;
+}
+
+function csvRow(values){
+    return values.map(csvCell).join(';');
+}
+
+function projectFileBaseName(){
+    const name =
+    (projectMeta.projectName || 'calc-square-project')
+    .trim()
+    .replace(/[\\/:*?"<>|]+/g,' ')
+    .replace(/\s+/g,' ')
+    .trim();
+
+    return name || 'calc-square-project';
+}
+
+function buildMaterialTotals(){
+    const totals = {};
+
+    projectItems.forEach(
+    (item)=>{
+        const quantity =
+        Number(item.quantity) || 0;
+
+        const material =
+        localizedProjectMaterialName(item) || t('noMaterial');
+
+        const thickness =
+        detectThickness(item) || '';
+
+        const key =
+        `${material}|${thickness}`;
+
+        if(!totals[key]){
+            totals[key]={
+                material,
+                thickness,
+                quantity:0,
+                area:0,
+                mass:0
+            };
+        }
+
+        totals[key].quantity += quantity;
+        totals[key].area += Number(item.area) || 0;
+        totals[key].mass += Number(item.mass) || 0;
+    }
+    );
+
+    return Object.values(totals);
+}
+
+function exportProjectCsv(){
+    saveProject();
+
+    const rows = [];
+
+    rows.push([t('projectTitle')]);
+    rows.push([t('projectName'), projectMeta.projectName || '']);
+    rows.push([t('customer'), projectMeta.customer || '']);
+    rows.push([t('object'), projectMeta.object || '']);
+    rows.push([]);
+    rows.push([
+        '№',
+        t('name'),
+        t('dimensions'),
+        t('description'),
+        t('qty'),
+        t('material'),
+        t('thicknessShort'),
+        t('area'),
+        t('mass'),
+        t('comments')
+    ]);
+
+    let totalQuantity = 0;
+    let totalArea = 0;
+    let totalMass = 0;
+
+    projectItems.forEach(
+    (item,index)=>{
+        const quantity =
+        Number(item.quantity) || 0;
+
+        const area =
+        Number(item.area) || 0;
+
+        const mass =
+        Number(item.mass) || 0;
+
+        totalQuantity += quantity;
+        totalArea += area;
+        totalMass += mass;
+
+        rows.push([
+            index + 1,
+            localizedProjectName(item),
+            localizedProjectDimensions(item),
+            localizedProjectDescription(item),
+            quantity,
+            localizedProjectMaterialName(item),
+            detectThickness(item),
+            area.toFixed(3),
+            mass.toFixed(2),
+            item.comment || ''
+        ]);
+    }
+    );
+
+    rows.push([
+        '',
+        t('totalRow'),
+        '',
+        '',
+        totalQuantity,
+        '',
+        '',
+        totalArea.toFixed(3),
+        totalMass.toFixed(2),
+        ''
+    ]);
+
+    const materialTotals =
+    buildMaterialTotals();
+
+    if(materialTotals.length){
+        rows.push([]);
+        rows.push([t('materialSummary')]);
+        rows.push([
+            '№',
+            t('qty'),
+            t('material'),
+            t('thicknessShort'),
+            t('area'),
+            t('mass')
+        ]);
+
+        materialTotals.forEach(
+        (total,index)=>{
+            rows.push([
+                index + 1,
+                total.quantity,
+                total.material,
+                total.thickness,
+                total.area.toFixed(3),
+                total.mass.toFixed(2)
+            ]);
+        }
+        );
+
+        rows.push([
+            '',
+            totalQuantity,
+            `${t('materialKinds')}: ${materialTotals.length}`,
+            '',
+            totalArea.toFixed(3),
+            totalMass.toFixed(2)
+        ]);
+    }
+
+    const csv =
+    '\uFEFF' +
+    rows.map(csvRow).join('\r\n');
+
+    const blob =
+    new Blob(
+    [csv],
+    {type:'text/csv;charset=utf-8'}
+    );
+
+    const link =
+    document.createElement('a');
+
+    link.href =
+    URL.createObjectURL(blob);
+
+    link.download =
+    `${projectFileBaseName()}.csv`;
+
+    document.body.appendChild(link);
+    link.click();
+    URL.revokeObjectURL(link.href);
+    link.remove();
+
+    setActionStatus(t('exported'));
+}
+
+function saveProjectItems(){
+
+    localStorage.setItem(
+    'calcSquareProjectItems',
+    JSON.stringify(projectItems)
+    );
+
+}
+
+function ensureProjectItemOrder(){
+    let changed=false;
+
+    projectItems.forEach(
+    (item,index)=>{
+        if(!Number.isFinite(Number(item._projectOrder))){
+            item._projectOrder=index;
+            changed=true;
+        }
+    }
+    );
+
+    return changed;
+}
+
+function nextProjectItemOrder(){
+    ensureProjectItemOrder();
+
+    return projectItems.reduce(
+    (max,item)=>Math.max(max,Number(item._projectOrder) || 0),
+    -1
+    ) + 1;
+}
+
+function projectItemNumber(item,index){
+    const order =
+    Number(item && item._projectOrder);
+
+    return Number.isFinite(order)
+    ?
+    order + 1
+    :
+    index + 1;
+}
+
+function projectSortValue(item,key,index){
+    if(key === 'no'){
+        return Number(item._projectOrder ?? index);
+    }
+
+    if(key === 'name'){
+        return localizedProjectName(item);
+    }
+
+    if(key === 'qty'){
+        return Number(item.quantity) || 0;
+    }
+
+    if(key === 'material'){
+        return localizedProjectMaterialName(item) || '';
+    }
+
+    if(key === 'thickness'){
+        return Number(detectThickness(item)) || 0;
+    }
+
+    if(key === 'area'){
+        return Number(item.area) || 0;
+    }
+
+    if(key === 'mass'){
+        return Number(item.mass) || 0;
+    }
+
+    return '';
+}
+
+function compareProjectSortValues(a,b){
+    if(typeof a === 'number' && typeof b === 'number'){
+        return a - b;
+    }
+
+    return String(a).localeCompare(
+    String(b),
+    currentLang() === 'en' ? 'en' : currentLang() === 'uk' ? 'uk' : 'ru',
+    {
+        numeric:true,
+        sensitivity:'base'
+    }
+    );
+}
+
+function sortProjectByColumn(key){
+    const sortableColumns=[
+    'no',
+    'name',
+    'qty',
+    'material',
+    'thickness',
+    'area',
+    'mass'
+    ];
+
+    if(!sortableColumns.includes(key)){
+        return;
+    }
+
+    if(ensureProjectItemOrder()){
+        saveProjectItems();
+    }
+
+    const direction =
+    projectSortState.key === key && projectSortState.direction === 'asc'
+    ?
+    'desc'
+    :
+    'asc';
+
+    projectSortState={
+        key,
+        direction
+    };
+
+    projectItems.sort(
+    (left,right)=>{
+        const leftIndex=Number(left._projectOrder) || 0;
+        const rightIndex=Number(right._projectOrder) || 0;
+
+        const diff =
+        compareProjectSortValues(
+        projectSortValue(left,key,leftIndex),
+        projectSortValue(right,key,rightIndex)
+        );
+
+        const stableDiff =
+        diff || leftIndex - rightIndex;
+
+        return direction === 'asc'
+        ?
+        stableDiff
+        :
+        -stableDiff;
+    }
+    );
+
+    saveProjectItems();
+    renderProject();
+}
+
+function resetProjectSort(){
+    projectSortState={
+        key:null,
+        direction:'asc'
+    };
+
+    if(ensureProjectItemOrder()){
+        saveProjectItems();
+    }
+
+    projectItems.sort(
+    (left,right)=>
+    (Number(left._projectOrder) || 0) - (Number(right._projectOrder) || 0)
+    );
+
+    saveProjectItems();
+    renderProject();
+}
+
+function resizeProjectComment(textarea){
+    if(!textarea){
+        return;
+    }
+
+    textarea.style.height='auto';
+    textarea.style.height=`${Math.max(38,textarea.scrollHeight)}px`;
+}
+
+function resizeProjectComments(){
+    document
+    .querySelectorAll('.project-comment')
+    .forEach(resizeProjectComment);
+}
+
+function renderProject(){
+
+    projectRows.innerHTML = '';
+
+    emptyProject.style.display =
+    projectItems.length
+    ?
+    'none'
+    :
+    'block';
+
+    let totalArea = 0;
+    let totalQuantity = 0;
+    let totalMass = 0;
+    const materialTotals = {};
+
+    ensureProjectItemOrder();
+
+    projectItems.forEach(
+    (item,index)=>{
+        const itemNumber =
+        projectItemNumber(item,index);
+
+        const itemQuantity =
+        Number(item.quantity) || 0;
+
+        totalQuantity += itemQuantity;
+
+        totalArea += Number(item.area) || 0;
+        totalMass += Number(item.mass) || 0;
+        const localizedMaterial=
+        localizedProjectMaterial(item);
+
+        const localizedMaterialName=
+        localizedProjectMaterialName(item);
+
+        const localizedDescription=
+        localizedProjectDescription(item);
+
+        const localizedDimensions=
+        localizedProjectDimensions(item);
+
+        const thickness=
+        detectThickness(item);
+
+        const materialName =
+        localizedMaterialName || t('noMaterial');
+
+        const materialKey =
+        [
+        materialName,
+        thickness || ''
+        ].join('|');
+
+        if(!materialTotals[materialKey]){
+
+            materialTotals[materialKey] = {
+                material:materialName,
+                thickness:thickness || '',
+                quantity:0,
+                area:0,
+                mass:0
+            };
+
+        }
+
+        materialTotals[materialKey].area +=
+        Number(item.area) || 0;
+
+        materialTotals[materialKey].quantity +=
+        itemQuantity;
+
+        materialTotals[materialKey].mass +=
+        Number(item.mass) || 0;
+
+        const row =
+        document.createElement('div');
+
+        row.className = 'project-row';
+
+        row.innerHTML =
+        `
+        <span class="project-cell is-numeric" data-col="no">
+        <button class="project-position-button" type="button" data-position-index="${index}">${itemNumber}</button>
+        </span>
+        <span class="project-cell" data-col="name">
+        <strong>${escapeHtml(localizedProjectName(item))}</strong>
+        <small class="project-dimensions-line">${escapeHtml(localizedDimensions)}</small>
+        </span>
+        <span class="project-cell" data-col="dimensions">${escapeHtml(localizedDimensions)}</span>
+        <span class="project-cell" data-col="description">${escapeHtml(localizedDescription)}</span>
+        <span class="project-cell is-numeric" data-col="qty">${escapeHtml(item.quantity)}</span>
+        <span class="project-cell" data-col="material">${escapeHtml(localizedMaterialName)}</span>
+        <span class="project-cell is-numeric" data-col="thickness">${escapeHtml(thickness)}</span>
+        <span class="project-cell is-numeric" data-col="area">${Number(item.area || 0).toFixed(3)} м²</span>
+        <span class="project-cell is-numeric" data-col="mass">${Number(item.mass || 0).toFixed(2)} ${t('kg')}</span>
+        <span class="project-cell" data-col="comments">
+        <textarea class="project-comment" data-comment-index="${index}" rows="1">${escapeHtml(item.comment || '')}</textarea>
+        </span>
+        <span class="project-cell is-numeric" data-col="actions">
+        <button class="project-edit-action" type="button" data-edit-index="${index}" title="Редактировать" aria-label="Редактировать">&#9998;</button>
+        <button class="project-remove" type="button" data-index="${index}">×</button>
+        </span>
+        `;
+
+        projectRows.appendChild(row);
+
+    }
+    );
+
+    projectTotal.innerHTML =
+    `
+    <span class="project-cell" data-col="no"></span>
+    <span class="project-cell" data-col="name">${t('totalRow')}</span>
+    <span class="project-cell" data-col="dimensions"></span>
+    <span class="project-cell" data-col="description"></span>
+    <span class="project-cell is-numeric" data-col="qty">${totalQuantity}</span>
+    <span class="project-cell" data-col="material"></span>
+    <span class="project-cell is-numeric" data-col="thickness"></span>
+    <span class="project-cell is-numeric" data-col="area">${totalArea.toFixed(3)} м²</span>
+    <span class="project-cell is-numeric" data-col="mass">${totalMass.toFixed(2)} ${t('kg')}</span>
+    <span class="project-cell" data-col="comments"></span>
+    <span class="project-cell" data-col="actions"></span>
+    `;
+
+    applyProjectColumns();
+
+    const materialEntries =
+    Object.values(materialTotals);
+
+    materialSummary.style.display =
+    materialEntries.length
+    ?
+    'block'
+    :
+    'none';
+
+    const materialRows =
+    materialEntries
+    .map(
+    (total,index)=>
+    `
+    <div class="material-summary-row">
+    <span class="project-cell is-numeric" data-col="no">${index + 1}</span>
+    <span class="project-cell" data-col="name"></span>
+    <span class="project-cell" data-col="dimensions"></span>
+    <span class="project-cell" data-col="description"></span>
+    <span class="project-cell is-numeric" data-col="qty">${total.quantity}</span>
+    <strong class="project-cell" data-col="material">${escapeHtml(total.material)}</strong>
+    <span class="project-cell is-numeric" data-col="thickness">${escapeHtml(total.thickness)}</span>
+    <span class="project-cell is-numeric" data-col="area">${total.area.toFixed(3)} м²</span>
+    <span class="project-cell is-numeric" data-col="mass">${total.mass.toFixed(2)} кг</span>
+    <span class="project-cell" data-col="comments"></span>
+    <span class="project-cell" data-col="actions"></span>
+    </div>
+    `
+    )
+    .join('');
+
+    const materialSummaryTotalRow =
+    `
+    <div class="material-summary-row material-summary-total">
+    <span class="project-cell is-numeric" data-col="no"></span>
+    <span class="project-cell" data-col="name">${t('totalRow')}</span>
+    <span class="project-cell" data-col="dimensions"></span>
+    <span class="project-cell" data-col="description"></span>
+    <span class="project-cell is-numeric" data-col="qty">${totalQuantity}</span>
+    <strong class="project-cell" data-col="material">${t('materialKinds')}: ${materialEntries.length}</strong>
+    <span class="project-cell is-numeric" data-col="thickness"></span>
+    <span class="project-cell is-numeric" data-col="area">${totalArea.toFixed(3)} м²</span>
+    <span class="project-cell is-numeric" data-col="mass">${totalMass.toFixed(2)} ${t('kg')}</span>
+    <span class="project-cell" data-col="comments"></span>
+    <span class="project-cell" data-col="actions"></span>
+    </div>
+    `;
+
+    materialSummaryRows.innerHTML =
+    materialRows +
+    materialSummaryTotalRow;
+
+    applyProjectColumns();
+    resizeProjectComments();
+    syncFloatingProjectHeader();
+
+    if(shouldAutoFitProjectColumnsOnLoad){
+        shouldAutoFitProjectColumnsOnLoad=false;
+        setTimeout(
+        autoFitProjectColumns,
+        0
+        );
+    }
+
+}
+
+function addProjectItem(item){
+
+    const normalizedItem = {
+        name:item.name || t('product'),
+        size:item.size || '',
+        quantity:item.quantity || 1,
+        material:item.material || '',
+        productType:item.productType || null,
+        dimensions:item.dimensions || null,
+        materialCode:item.materialCode || null,
+        thickness:item.thickness || null,
+        connectors:item.connectors || null,
+        connection1TypeCode:item.connection1TypeCode || null,
+        connection2TypeCode:item.connection2TypeCode || null,
+        connectionCode:item.connectionCode || null,
+        connectionTypeCode:item.connectionTypeCode || null,
+        holes:item.holes || null,
+        comment:item.comment || '',
+        area:Number(item.area) || 0,
+        mass:Number(item.mass) || 0,
+        _projectOrder:Number.isFinite(Number(item._projectOrder))
+        ?
+        Number(item._projectOrder)
+        :
+        nextProjectItemOrder()
+    };
+
+    const editIndex =
+    Number(item.editIndex);
+
+    const isEdit =
+    Number.isInteger(editIndex)
+    &&
+    editIndex >= 0
+    &&
+    editIndex < projectItems.length;
+
+    if(
+    isEdit
+    ){
+        normalizedItem.comment =
+        projectItems[editIndex].comment || normalizedItem.comment;
+
+        normalizedItem._projectOrder =
+        Number.isFinite(Number(projectItems[editIndex]._projectOrder))
+        ?
+        Number(projectItems[editIndex]._projectOrder)
+        :
+        editIndex;
+
+        projectItems[editIndex] =
+        normalizedItem;
+    }
+    else{
+        projectItems.push(normalizedItem);
+    }
+
+    saveProjectItems();
+    renderProject();
+
+    if(isEdit){
+        showAtlasCatalog();
+
+        layoutMode =
+        window.innerWidth <= 900
+        ?
+        1
+        :
+        0;
+
+        updateLayout();
+        return;
+    }
+
+    layoutMode =
+    window.innerWidth <= 900
+    ?
+    2
+    :
+    0;
+    updateLayout();
+
+}
+
+function renderPositionVisual(dimensions){
+    const A =
+    escapeHtml(dimensions.A || '');
+
+    const B =
+    escapeHtml(dimensions.B || '');
+
+    const C =
+    escapeHtml(dimensions.C || dimensions.L || '');
+
+    return `
+    <svg viewBox="0 0 420 280" aria-hidden="true">
+    <defs>
+    <marker id="arrowHead" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+    <path d="M0,0 L6,3 L0,6 Z" fill="#1d4ed8"></path>
+    </marker>
+    </defs>
+    <polygon points="115,92 250,70 338,112 199,136" fill="#8f8f8f"></polygon>
+    <polygon points="115,92 199,136 199,210 115,168" fill="#bcbcbc"></polygon>
+    <polygon points="199,136 338,112 338,184 199,210" fill="#c8c8c8"></polygon>
+    <polygon points="115,168 199,210 338,184 248,222" fill="#8a8a8a"></polygon>
+    <polyline points="115,92 250,70 338,112 338,184 248,222 115,168 115,92" fill="none" stroke="#666" stroke-width="1"></polyline>
+    <line x1="105" y1="184" x2="242" y2="238" stroke="#1d4ed8" stroke-width="1.5" marker-start="url(#arrowHead)" marker-end="url(#arrowHead)"></line>
+    <text x="165" y="244" fill="#1d4ed8" font-size="14">C ${C}</text>
+    <line x1="348" y1="112" x2="348" y2="184" stroke="#1d4ed8" stroke-width="1.5" marker-start="url(#arrowHead)" marker-end="url(#arrowHead)"></line>
+    <text x="356" y="152" fill="#1d4ed8" font-size="14">A ${A}</text>
+    <line x1="199" y1="222" x2="338" y2="196" stroke="#1d4ed8" stroke-width="1.5" marker-start="url(#arrowHead)" marker-end="url(#arrowHead)"></line>
+    <text x="258" y="218" fill="#1d4ed8" font-size="14">B ${B}</text>
+    </svg>
+    `;
+}
+
+function openPositionCard(index){
+    const item =
+    projectItems[index];
+
+    if(!item || !positionModal){
+        return;
+    }
+
+    const dimensions =
+    detectDimensions(item) || {};
+
+    const description =
+    localizedProjectConnections(item, true) || localizedProjectDimensions(item);
+
+    positionCardTitle.textContent =
+    `${t('position')} ${projectItemNumber(item,index)}: ${localizedProjectName(item)}`;
+
+    positionCardVisual.innerHTML =
+    renderPositionVisual(dimensions);
+
+    positionCardTable.innerHTML =
+    `
+    <span>A</span><span>${escapeHtml(dimensions.A || '')} ${t('mm')}</span>
+    <span>B</span><span>${escapeHtml(dimensions.B || '')} ${t('mm')}</span>
+    <span>C</span><span>${escapeHtml(dimensions.C || dimensions.L || '')} ${t('mm')}</span>
+    `;
+
+    positionCardDescription.textContent =
+    description;
+
+    positionModal.classList.add('is-open');
+    positionModal.setAttribute('aria-hidden','false');
+}
+
+function closePositionCard(){
+    if(!positionModal){
+        return;
+    }
+
+    positionModal.classList.remove('is-open');
+    positionModal.setAttribute('aria-hidden','true');
+}
+
+projectRows.addEventListener(
+'click',
+(e)=>{
+
+    const positionButton =
+    e.target.closest('[data-position-index]');
+
+    if(positionButton){
+        openPositionCard(
+        Number(positionButton.dataset.positionIndex)
+        );
+        return;
+    }
+
+    const editButton =
+    e.target.closest('[data-edit-index]');
+
+    if(editButton){
+        openModuleForProjectEdit(
+        Number(editButton.dataset.editIndex)
+        );
+        return;
+    }
+
+    const button =
+    e.target.closest('.project-remove');
+
+    if(!button) return;
+
+    projectItems.splice(
+    Number(button.dataset.index),
+    1
+    );
+
+    saveProjectItems();
+    renderProject();
+
+}
+);
+
+document.querySelector('.table-head').addEventListener(
+'click',
+(event)=>{
+    const button =
+    event.target.closest('[data-clear-project]');
+
+    if(!button || !projectItems.length){
+        return;
+    }
+
+    if(!confirm(`${t('clearProject')}?`)){
+        return;
+    }
+
+    projectItems = [];
+    saveProjectItems();
+    renderProject();
+}
+);
+
+projectColumnControls.addEventListener(
+'click',
+(event)=>{
+    const autoFitButton=
+    event.target.closest('[data-auto-fit-columns]');
+
+    if(autoFitButton){
+        autoFitProjectColumns();
+        return;
+    }
+
+    const resetButton=
+    event.target.closest('[data-reset-columns]');
+
+    if(resetButton){
+        resetProjectColumnView();
+        return;
+    }
+
+    const resetSortButton=
+    event.target.closest('[data-reset-sort]');
+
+    if(resetSortButton){
+        resetProjectSort();
+    }
+}
+);
+
+projectColumnControls.addEventListener(
+'change',
+(event)=>{
+    const sizeLineToggle =
+    event.target.closest('[data-toggle-size-line]');
+
+    if(sizeLineToggle){
+        showProjectSizeLine =
+        sizeLineToggle.checked;
+
+        localStorage.setItem(
+        'calcSquareProjectSizeLine',
+        showProjectSizeLine ? 'visible' : 'hidden'
+        );
+
+        applyProjectSizeLineVisibility();
+        return;
+    }
+
+    const checkbox =
+    event.target.closest('[data-toggle-col]');
+
+    if(!checkbox){
+        return;
+    }
+
+    setProjectColumnHidden(
+    checkbox.dataset.toggleCol,
+    !checkbox.checked
+    );
+}
+);
+
+projectRows.addEventListener(
+'input',
+(event)=>{
+    const textarea =
+    event.target.closest('.project-comment');
+
+    if(!textarea){
+        return;
+    }
+
+    const index =
+    Number(textarea.dataset.commentIndex);
+
+    if(!Number.isInteger(index) || !projectItems[index]){
+        return;
+    }
+
+    projectItems[index].comment =
+    textarea.value;
+
+    resizeProjectComment(textarea);
+    saveProjectItems();
+    syncFloatingProjectHeader();
+}
+);
+
+projectInfoInputs().forEach(
+(input)=>{
+    input.addEventListener(
+    'input',
+    ()=>{
+        if(saveStatus){
+            saveStatus.textContent = '';
+        }
+    }
+    );
+}
+);
+
+btnSave.addEventListener(
+'click',
+saveProject
+);
+
+btnPrint.addEventListener(
+'click',
+()=>{
+    saveProject();
+    window.print();
+}
+);
+
+btnExport.addEventListener(
+'click',
+exportProjectCsv
+);
+
+document.querySelector('.table-head').addEventListener(
+'click',
+(event)=>{
+    const button =
+    event.target.closest('[data-hide-col]');
+
+    if(!button){
+        return;
+    }
+
+    setProjectColumnHidden(
+    button.dataset.hideCol,
+    true
+    );
+}
+);
+
+document.querySelector('.table-head').addEventListener(
+'dblclick',
+(event)=>{
+    const handle =
+    event.target.closest('[data-resize-col]');
+
+    if(!handle){
+        return;
+    }
+
+    event.preventDefault();
+
+    autoFitProjectColumn(
+    handle.dataset.resizeCol
+    );
+}
+);
+
+document.addEventListener(
+'dblclick',
+(event)=>{
+    if(
+    event.target.closest(
+    '.column-resize, .column-hide, button, input, textarea, select'
+    )
+    ){
+        return;
+    }
+
+    const cell =
+    event.target.closest('.table-head .project-cell');
+
+    if(!cell){
+        return;
+    }
+
+    const key =
+    cell.dataset.col;
+
+    if(!key){
+        return;
+    }
+
+    event.preventDefault();
+    sortProjectByColumn(key);
+}
+);
+
+document.querySelector('.table-head').addEventListener(
+'mousedown',
+(event)=>{
+    const handle =
+    event.target.closest('[data-resize-col]');
+
+    if(!handle){
+        return;
+    }
+
+    if(event.detail > 1){
+        return;
+    }
+
+    const key =
+    handle.dataset.resizeCol;
+
+    const column =
+    projectColumnState.find(
+    (item)=>item.key===key
+    );
+
+    if(!column || column.hidden){
+        return;
+    }
+
+    event.preventDefault();
+
+    const startX =
+    event.clientX;
+
+    const startWidth =
+    column.width;
+
+    const onMove =
+    (moveEvent)=>{
+        resizeProjectColumn(
+        key,
+        startWidth + moveEvent.clientX - startX
+        );
+    };
+
+    const onUp =
+    ()=>{
+        document.removeEventListener(
+        'mousemove',
+        onMove
+        );
+
+        document.removeEventListener(
+        'mouseup',
+        onUp
+        );
+    };
+
+    document.addEventListener(
+    'mousemove',
+    onMove
+    );
+
+    document.addEventListener(
+    'mouseup',
+    onUp
+    );
+}
+);
+
+if(positionCardClose){
+    positionCardClose.addEventListener(
+    'click',
+    closePositionCard
+    );
+}
+
+if(positionModal){
+    positionModal.addEventListener(
+    'click',
+    (event)=>{
+        if(event.target === positionModal){
+            closePositionCard();
+        }
+    }
+    );
+}
+
+document.addEventListener(
+'keydown',
+(event)=>{
+    if(event.key === 'Escape'){
+        closePositionCard();
+    }
+}
+);
+
+document.querySelector('.project-table').addEventListener(
+'scroll',
+syncFloatingProjectHeader
+);
+
+window.addEventListener(
+'scroll',
+syncFloatingProjectHeader
+);
+
+window.addEventListener(
+'message',
+(event)=>{
+
+    const data =
+    event.data;
+
+    if(
+    !data
+    ){
+        return;
+    }
+
+    if(
+    data.type === 'calcSquare:showAtlasCatalog'
+    ){
+        showAtlasCatalog();
+
+        layoutMode =
+        window.innerWidth <= 900
+        ?
+        1
+        :
+        0;
+
+        updateLayout();
+
+        return;
+    }
+
+    if(
+    data.type === 'calcSquare:setRole'
+    &&
+    validRoles.includes(data.role)
+    ){
+        setRole(data.role);
+
+        return;
+    }
+
+    if(
+    data.type === 'calcSquare:openModule'
+    &&
+    data.path
+    ){
+        openModule(
+        data.path,
+        data.role,
+        data.lang
+        );
+
+        if(
+        window.innerWidth <= 900
+        ){
+            layoutMode = 1;
+        }
+
+        updateLayout();
+
+        return;
+    }
+
+    if(
+    data.type === 'calcSquare:resizeModule'
+    ){
+        resizeOpenModuleFrames(
+        data.height
+        );
+
+        return;
+    }
+
+    if(
+    data.type !== 'calcSquare:addProjectItem'
+    ){
+        return;
+    }
+
+    addProjectItem(data.item || {});
+
+}
+);
+
+applyProjectSizeLineVisibility();
+applyProjectMeta();
+renderProject();
+
+
+function applyRole(){
+
+    const rules =
+    roleRules();
+
+    document.body.classList.toggle(
+    'role-guest',
+    !rules.project
+    );
+
+    heroSection.style.display =
+    !rules.project
+    ?
+    ''
+    :
+    'none';
+
+    menuProject.style.display =
+    rules.project
+    ?
+    ''
+    :
+    'none';
+
+    menuAtlas.style.display =
+    '';
+
+    loginButton.textContent =
+    !rules.project
+    ?
+    t('login')
+    :
+    t('cabinet');
+
+    btnSave.style.display =
+    rules.save
+    ?
+    ''
+    :
+    'none';
+
+    btnPrint.style.display =
+    rules.print
+    ?
+    ''
+    :
+    'none';
+
+    btnExport.style.display =
+    rules.export
+    ?
+    ''
+    :
+    'none';
+    roleChoices.forEach(
+    (button)=>{
+
+        button.classList.toggle(
+        'active',
+        button.dataset.role === userRole
+        );
+
+    }
+    );
+
+    updateLayout();
+
+}
+
+function setRole(role){
+
+    const previousRole =
+    userRole;
+
+    userRole = role;
+
+    localStorage.setItem(
+    'calcSquareRole',
+    role
+    );
+
+    applyRole();
+
+    if(
+    previousRole !== role
+    &&
+    currentModulePath
+    ){
+        openModule(currentModulePath);
+    }
+
+    loginModal.style.display = 'none';
+    document.body.classList.remove('login-open');
+
+}
+
+loginAction.addEventListener(
+'click',
+()=>{
+    setRole('client');
+}
+);
+
+guestAction.addEventListener(
+'click',
+()=>{
+    setRole('guest');
+}
+);
+
+roleChoices.forEach(
+(button)=>{
+
+    button.addEventListener(
+    'click',
+    ()=>{
+        setRole(button.dataset.role);
+    }
+    );
+
+}
+);
+
+if(languageSelect){
+
+    languageSelect.value=currentLang();
+
+    languageSelect.addEventListener(
+    'change',
+    ()=>{
+        localStorage.setItem(
+        'calcSquareLang',
+        languageSelect.value
+        );
+
+        applyLanguage();
+    }
+    );
+
+}
+
+function refreshOpenModuleLanguage(){
+
+    document.querySelectorAll('iframe').forEach(
+    (frame)=>{
+
+        let href=
+        frame.getAttribute('src') || '';
+
+        try{
+            href=frame.contentWindow.location.href || href;
+        }
+        catch(e){}
+
+        if(
+        !href ||
+        (
+        !href.includes('module.html')
+        &&
+        !href.includes('atlas.html')
+        )
+        ){
+            return;
+        }
+
+        const url=
+        new URL(
+        href,
+        window.location.href
+        );
+
+        url.searchParams.set('lang', currentLang());
+        url.searchParams.set('role', userRole);
+        url.searchParams.set('v', Date.now());
+
+        frame.src=url.href;
+
+    }
+    );
+
+}
+
+const savedWidth =
+localStorage.getItem('projectWidth');
+
+if(savedWidth){
+
+leftPanel.style.width =
+savedWidth + '%';
+
+rightPanel.style.width =
+(100 - savedWidth) + '%';
+
+}
+
+let isResizing = false;
+let layoutMode = 0;
+
+applyLanguage();
+
+function setActiveMenu(activeLayout){
+
+    menuProject.classList.toggle(
+    'active-section',
+    activeLayout === 2
+    );
+
+    menuAtlas.classList.toggle(
+    'active-section',
+    activeLayout === 1
+    );
+
+}
+
+menuProject.addEventListener(
+'click',
+(e)=>{
+
+    e.preventDefault();
+
+    layoutMode = 2;
+
+    updateLayout();
+
+}
+);
+
+menuAtlas.addEventListener(
+'click',
+(e)=>{
+
+    e.preventDefault();
+
+    showAtlasCatalog();
+
+    layoutMode =
+    window.innerWidth <= 900
+    ?
+    1
+    :
+    0;
+
+    updateLayout();
+
+}
+);
+
+projectTab.addEventListener(
+'click',
+()=>{
+
+    if(layoutMode === 2){
+
+        layoutMode = 0;
+
+    }else{
+
+        layoutMode = 2;
+
+    }
+
+    updateLayout();
+
+}
+);
+
+atlasTab.addEventListener(
+'click',
+()=>{
+
+    if(layoutMode === 2){
+
+        layoutMode = 0;
+
+    }else{
+
+        layoutMode = 2;
+
+    }
+
+    updateLayout();
+
+}
+);
+
+resizer.addEventListener(
+'mousedown',
+()=>{
+
+isResizing = true;
+
+}
+);
+
+document.addEventListener(
+'mousemove',
+(e)=>{
+
+if(!isResizing) return;
+
+const container =
+document.querySelector('.workspace-layout');
+
+const rect =
+container.getBoundingClientRect();
+
+let leftWidth =
+e.clientX - rect.left;
+
+const percent =
+(leftWidth / rect.width) * 100;
+
+if(percent < 20) return;
+if(percent > 80) return;
+
+leftPanel.style.width =
+percent + '%';
+
+rightPanel.style.width =
+(100 - percent) + '%';
+
+localStorage.setItem(
+'projectWidth',
+percent
+);
+
+updateCalculatorScrollState();
+
+}
+);
+
+document.addEventListener(
+'mouseup',
+()=>{
+
+isResizing = false;
+
+}
+);
+
+
+function updateLayout(){
+
+const isMobile =
+window.innerWidth <= 900;
+
+const activeLayout =
+isMobile && layoutMode === 0
+?
+2
+:
+layoutMode;
+
+if(!roleRules().project){
+
+menuProject.style.display = 'none';
+menuAtlas.style.display = '';
+
+leftPanel.style.display = 'none';
+
+rightPanel.style.display = 'block';
+
+rightPanel.style.width = '100%';
+
+resizer.style.display = 'none';
+
+projectTab.style.display = 'none';
+
+atlasTab.style.display = 'none';
+
+resizeAtlasFrame();
+updateCalculatorScrollState();
+
+return;
+
+}
+
+if(isMobile){
+
+    resizer.style.display = 'none';
+
+}
+
+switch(activeLayout){
+
+
+
+        case 0:
+    leftPanel.style.display = 'block';
+    rightPanel.style.display = 'block';
+
+    const saved =
+    localStorage.getItem('projectWidth') || 60;
+
+    leftPanel.style.width =
+    saved + '%';
+
+    rightPanel.style.width =
+    (100 - saved) + '%';
+
+    resizer.style.display = 'flex';
+
+    projectTab.style.display = 'none';
+    atlasTab.style.display = 'none';
+
+    break;
+
+case 1:
+
+    leftPanel.style.display = 'none';
+    rightPanel.style.display = 'block';
+
+    rightPanel.style.width = '100%';
+
+    resizer.style.display = 'none';
+
+    projectTab.style.display = 'flex';
+    atlasTab.style.display = 'none';
+
+    break;
+case 2:
+
+    leftPanel.style.display = 'block';
+    rightPanel.style.display = 'none';
+
+    leftPanel.style.width = '100%';
+    rightPanel.style.width = '0%';
+
+    resizer.style.display = 'none';
+
+    projectTab.style.display = 'none';
+    atlasTab.style.display = 'flex';
+
+    break;
+    }
+
+if(isMobile){
+
+    resizer.style.display = 'none';
+    projectTab.style.display = 'none';
+    atlasTab.style.display = 'none';
+
+}
+
+setActiveMenu(activeLayout);
+
+resizeAtlasFrame();
+updateCalculatorScrollState();
+
+}
+
+window.addEventListener(
+'resize',
+updateLayout
+);
+
+window.addEventListener(
+'resize',
+syncFloatingProjectHeader
+);
+
+window.addEventListener(
+'resize',
+updateCalculatorScrollState
+);
+
+resizer.addEventListener(
+'dblclick',
+()=>{
+
+    layoutMode++;
+
+    if(layoutMode > 2){
+        layoutMode = 0;
+    }
+
+    updateLayout();
+
+}
+);
+
+document.addEventListener(
+'keydown',
+(e)=>{
+
+    if(e.key === 'Escape'){
+
+        layoutMode = 0;
+
+        updateLayout();
+
+    }
+
+}
+);
+
+</script>
+
+<div class="build-marker">build 2026-06-12-1626</div>
+
+</body>
+
+
+</html>

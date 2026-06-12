@@ -1,0 +1,14 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 210">
+  <rect width="320" height="210" rx="10" fill="#f7f7f7"/>
+  <g stroke="#6b7280" stroke-width="2" fill="none" opacity="0.9">
+    <path d="M80 130 L190 155 L250 115 L140 90 Z" fill="#c9c9c9"/>
+    <path d="M140 90 L250 115 L250 65 L140 40 Z" fill="#8f8f8f"/>
+    <path d="M80 130 L140 90 L140 40 L80 80 Z" fill="#b9b9b9"/>
+  </g>
+  <g stroke="#2563eb" stroke-width="2" fill="none">
+    <line x1="80" y1="155" x2="190" y2="180"/>
+    <line x1="260" y1="118" x2="260" y2="65"/>
+    <line x1="75" y1="135" x2="75" y2="82"/>
+  </g>
+  <text x="160" y="32" text-anchor="middle" font-size="16" font-family="Arial" font-weight="700" fill="#4b5563">Ниппель круглый</text>
+</svg>
