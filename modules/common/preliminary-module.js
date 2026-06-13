@@ -1,5 +1,15 @@
 (() => {
   const config = window.CALC_MODULE || {};
+  if (!document.getElementById("calc-font-exo2")) {
+    const fontLink = document.createElement("link");
+    fontLink.id = "calc-font-exo2";
+    fontLink.rel = "stylesheet";
+    fontLink.href = "https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&display=swap";
+    document.head.appendChild(fontLink);
+    const fontStyle = document.createElement("style");
+    fontStyle.textContent = "body,body *{font-family:'Exo 2',Arial,sans-serif}";
+    document.head.appendChild(fontStyle);
+  }
   const params = new URLSearchParams(window.location.search);
   const allowedRoles = new Set(["guest", "user", "client", "admin"]);
   const role = allowedRoles.has(params.get("role")) ? params.get("role") : "guest";
@@ -77,6 +87,64 @@
   };
 
   const t = labels[lang] || labels.ru;
+
+  const titleDict = {
+    "Воздуховод": { uk: "Повітропровід", en: "Duct" },
+    "Отвод": { uk: "Відвід", en: "Elbow" },
+    "Переход": { uk: "Перехід", en: "Transition" },
+    "Переход со смещением": { uk: "Перехід зі зміщенням", en: "Offset transition" },
+    "Переход круг→прямоугольный": { uk: "Перехід круг→прямокутний", en: "Round→rectangular transition" },
+    "Тройник": { uk: "Трійник", en: "Tee" },
+    "Заглушка": { uk: "Заглушка", en: "Cap" },
+    "Крестовина": { uk: "Хрестовина", en: "Cross" },
+    "Утка": { uk: "Качка", en: "Duck" },
+    "Зонт": { uk: "Парасолька", en: "Umbrella" },
+    "Дроссель-клапан": { uk: "Дросель-клапан", en: "Damper" },
+    "Шумоглушитель": { uk: "Шумоглушник", en: "Silencer" },
+    "Ниппель": { uk: "Ніпель", en: "Nipple" },
+    "Фланец": { uk: "Фланець", en: "Flange" },
+    "Муфта": { uk: "Муфта", en: "Coupling" },
+    "Дефлектор": { uk: "Дефлектор", en: "Deflector" },
+    "Обратный клапан": { uk: "Зворотний клапан", en: "Check valve" },
+    "Врезка": { uk: "Врізка", en: "Inset" }
+  };
+  const labelDict = {
+    "A - Ширина": { uk: "A - Ширина", en: "A - Width" },
+    "A - Ширина 1": { uk: "A - Ширина 1", en: "A - Width 1" },
+    "A1 - Ширина 2": { uk: "A1 - Ширина 2", en: "A1 - Width 2" },
+    "B - Высота": { uk: "B - Висота", en: "B - Height" },
+    "B - Высота 1": { uk: "B - Висота 1", en: "B - Height 1" },
+    "B1 - Высота 2": { uk: "B1 - Висота 2", en: "B1 - Height 2" },
+    "B - Глубина": { uk: "B - Глибина", en: "B - Depth" },
+    "C - Борт": { uk: "C - Борт", en: "C - Lip" },
+    "C - Длина": { uk: "C - Довжина", en: "C - Length" },
+    "C - Длина основы": { uk: "C - Довжина основи", en: "C - Base length" },
+    "D - Диаметр": { uk: "D - Діаметр", en: "D - Diameter" },
+    "D - Диаметр врезки": { uk: "D - Діаметр врізки", en: "D - Inset diameter" },
+    "D - Основной диаметр": { uk: "D - Основний діаметр", en: "D - Main diameter" },
+    "D1 - Диаметр 1": { uk: "D1 - Діаметр 1", en: "D1 - Diameter 1" },
+    "D1 - Диаметр врезки": { uk: "D1 - Діаметр врізки", en: "D1 - Inset diameter" },
+    "D1 - Диаметр ответвлений": { uk: "D1 - Діаметр відгалужень", en: "D1 - Branch diameter" },
+    "D2 - Диаметр 2": { uk: "D2 - Діаметр 2", en: "D2 - Diameter 2" },
+    "H - Высота врезки": { uk: "H - Висота врізки", en: "H - Inset height" },
+    "H - Высота ответвления": { uk: "H - Висота відгалуження", en: "H - Branch height" },
+    "L - Длина": { uk: "L - Довжина", en: "L - Length" },
+    "R - Радиус": { uk: "R - Радіус", en: "R - Radius" },
+    "Смещение": { uk: "Зміщення", en: "Offset" },
+    "Угол, град.": { uk: "Кут, град.", en: "Angle, deg." }
+  };
+  const materialDict = {
+    "Оцинкованная сталь": { uk: "Оцинкована сталь", en: "Galvanized steel" },
+    "Нержавеющая сталь 430 техническая": { uk: "Нержавіюча сталь 430 технічна", en: "Stainless steel 430 technical" },
+    "Нержавеющая сталь 304 пищевая": { uk: "Нержавіюча сталь 304 харчова", en: "Stainless steel 304 food grade" }
+  };
+  function trBy(dict, value) {
+    const entry = dict[value];
+    return (entry && entry[lang]) || value;
+  }
+  const tTitle = (value) => trBy(titleDict, value);
+  const tLabel = (value) => trBy(labelDict, value);
+  const tMaterial = (value) => trBy(materialDict, value);
   const nf = (value, digits = 3) => Number(value || 0).toFixed(digits);
   const byId = (id) => document.getElementById(id);
 
@@ -132,7 +200,7 @@
       const values = hasDefault ? options : [selectedValue, ...options].filter((value, index, array) => array.indexOf(value) === index);
       return `
         <label>
-          ${field.label}
+          ${tLabel(field.label)}
           <select id="field-${field.key}">
             ${values.map((value) => `<option value="${value}" ${selectedValue === value ? "selected" : ""}>${value}</option>`).join("")}
           </select>
@@ -141,7 +209,7 @@
     }
     return `
       <label>
-        ${field.label}
+        ${tLabel(field.label)}
         <input id="field-${field.key}" type="number" min="0" step="${field.step || 1}" value="${selectedValue || 0}">
       </label>
     `;
@@ -219,6 +287,11 @@
         formula = "S = (A × B + 2 × C × (A + B) + C²) × Q";
         substitution = `(${values.A} × ${values.B} + 2 × ${values.C} × (${values.A} + ${values.B}) + ${values.C}²) × ${q}`;
         break;
+      case "combined-round-to-rectangular":
+        mm2 = ((values.D / 2 + values.A) * values.L + (values.D / 2 + values.B) * values.L) * 1.15 * q;
+        formula = "S = ((D/2 + A) × L + (D/2 + B) × L) × 1.15 × Q";
+        substitution = `((${values.D}/2 + ${values.A}) × ${values.L} + (${values.D}/2 + ${values.B}) × ${values.L}) × 1.15 × ${q}`;
+        break;
       default:
         mm2 = Math.PI * (values.D || 200) * (values.C || 500) * q;
         formula = "S = π × D × C × Q";
@@ -292,7 +365,7 @@
           <a href="../../../assets/atlas/atlas.html" style="color:#1455ff;text-decoration:none;font-weight:700;font-size:15px">${t.atlas || "← Атлас"}</a>
           <a href="../../../assets/atlas/atlas.html?cat=${catCode}" style="color:#1455ff;text-decoration:none;font-weight:700;font-size:15px">${catName} →</a>
         </div>
-        <h1>${config.title || "Калькулятор"}</h1>
+        <h1>${tTitle(config.title || "Калькулятор")}</h1>
         <div class="module-layout">
           <section class="preview-panel">
             <object class="preview" type="image/svg+xml" data="preview.svg"></object>
@@ -315,7 +388,7 @@
             <label>
               ${t.material}
               <select id="material">
-                ${materials.map((item) => `<option value="${item.key}" ${item.key === initialText("materialCode", initialText("material", materials[0].key)) ? "selected" : ""}>${item.label}</option>`).join("")}
+                ${materials.map((item) => `<option value="${item.key}" ${item.key === initialText("materialCode", initialText("material", materials[0].key)) ? "selected" : ""}>${tMaterial(item.label)}</option>`).join("")}
               </select>
             </label>
             <label>

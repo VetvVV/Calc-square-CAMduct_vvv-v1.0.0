@@ -5265,7 +5265,17 @@ document.addEventListener(
 
 </script>
 
-<div class="build-marker">build 2026-06-13-1751</div>
+<div class="build-marker">build 2026-06-13-2309</div>
+<script>
+(function(){
+  var m=document.querySelector('.build-marker');
+  if(!m) return;
+  var d=new Date(document.lastModified);
+  if(isNaN(d.getTime())) return;
+  var p=function(n){return String(n).padStart(2,'0');};
+  m.textContent='build '+d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'-'+p(d.getHours())+p(d.getMinutes());
+})();
+</script>
 
 </body>
 
