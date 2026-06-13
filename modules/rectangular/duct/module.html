@@ -551,8 +551,8 @@ font-weight:700;
   <div class="topbar">
 
 <div style="display:flex;gap:16px;align-items:center">
-<a href="../../../assets/atlas/atlas.html" class="back">← Каталог</a>
-<a href="../../../assets/atlas/atlas.html?cat=rectangular" class="back">Прямоугольные →</a>
+<a href="../../../assets/atlas/atlas.html" class="back" id="navBack">← Каталог</a>
+<a href="../../../assets/atlas/atlas.html?cat=rectangular" class="back" id="navCat">Прямоугольные →</a>
 </div>
 
 <div class="brand">
@@ -905,6 +905,8 @@ updatePreviewSvg();
 const i18n={
 uk:{
 catalog:'← Каталог',
+navBack:'← Атлас',
+navCat:'Прямокутні →',
 title:'Повітропровід',
 width:'A - Ширина',
 height:'B - Висота',
@@ -982,6 +984,8 @@ kg:'кг'
 },
 ru:{
 catalog:'← Каталог',
+navBack:'← Атлас',
+navCat:'Прямоугольные →',
 title:'Воздуховод',
 width:'A - Ширина',
 height:'B - Высота',
@@ -1059,6 +1063,8 @@ kg:'кг'
 },
 en:{
 catalog:'← Catalog',
+navBack:'← Atlas',
+navCat:'Rectangular →',
 title:'Duct',
 width:'A - Width',
 height:'B - Height',
@@ -2203,7 +2209,10 @@ document.body.scrollHeight
 function applyStaticLanguage(){
 document.documentElement.lang=moduleLang();
 
-document.querySelector(".back").textContent=tr("catalog");
+const navBackEl=document.getElementById("navBack");
+if(navBackEl) navBackEl.textContent=tr("navBack");
+const navCatEl=document.getElementById("navCat");
+if(navCatEl) navCatEl.textContent=tr("navCat");
 document.querySelector("h2").textContent=tr("title");
 document.getElementById("previewImage").alt=tr("preview");
 
