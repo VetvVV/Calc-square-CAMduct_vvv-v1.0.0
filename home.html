@@ -1439,6 +1439,7 @@ placeholder="Об'єкт">
 
 <button id="btnPrint">Друк</button>
 <button id="btnExport">Експорт</button>
+<button id="btnXlsx" type="button">Excel</button>
 <button id="btnSaveFile" type="button">Зберегти у файл</button>
 <button id="btnOpen" type="button">Відкрити</button>
 <button id="btnSave" class="icon-button save-icon" type="button" aria-label="Зберегти" title="Зберегти"></button>
@@ -2165,6 +2166,9 @@ document.getElementById('btnSaveFile');
 const btnOpen =
 document.getElementById('btnOpen');
 
+const btnXlsx =
+document.getElementById('btnXlsx');
+
 const saveStatus =
 document.getElementById('saveStatus');
 
@@ -2216,6 +2220,8 @@ saved:'Збережено',
 exported:'Експортовано',
 print:'Друк',
 export:'Експорт',
+excel:'Excel',
+xlsxError:'Не вдалося завантажити модуль Excel (потрібен інтернет)',
 saveFile:'Зберегти у файл',
 openProject:'Відкрити',
 openError:'Не вдалося відкрити файл проекту',
@@ -2284,6 +2290,8 @@ saved:'Сохранено',
 exported:'Экспортировано',
 print:'Печать',
 export:'Экспорт',
+excel:'Excel',
+xlsxError:'Не удалось загрузить модуль Excel (нужен интернет)',
 saveFile:'Сохранить в файл',
 openProject:'Открыть',
 openError:'Не удалось открыть файл проекта',
@@ -2352,6 +2360,8 @@ saved:'Saved',
 exported:'Exported',
 print:'Print',
 export:'Export',
+excel:'Excel',
+xlsxError:'Could not load the Excel module (internet required)',
 saveFile:'Save to file',
 openProject:'Open',
 openError:'Could not open project file',
@@ -3255,6 +3265,7 @@ function applyLanguage(){
     btnExport.textContent=t('export');
     if(btnSaveFile) btnSaveFile.textContent=t('saveFile');
     if(btnOpen) btnOpen.textContent=t('openProject');
+    if(btnXlsx) btnXlsx.textContent=t('excel');
 
     const clearProjectButtons =
     document.querySelectorAll('[data-clear-project]');
@@ -4290,7 +4301,7 @@ btnSave.addEventListener(
 saveProject
 );
 
-function saveProjectToFile(){
+async function saveProjectToFile(){
     saveProject();
     const data = {
         format:'calc-square-project',
@@ -4298,13 +4309,32 @@ function saveProjectToFile(){
         meta: projectMeta,
         items: projectItems
     };
-    const blob = new Blob(
-        [JSON.stringify(data, null, 2)],
-        { type:'application/json' }
-    );
+    const json = JSON.stringify(data, null, 2);
+    const date = new Date().toISOString().slice(0,10);
+    const suggestedName = `${projectFileBaseName()}_${date}.json`;
+
+    if(window.showSaveFilePicker){
+        try{
+            const handle = await window.showSaveFilePicker({
+                suggestedName,
+                types:[{
+                    description:'Calc Square project',
+                    accept:{ 'application/json':['.json'] }
+                }]
+            });
+            const writable = await handle.createWritable();
+            await writable.write(json);
+            await writable.close();
+            return;
+        }catch(error){
+            if(error && error.name === 'AbortError'){ return; }
+        }
+    }
+
+    const blob = new Blob([json], { type:'application/json' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = `${projectFileBaseName()}.json`;
+    link.download = suggestedName;
     document.body.appendChild(link);
     link.click();
     link.remove();
@@ -4348,6 +4378,113 @@ if(btnSaveFile){
 }
 if(btnOpen){
     btnOpen.addEventListener('click', openProjectFile);
+}
+
+function loadSheetJs(callback){
+    if(window.XLSX){ callback(); return; }
+    const script = document.createElement('script');
+    script.src = 'https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js';
+    script.onload = ()=>callback();
+    script.onerror = ()=>alert(t('xlsxError') || 'Excel module load error');
+    document.head.appendChild(script);
+}
+
+function buildProjectAoa(){
+    const rows = [];
+
+    rows.push([t('projectTitle')]);
+    rows.push([t('projectName'), projectMeta.projectName || '']);
+    rows.push([t('customer'), projectMeta.customer || '']);
+    rows.push([t('object'), projectMeta.object || '']);
+    rows.push([]);
+    rows.push([
+        '№', t('name'), t('dimensions'), t('description'),
+        t('qty'), t('material'), t('thicknessShort'),
+        t('area'), t('mass'), t('comments')
+    ]);
+
+    let totalQuantity = 0, totalArea = 0, totalMass = 0;
+
+    projectItems.forEach((item,index)=>{
+        const quantity = Number(item.quantity) || 0;
+        const area = Number(item.area) || 0;
+        const mass = Number(item.mass) || 0;
+        totalQuantity += quantity;
+        totalArea += area;
+        totalMass += mass;
+        rows.push([
+            index + 1,
+            localizedProjectName(item),
+            localizedProjectDimensions(item),
+            localizedProjectDescription(item),
+            quantity,
+            localizedProjectMaterialName(item),
+            detectThickness(item),
+            Number(area.toFixed(3)),
+            Number(mass.toFixed(2)),
+            item.comment || ''
+        ]);
+    });
+
+    rows.push([
+        '', t('totalRow'), '', '',
+        totalQuantity, '', '',
+        Number(totalArea.toFixed(3)),
+        Number(totalMass.toFixed(2)), ''
+    ]);
+
+    const materialTotals = buildMaterialTotals();
+    if(materialTotals.length){
+        rows.push([]);
+        rows.push([t('materialSummary')]);
+        rows.push(['№', t('qty'), t('material'), t('thicknessShort'), t('area'), t('mass')]);
+        materialTotals.forEach((total,index)=>{
+            rows.push([
+                index + 1,
+                total.quantity,
+                total.material,
+                total.thickness,
+                Number(total.area.toFixed(3)),
+                Number(total.mass.toFixed(2))
+            ]);
+        });
+        rows.push([
+            '',
+            totalQuantity,
+            `${t('materialKinds')}: ${materialTotals.length}`,
+            '',
+            Number(totalArea.toFixed(3)),
+            Number(totalMass.toFixed(2))
+        ]);
+    }
+
+    return rows;
+}
+
+function exportProjectXlsx(){
+    saveProject();
+    loadSheetJs(()=>{
+        try{
+            const aoa = buildProjectAoa();
+            const ws = XLSX.utils.aoa_to_sheet(aoa);
+            ws['!cols'] = [
+                {wch:5},{wch:28},{wch:18},{wch:28},{wch:8},
+                {wch:24},{wch:9},{wch:10},{wch:10},{wch:26}
+            ];
+            const wb = XLSX.utils.book_new();
+            let sheetName = (projectMeta.projectName || 'Specification')
+                .replace(/[\\\/\?\*\[\]:]+/g,' ').trim().slice(0,28);
+            if(!sheetName){ sheetName = 'Specification'; }
+            XLSX.utils.book_append_sheet(wb, ws, sheetName);
+            XLSX.writeFile(wb, `${projectFileBaseName()}.xlsx`);
+        }catch(error){
+            alert(t('xlsxError') || 'Excel export error');
+        }
+    });
+}
+
+if(btnXlsx){
+    btnXlsx.addEventListener('click', exportProjectXlsx);
 }
 
 btnPrint.addEventListener(
@@ -4680,6 +4817,9 @@ function applyRole(){
     }
     if(btnOpen){
         btnOpen.style.display = rules.export ? '' : 'none';
+    }
+    if(btnXlsx){
+        btnXlsx.style.display = rules.export ? '' : 'none';
     }
     roleChoices.forEach(
     (button)=>{
@@ -5125,7 +5265,7 @@ document.addEventListener(
 
 </script>
 
-<div class="build-marker">build 2026-06-13-1304</div>
+<div class="build-marker">build 2026-06-13-1722</div>
 
 </body>
 
