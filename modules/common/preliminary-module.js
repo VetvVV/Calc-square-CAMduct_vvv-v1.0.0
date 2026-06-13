@@ -18,6 +18,10 @@
 
   const labels = {
     ru: {
+      atlas: "← Атлас",
+      catRound: "Круглые",
+      catRect: "Прямоугольные",
+      catComb: "Комбинированные",
       material: "Материал",
       thickness: "Толщина",
       qty: "Количество",
@@ -33,6 +37,10 @@
       m2: "м²"
     },
     uk: {
+      atlas: "← Атлас",
+      catRound: "Круглі",
+      catRect: "Прямокутні",
+      catComb: "Комбіновані",
       material: "Матеріал",
       thickness: "Товщина",
       qty: "Кількість",
@@ -48,6 +56,10 @@
       m2: "м²"
     },
     en: {
+      atlas: "← Atlas",
+      catRound: "Round",
+      catRect: "Rectangular",
+      catComb: "Combined",
       material: "Material",
       thickness: "Thickness",
       qty: "Quantity",
@@ -92,6 +104,9 @@
   };
 
   function fieldOptions(field) {
+    if (field.manual) {
+      return null;
+    }
     if (Array.isArray(field.options) && field.options.length) {
       return field.options;
     }
@@ -200,9 +215,9 @@
         break;
       }
       case "rectangular-cap":
-        mm2 = values.A * values.B * q;
-        formula = "S = A × B × Q";
-        substitution = `${values.A} × ${values.B} × ${q}`;
+        mm2 = (values.A * values.B + 2 * values.C * (values.A + values.B) + values.C * values.C) * q;
+        formula = "S = (A × B + 2 × C × (A + B) + C²) × Q";
+        substitution = `(${values.A} × ${values.B} + 2 × ${values.C} × (${values.A} + ${values.B}) + ${values.C}²) × ${q}`;
         break;
       default:
         mm2 = Math.PI * (values.D || 200) * (values.C || 500) * q;
@@ -269,8 +284,14 @@
   function render() {
     document.documentElement.lang = lang;
     document.title = config.title || "Calc Square";
+    const catCode = location.pathname.indexOf('/rectangular/') > -1 ? 'rectangular' : location.pathname.indexOf('/combined/') > -1 ? 'combined' : 'round';
+    const catName = catCode === 'rectangular' ? t.catRect : catCode === 'combined' ? t.catComb : t.catRound;
     document.body.innerHTML = `
       <main class="module-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px">
+          <a href="../../../assets/atlas/atlas.html" style="color:#1455ff;text-decoration:none;font-weight:700;font-size:15px">${t.atlas || "← Атлас"}</a>
+          <a href="../../../assets/atlas/atlas.html?cat=${catCode}" style="color:#1455ff;text-decoration:none;font-weight:700;font-size:15px">${catName} →</a>
+        </div>
         <h1>${config.title || "Калькулятор"}</h1>
         <div class="module-layout">
           <section class="preview-panel">

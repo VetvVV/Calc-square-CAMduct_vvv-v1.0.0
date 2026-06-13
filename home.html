@@ -1439,6 +1439,8 @@ placeholder="Об'єкт">
 
 <button id="btnPrint">Друк</button>
 <button id="btnExport">Експорт</button>
+<button id="btnSaveFile" type="button">Зберегти у файл</button>
+<button id="btnOpen" type="button">Відкрити</button>
 <button id="btnSave" class="icon-button save-icon" type="button" aria-label="Зберегти" title="Зберегти"></button>
 <span class="save-status" id="saveStatus" aria-live="polite"></span>
 
@@ -2157,6 +2159,12 @@ document.getElementById('btnPrint');
 const btnExport =
 document.getElementById('btnExport');
 
+const btnSaveFile =
+document.getElementById('btnSaveFile');
+
+const btnOpen =
+document.getElementById('btnOpen');
+
 const saveStatus =
 document.getElementById('saveStatus');
 
@@ -2208,6 +2216,9 @@ saved:'Збережено',
 exported:'Експортовано',
 print:'Друк',
 export:'Експорт',
+saveFile:'Зберегти у файл',
+openProject:'Відкрити',
+openError:'Не вдалося відкрити файл проекту',
 loginTitle:'КАБІНЕТ',
 loginPlaceholder:'Логін',
 password:'Пароль',
@@ -2273,6 +2284,9 @@ saved:'Сохранено',
 exported:'Экспортировано',
 print:'Печать',
 export:'Экспорт',
+saveFile:'Сохранить в файл',
+openProject:'Открыть',
+openError:'Не удалось открыть файл проекта',
 loginTitle:'КАБИНЕТ',
 loginPlaceholder:'Логин',
 password:'Пароль',
@@ -2338,6 +2352,9 @@ saved:'Saved',
 exported:'Exported',
 print:'Print',
 export:'Export',
+saveFile:'Save to file',
+openProject:'Open',
+openError:'Could not open project file',
 loginTitle:'ACCOUNT',
 loginPlaceholder:'Login',
 password:'Password',
@@ -3236,6 +3253,8 @@ function applyLanguage(){
     btnSave.setAttribute('title', t('save'));
     btnPrint.textContent=t('print');
     btnExport.textContent=t('export');
+    if(btnSaveFile) btnSaveFile.textContent=t('saveFile');
+    if(btnOpen) btnOpen.textContent=t('openProject');
 
     const clearProjectButtons =
     document.querySelectorAll('[data-clear-project]');
@@ -4271,6 +4290,66 @@ btnSave.addEventListener(
 saveProject
 );
 
+function saveProjectToFile(){
+    saveProject();
+    const data = {
+        format:'calc-square-project',
+        version:1,
+        meta: projectMeta,
+        items: projectItems
+    };
+    const blob = new Blob(
+        [JSON.stringify(data, null, 2)],
+        { type:'application/json' }
+    );
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `${projectFileBaseName()}.json`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(link.href);
+}
+
+function openProjectFile(){
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json,application/json';
+    input.addEventListener('change', ()=>{
+        const file = input.files && input.files[0];
+        if(!file){ return; }
+        const reader = new FileReader();
+        reader.onload = ()=>{
+            try{
+                const data = JSON.parse(reader.result);
+                const items = Array.isArray(data) ? data : data.items;
+                if(!Array.isArray(items)){
+                    throw new Error('no items');
+                }
+                projectItems = items;
+                if(data && data.meta && typeof data.meta === 'object'){
+                    projectMeta = Object.assign({}, projectMeta, data.meta);
+                }
+                ensureProjectItemOrder();
+                saveProject();
+                applyProjectMeta();
+                renderProject();
+            }catch(error){
+                alert(t('openError') || 'Не удалось открыть файл проекта');
+            }
+        };
+        reader.readAsText(file);
+    });
+    input.click();
+}
+
+if(btnSaveFile){
+    btnSaveFile.addEventListener('click', saveProjectToFile);
+}
+if(btnOpen){
+    btnOpen.addEventListener('click', openProjectFile);
+}
+
 btnPrint.addEventListener(
 'click',
 ()=>{
@@ -4595,6 +4674,13 @@ function applyRole(){
     ''
     :
     'none';
+
+    if(btnSaveFile){
+        btnSaveFile.style.display = rules.export ? '' : 'none';
+    }
+    if(btnOpen){
+        btnOpen.style.display = rules.export ? '' : 'none';
+    }
     roleChoices.forEach(
     (button)=>{
 
@@ -5039,7 +5125,7 @@ document.addEventListener(
 
 </script>
 
-<div class="build-marker">build 2026-06-12-1902</div>
+<div class="build-marker">build 2026-06-13-1257</div>
 
 </body>
 

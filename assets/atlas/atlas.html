@@ -633,6 +633,11 @@ href="../../modules/rectangular/transition/module.html">
 
 </a>
 
+<a class="item" href="../../modules/rectangular/cap/module.html">
+<img src="../products/rectangular_cap.svg" class="rectangular-cap">
+<span data-i18n="cap">Заглушка</span>
+</a>
+
 </div>
 
 </div>
@@ -660,7 +665,7 @@ href="../../modules/combined/round-to-rectangular/module.html">
 
 <a class="item"
 href="../../modules/round/offset-transition/module.html">
-<div class="icon">в‰€</div>
+<img src="../products/round_offset.svg" class="round-offset">
 <span data-i18n="offsetShort">Смещение</span>
 </a>
 
@@ -684,7 +689,8 @@ const atlasI18n={
     "offset": "Перехід<br>зі зміщенням",
     "tee": "Трійник",
     "roundToRect": "Круг→Прям",
-    "offsetShort": "Зміщення"
+    "offsetShort": "Зміщення",
+    "cap": "Заглушка"
   },
   "ru": {
     "atlasTitle": "АТЛАС ИЗДЕЛИЙ",
@@ -697,7 +703,8 @@ const atlasI18n={
     "offset": "Переход<br>со смещением",
     "tee": "Тройник",
     "roundToRect": "Круг→Прям",
-    "offsetShort": "Смещение"
+    "offsetShort": "Смещение",
+    "cap": "Заглушка"
   },
   "en": {
     "atlasTitle": "PRODUCT ATLAS",
@@ -710,7 +717,8 @@ const atlasI18n={
     "offset": "Offset<br>transition",
     "tee": "Tee",
     "roundToRect": "Round?Rect",
-    "offsetShort": "Offset"
+    "offsetShort": "Offset",
+    "cap": "Cap"
   }
 };
 
@@ -826,7 +834,41 @@ document.addEventListener(
 );
 
 applyAtlasLanguage();
+
+(function(){
+  var heads=document.querySelectorAll('h2[data-i18n]');
+  function siblingsAfter(h2){
+    var out=[], n=h2.nextElementSibling;
+    while(n){ out.push(n); n=n.nextElementSibling; }
+    return out;
+  }
+  function setCollapsed(h2, group, collapsed){
+    group.forEach(function(el){ el.style.display = collapsed ? 'none' : ''; });
+    h2.setAttribute('data-collapsed', collapsed ? '1' : '0');
+  }
+  heads.forEach(function(h2){
+    var group=siblingsAfter(h2);
+    h2._group=group;
+    h2.style.cursor='pointer';
+    setCollapsed(h2, group, false);
+    h2.addEventListener('click', function(){
+      setCollapsed(h2, group, h2.getAttribute('data-collapsed') !== '1');
+    });
+  });
+  var cat=new URLSearchParams(window.location.search).get('cat');
+  if(cat){
+    heads.forEach(function(h2){
+      setCollapsed(h2, h2._group, h2.getAttribute('data-i18n') !== cat);
+    });
+  }
+})();
 </script>
+
+<style>
+h2[data-i18n]{cursor:pointer;user-select:none}
+h2[data-i18n]::after{content:" \25BE";font-size:.6em;color:#d97706;vertical-align:middle}
+h2[data-i18n][data-collapsed="1"]::after{content:" \25B8"}
+</style>
 
 </body>
 
