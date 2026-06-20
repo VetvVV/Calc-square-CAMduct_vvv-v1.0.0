@@ -1,875 +1,128 @@
-﻿<!DOCTYPE html>
-<html lang="uk">
+<!doctype html>
+<html lang="ru">
 <head>
-<meta charset="UTF-8">
-<title>Calc Square</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-
-<link rel="preconnect"
-href="https://fonts.gstatic.com"
-crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;700&display=swap"
-rel="stylesheet">
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calc Square · Атлас</title>
+<link rel="stylesheet" href="../fonts/exo2.css">
 <style>
-
-body{
-
-margin:0;
-
-font-family:'Exo 2',sans-serif;
-
-font-style:italic;
-
-background:#e7e7e7;
-
-position:relative;
-
-overflow-x:hidden;
-
-font-weight:500;
-
-}
-
-
-body::before{
-
-content:"";
-
-position:fixed;
-
-top:50%;
-
-left:50%;
-
-transform:
-translate(-50%,-50%);
-
-width:90vw;
-
-height:90vh;
-
-background:
-
-url("./assets/images/calc_square_logo.png")
-center
-
-no-repeat;
-
-background-size:
-contain;
-
-opacity:.04;
-
-pointer-events:none;
-
-z-index:-1;
-
-filter:
-contrast(.92)
-brightness(.92);
-
-}
-
-.wrap{
-
-max-width:1100px;
-
-margin:auto;
-
-padding:10px 50px 50px;
-
-position:relative;
-
-}
-
-
-
-.subtitle{
-
-width:100%;
-
-text-align:center;
-
-font-family:'Exo 2',sans-serif;
-
-font-style:italic;
-
-font-weight:700;
-
-font-size:40px;
-
-line-height:1;
-
-letter-spacing:1px;
-
-color:#5a616b;
-
-margin:0 0 40px 0;
-
-text-transform:uppercase;
-
-}
-
-.card h2{
-
-text-align:center;
-
-font-family:'Exo 2',sans-serif;
-
-font-style:italic;
-
-font-weight:700;
-
-font-size:22px;
-
-color:#d9821f;
-
-margin:0 0 24px 0;
-
-}
-
-
-
-h1,
-h2,
-.item{
-
-color:#171717;
-
-text-shadow:
-0 1px 2px rgba(255,255,255,.65);
-
-}
-
-
-
-.bottom-card{
-
-grid-column:1 / -1;
-
-display:flex;
-
-justify-content:center;
-
-width:100%;
-
-margin:0 auto;
-
-}
-
-.bottom-card .card{
-
-min-width:920px;
-
-max-width:1200px;
-
-width:fit-content;
-
-}
-
-.card{
-
-display:block;
-
-position:relative;
-
-padding:32px;
-
-width:min(1050px,94vw);
-
-min-height:auto;
-
-box-sizing:border-box;
-
-border-radius:28px;
-
-text-decoration:none;
-
-color:#111;
-
-background:rgba(255,255,255,.03);
-
-border:1px solid rgba(255,255,255,.18);
-
-backdrop-filter:blur(1.5px);
-
--webkit-backdrop-filter:blur(1.5px);
-
-box-shadow:
-
-0 4px 16px rgba(0,0,0,.015)
-
-inset 0 1px 0 rgba(255,255,255,.35);
-
-overflow:hidden;
-
-transition:.35s;
-
-}
-
-
-.card:hover{
-
-background:rgba(235,235,235,.006);
-
-border-color:rgba(255,255,255,.55);
-
-transform:translateY(-6px);
-
-backdrop-filter:blur(1px);
--webkit-backdrop-filter:blur(1px);
-
-
-}
-
-
-
-
-
-
-.item span{
-
-margin-top:2px;
-
-}
-
-.round-duct{
-
-width:170px;
-
-height:110px;
-
-object-fit:contain;
-
-margin:0 auto;
-
-}
-
-.round-duct + span{
-
-display:block;
-
-margin-top:20px;
-
-text-align:center;
-
-}
-
-.items{
-
-display:grid;
-
-grid-template-columns:
-repeat(auto-fit,minmax(140px,1fr));
-
-justify-items:center;
-
-align-items:start;
-
-gap:28px;
-
-width:100%;
-
-margin:0 auto;
-
-}
-
-.item{
-
-display:flex;
-
-flex-direction:column;
-
-align-items:center;
-
-justify-content:flex-start;
-
-min-width:140px;
-
-text-decoration:none;
-
-color:#171717;
-
-font-style:italic;
-
-font-weight:500;
-
-}
-
-
-.round-elbow{
-
-width:180px;
-
-height:120px;
-
-object-fit:contain;
-
-margin:0 auto;
-
-}
-
-.round-transition{
-
-width:180px;
-
-height:120px;
-
-object-fit:contain;
-
-display:block;
-
-margin:0 auto;
-
-}
-
-.rectangular-duct{
-
-width:180px;
-
-height:120px;
-
-object-fit:contain;
-
-display:block;
-
-margin:0 auto;
-
-}
-
-.rectangular-elbow{
-
-    width:180px;
-
-    height:120px;
-
-    object-fit:contain;
-
-    display:block;
-
-    margin:0 auto;
-
-}
-
-.rectangular-transition{
-
-    width:180px;
-
-    height:120px;
-
-    object-fit:contain;
-
-    display:block;
-
-    margin:0 auto;
-
-}
-
-.round-to-rectangular{
-    width:130px;
-    height:90px;
-    object-fit:contain;
-    display:block;
-    margin:0 auto 8px auto;
-}
-
-
-.round-offset{
-
-width:180px;
-
-height:120px;
-
-object-fit:contain;
-
-display:block;
-
-margin:0 auto;
-
-position:relative;
-
-left:15px;
-
-}
-
-.offset-text{
-
-display:block;
-
-text-align:center;
-
-line-height:1.15;
-
-}
-
-.round-tee{
-
-width:210px;
-
-height:140px;
-
-object-fit:contain;
-
-margin:0 auto;
-
-}
-
-.grid{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:24px;
-
-    width:100%;
-
-    align-items:center;
-
-}
-
-.item:hover{
-
-background:
-
-rgba(255,255,255,.12);
-
-}
-
-.item:hover img{
-transform:scale(1.08);
-}
-
-.icon{
-
-width:90px;
-
-height:90px;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-font-size:54px;
-
-margin:0 auto 10px;
-
-}
-
-
-
-
-@media (max-width:768px){
-
-.wrap{
-padding:20px 12px;
-}
-
-.card{
-
-padding:24px 12px;
-
-width:100%;
-max-width:100%;
-
-text-align:center;
-
-}
-
-.bottom-card .card{
-
-min-width:auto;
-
-width:100%;
-
-}
-
-.items{
-grid-template-columns:repeat(2,minmax(120px,1fr));
-gap:24px;
-}
-
-.subtitle{
-font-size:30px;
-margin-bottom:28px;
-}
-
-
-
-@media (max-width:480px){
-
-.items{
-grid-template-columns:1fr;
-}
-
-.subtitle{
-font-size:26px;
-}
-
-}
-
-
-.round-duct,
-.round-elbow,
-.round-transition,
-.round-offset,
-.round-tee,
-.rectangular-duct,
-.rectangular-elbow,
-.rectangular-transition,
-.round-to-rectangular
-{
-    width:140px;
-    height:90px;
-}
-
-.round-to-rectangular{
-    width:140px !important;
-    height:90px !important;
-    object-fit:contain;
-}
-
-
-
-.icon{
-
-width:70px;
-
-height:70px;
-
-font-size:42px;
-
-}
-
-}
-
+*{box-sizing:border-box}
+body{margin:0;background:#e9e9e9;color:#24272d;font-family:"Exo 2",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;font-style:italic;padding:18px 12px}
+.wrap{width:100%;max-width:none;margin:0 auto;container-type:inline-size}
+.head{display:block;text-align:center;margin-bottom:18px}
+h1{margin:0;color:#5b6573;font-size:30px;line-height:1;font-weight:800;font-style:italic;text-transform:uppercase;letter-spacing:.03em}
+.version{position:fixed;right:14px;bottom:10px;z-index:40;color:#9aa1ab;font-size:11px;font-weight:700}
+.cats{display:flex;flex-direction:column;gap:0}
+details{background:transparent;border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,.5);margin-bottom:0}
+details+details{margin-top:-1px}
+summary{cursor:pointer;list-style:none;padding:24px 18px 6px;background:transparent;font-weight:800;color:#df7a12;text-align:center;font-size:18px}
+summary::-webkit-details-marker{display:none}
+.grid{display:grid;grid-template-columns:repeat(var(--atlas-cols,8),minmax(0,1fr));gap:20px 24px;padding:16px 32px 26px;background:transparent}
+.card{position:relative;display:grid;grid-template-rows:86px auto;gap:8px;border:0;border-radius:0;background:transparent;padding:0;text-align:center;cursor:pointer;color:inherit}
+.card:hover strong{color:#df7a12}
+.card img{width:100%;height:86px;object-fit:contain;filter:drop-shadow(0 2px 1px rgba(0,0,0,.08))}
+.card strong{font-size:14px;line-height:1.15;font-weight:700;color:#3f4652}
+.variants{position:absolute;z-index:20;left:50%;top:72px;display:grid;grid-template-columns:repeat(auto-fit,minmax(78px,1fr));gap:8px;width:min(260px,calc(100vw - 30px));padding:10px;border:1px solid rgba(214,205,183,.9);border-radius:10px;background:rgba(255,255,255,.96);box-shadow:0 14px 34px rgba(0,0,0,.16);opacity:0;visibility:hidden;pointer-events:none;transform:translate(-50%,8px);transition:opacity .14s ease,transform .14s ease,visibility 0s linear .14s}
+.card:hover .variants,.card:focus-visible .variants{opacity:1;visibility:visible;transform:translate(-50%,0);transition-delay:.55s,.55s,0s}
+.variant{display:grid;gap:5px;min-width:0}
+.variant img{height:58px;border-radius:6px;background:#f7f7f7}
+.variant span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#5b6573;font-size:11px;font-weight:700}
+.load-error{margin:28px auto;color:#9a5800;font-weight:800;text-align:center}
+@container (max-width: 560px){.grid{gap:20px 18px;padding-left:24px;padding-right:24px}}
+@container (max-width: 390px){.grid{gap:18px 14px;padding:14px 18px 22px}.card{grid-template-rows:96px auto}.card img{height:96px}.variants{top:82px;grid-template-columns:repeat(auto-fit,minmax(82px,1fr))}}
+@container (max-width: 310px){.grid{gap:22px;padding:16px 28px 24px}.card{grid-template-rows:132px auto}.card img{height:132px}.card strong{font-size:15px}.variants{top:112px}}
 </style>
-
 </head>
-
 <body>
-
-
-<div class="wrap">
-
-<div class="subtitle" data-i18n="atlasTitle">АТЛАС ИЗДЕЛИЙ</div>
-
-
-<div class="card">
-
-<h2 data-i18n="round">Круглые</h2>
-
-<div class="items">
-
-<a class="item" href="../../modules/round/duct/module.html">
-<img src="../products/round_duct.svg" class="round-duct">
-<span data-i18n="duct">Воздуховод</span>
-</a>
-
-<a class="item" href="../../modules/round/elbow/module.html">
-<img src="../products/round_elbow.svg" class="round-elbow">
-<span data-i18n="elbow">Отвод</span>
-</a>
-
-<a class="item" href="../../modules/round/transition/module.html">
-<img src="../products/round_transition.svg" class="round-transition">
-<span data-i18n="transition">Переход</span>
-</a>
-
-<a class="item" href="../../modules/round/offset-transition/module.html">
-<img src="../products/round_offset.svg" class="round-offset">
-<span class="offset-text" data-i18n-html="offset">Переход<br>со смещением</span>
-</a>
-
-</div>
-
-<a class="item" href="../../modules/round/tee/module.html">
-<img src="../products/round_tee.svg" class="round-tee">
-<span data-i18n="tee">Тройник</span>
-</a>
-</div>
-
-
-<div class="card">
-
-<h2 data-i18n="rectangular">Прямоугольные</h2>
-
-<div class="items">
-
-<a class="item"
-href="../../modules/rectangular/duct/module.html">
-
-    <img
-    src="../products/rectangular_duct.svg"
-    class="rectangular-duct">
-
-    <span data-i18n="duct">Воздуховод</span>
-
-</a>
-
-<a class="item"
-href="../../modules/rectangular/elbow/module.html">
-
-    <img
-    src="../products/rectangular_elbow.svg"
-    class="rectangular-elbow">
-
-    <span data-i18n="elbow">Отвод</span>
-
-</a>
-
-<a class="item"
-href="../../modules/rectangular/transition/module.html">
-
-    <img
-    src="../products/rectangular_transition.svg"
-    class="rectangular-transition">
-
-    <span data-i18n="transition">Переход</span>
-
-</a>
-
-<a class="item" href="../../modules/rectangular/cap/module.html">
-<img src="../products/rectangular_cap.svg" class="rectangular-cap">
-<span data-i18n="cap">Заглушка</span>
-</a>
-
-</div>
-
-</div>
-
-<div class="bottom-card">
-
-<div class="card">
-
-
-<h2 data-i18n="combined">Комбинированные</h2>
-
-<div class="items">
-
-<a class="item"
-href="../../modules/combined/round-to-rectangular/module.html">
-
-    <img
-    src="../products/round_to_rectangular.svg"
-    class="round-to-rectangular">
-
-    <span data-i18n="roundToRect">Круг→Прям</span>
-
-</a>
-
-
-<a class="item"
-href="../../modules/round/offset-transition/module.html">
-<img src="../products/round_offset.svg" class="round-offset">
-<span data-i18n="offsetShort">Смещение</span>
-</a>
-
-</div>
-
-
-</div>
-
-</div>
-
+<main class="wrap">
+  <div class="head">
+    <h1 id="title">Атлас изделий</h1>
+    <div class="version">clean-panel-v1</div>
+  </div>
+  <section class="cats" id="cats"></section>
+</main>
 <script>
-const atlasI18n={
-  "uk": {
-    "atlasTitle": "АТЛАС ВИРОБІВ",
-    "round": "Круглі",
-    "rectangular": "Прямокутні",
-    "combined": "Комбіновані",
-    "duct": "Повітропровід",
-    "elbow": "Відвід",
-    "transition": "Перехід",
-    "offset": "Перехід<br>зі зміщенням",
-    "tee": "Трійник",
-    "roundToRect": "Круг→Прям",
-    "offsetShort": "Зміщення",
-    "cap": "Заглушка"
-  },
-  "ru": {
-    "atlasTitle": "АТЛАС ИЗДЕЛИЙ",
-    "round": "Круглые",
-    "rectangular": "Прямоугольные",
-    "combined": "Комбинированные",
-    "duct": "Воздуховод",
-    "elbow": "Отвод",
-    "transition": "Переход",
-    "offset": "Переход<br>со смещением",
-    "tee": "Тройник",
-    "roundToRect": "Круг→Прям",
-    "offsetShort": "Смещение",
-    "cap": "Заглушка"
-  },
-  "en": {
-    "atlasTitle": "PRODUCT ATLAS",
-    "round": "Round",
-    "rectangular": "Rectangular",
-    "combined": "Combined",
-    "duct": "Duct",
-    "elbow": "Elbow",
-    "transition": "Transition",
-    "offset": "Offset<br>transition",
-    "tee": "Tee",
-    "roundToRect": "Round?Rect",
-    "offsetShort": "Offset",
-    "cap": "Cap"
-  }
+const params=new URLSearchParams(location.search);
+function savedSettings(){try{return JSON.parse(localStorage.getItem("calcSquareSettingsCleanV1")||"{}")}catch(e){return {}}}
+const settings=savedSettings();
+let lang=params.get("lang")||settings.lang||"ru";
+let role=params.get("role")||settings.role||"guest";
+const active=params.get("cat")||params.get("category")||"";
+const text={
+  ru:{title:"Атлас изделий"},
+  uk:{title:"Атлас виробів"},
+  en:{title:"Product atlas"}
 };
-
-function atlasLang(){
-    try{
-        const parentLang=
-        window.parent.localStorage.getItem('calcSquareLang');
-
-        if(atlasI18n[parentLang]){
-            return parentLang;
-        }
-    }
-    catch(e){}
-
-    const ownLang=
-    localStorage.getItem('calcSquareLang') || 'uk';
-
-    return atlasI18n[ownLang]
-    ?
-    ownLang
-    :
-    'uk';
-}
-
-function atlasT(key){
-    return atlasI18n[atlasLang()][key] || atlasI18n.uk[key] || key;
-}
-
-function atlasRole(){
-    const allowedRoles=[
-    'guest',
-    'user',
-    'client',
-    'admin'
-    ];
-
-    const fromUrl=
-    new URLSearchParams(window.location.search).get('role');
-
-    if(allowedRoles.includes(fromUrl)){
-        return fromUrl;
-    }
-
-    return 'guest';
-}
-
-function applyAtlasLanguage(){
-    document.documentElement.lang=atlasLang();
-
-    document.querySelectorAll('[data-i18n]').forEach(
-    (node)=>{
-        node.textContent=atlasT(node.dataset.i18n);
-    }
-    );
-
-    document.querySelectorAll('[data-i18n-html]').forEach(
-    (node)=>{
-        node.innerHTML=atlasT(node.dataset.i18nHtml);
-    }
-    );
-}
-
-function openModule(path, role=atlasRole(), lang=atlasLang()){
-    const moduleUrl=
-    new URL(
-    path,
-    window.location.href
-    );
-
-    moduleUrl.searchParams.set('lang', lang);
-    moduleUrl.searchParams.set('role', role);
-    moduleUrl.searchParams.set('v', Date.now());
-
-    if(
-    window.parent
-    &&
-    window.parent !== window
-    ){
-        window.parent.postMessage(
-        {
-            type:'calcSquare:openModule',
-            path:moduleUrl.href,
-            role,
-            lang
-        },
-        '*'
-        );
-
-        return;
-    }
-
-    window.location.href=moduleUrl.href;
-}
-
-document.addEventListener(
-'click',
-(event)=>{
-    const link=
-    event.target.closest('a[href*="module.html"]');
-
-    if(!link){
-        return;
-    }
-
-    event.preventDefault();
-
-    openModule(
-    link.getAttribute('href'),
-    atlasRole(),
-    atlasLang()
-    );
-}
-);
-
-applyAtlasLanguage();
-
-(function(){
-  var heads=document.querySelectorAll('h2[data-i18n]');
-  function siblingsAfter(h2){
-    var out=[], n=h2.nextElementSibling;
-    while(n){ out.push(n); n=n.nextElementSibling; }
-    return out;
-  }
-  function setCollapsed(h2, group, collapsed){
-    group.forEach(function(el){ el.style.display = collapsed ? 'none' : ''; });
-    h2.setAttribute('data-collapsed', collapsed ? '1' : '0');
-  }
-  heads.forEach(function(h2){
-    var group=siblingsAfter(h2);
-    h2._group=group;
-    h2.style.cursor='pointer';
-    setCollapsed(h2, group, false);
-    h2.addEventListener('click', function(){
-      setCollapsed(h2, group, h2.getAttribute('data-collapsed') !== '1');
-    });
+if(!text[lang])lang="ru";
+document.documentElement.lang=lang;
+document.getElementById("title").textContent=(text[lang]||text.ru).title;
+document.querySelector(".version").textContent=params.get("v")||"dev";
+document.title="Calc Square · "+(text[lang]||text.ru).title;
+const cats=document.getElementById("cats");
+function pick(value){return value?.[lang]||value?.ru||value?.en||""}
+function clamp(value,min,max){return Math.max(min,Math.min(max,value))}
+function updateAtlasColumns(){
+  document.querySelectorAll(".grid").forEach(grid=>{
+    const width=grid.clientWidth||grid.parentElement?.clientWidth||0;
+    const usable=Math.max(0,width-64);
+    const columns=clamp(Math.floor((usable+24)/138),1,8);
+    grid.style.setProperty("--atlas-cols",columns);
   });
-  var cat=new URLSearchParams(window.location.search).get('cat');
-  if(cat){
-    heads.forEach(function(h2){
-      setCollapsed(h2, h2._group, h2.getAttribute('data-i18n') !== cat);
-    });
+}
+const resizeObserver=new ResizeObserver(updateAtlasColumns);
+function parentTargetOrigin(){return location.protocol==="file:"||location.origin==="null"?"*":location.origin}
+function openModule(key){
+  const url="../../modules/common/calculator.html?module="+encodeURIComponent(key)+"&lang="+encodeURIComponent(lang)+"&role="+encodeURIComponent(role);
+  if(window.parent&&window.parent!==window){
+    window.parent.postMessage({type:"calcSquare:open",url:new URL(url,location.href).href},parentTargetOrigin());
+  }else{
+    location.href=url;
   }
-})();
+}
+function renderVariants(item){
+  if(!Array.isArray(item.variants)||!item.variants.length)return "";
+  const variants=item.variants.map(variant=>`
+    <span class="variant">
+      <img src="${variant.image}" alt="">
+      <span>${pick(variant.title)}</span>
+    </span>
+  `).join("");
+  return `<span class="variants" aria-hidden="true">${variants}</span>`;
+}
+function renderCatalog(){
+  cats.innerHTML="";
+  if(!Array.isArray(window.CALC_CATALOG)||!window.CALC_CATALOG.length){
+    cats.innerHTML=`<p class="load-error">${lang==="en"?"Catalog did not load.":lang==="uk"?"Каталог не завантажився.":"Каталог не загрузился."}</p>`;
+    return;
+  }
+  window.CALC_CATALOG.forEach(category=>{
+  const details=document.createElement("details");
+  details.open=!active||active===category.key;
+  details.innerHTML=`<summary>${pick(category.title)}</summary><div class="grid"></div>`;
+  const grid=details.querySelector(".grid");
+  category.items.forEach(item=>{
+    const button=document.createElement("button");
+    button.className="card";
+    button.type="button";
+    button.innerHTML=`<img src="${item.image}" alt=""><strong>${pick(item.title)}</strong>${renderVariants(item)}`;
+    button.addEventListener("click",()=>openModule(item.key));
+    grid.appendChild(button);
+  });
+  cats.appendChild(details);
+  });
+  document.querySelectorAll(".grid").forEach(grid=>resizeObserver.observe(grid));
+  updateAtlasColumns();
+}
+function loadCatalog(){
+  const script=document.createElement("script");
+  const version=params.get("v")||"dev";
+  script.src=`catalog-map.js?v=${encodeURIComponent(version)}`;
+  script.onload=renderCatalog;
+  script.onerror=renderCatalog;
+  document.head.appendChild(script);
+}
+loadCatalog();
+window.addEventListener("resize",updateAtlasColumns);
 </script>
-
-<style>
-h2[data-i18n]{cursor:pointer;user-select:none}
-h2[data-i18n]::after{content:" \25BE";font-size:.6em;color:#d97706;vertical-align:middle}
-h2[data-i18n][data-collapsed="1"]::after{content:" \25B8"}
-</style>
-
 </body>
-
 </html>

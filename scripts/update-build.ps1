@@ -6,16 +6,23 @@ $HomePath = Join-Path $Root 'home.html'
 $VersionPath = Join-Path $Root 'VERSION.txt'
 $Utf8NoBom = New-Object System.Text.UTF8Encoding($false)
 
-$HomeText = [System.IO.File]::ReadAllText($HomePath, [System.Text.Encoding]::UTF8)
-$Pattern = '(?<=<div class="build-marker">)build\s+\d{4}-\d{2}-\d{2}-\d{2,4}(?=</div>)'
-
-if (-not [regex]::IsMatch($HomeText, $Pattern)) {
-    throw 'Build marker was not found in home.html'
+if (-not (Test-Path $HomePath)) {
+    throw 'home.html was not found'
 }
 
-$UpdatedHome = [regex]::Replace($HomeText, $Pattern, $Build, 1)
+$HomeText = [System.IO.File]::ReadAllText($HomePath, [System.Text.Encoding]::UTF8)
+$MarkerPattern = '<div class="build-marker" hidden>build\s+\d{4}-\d{2}-\d{2}-\d{4,6}</div>'
+$Marker = '<div class="build-marker" hidden>' + $Build + '</div>'
 
-[System.IO.File]::WriteAllText($HomePath, $UpdatedHome, $Utf8NoBom)
+if ([regex]::IsMatch($HomeText, $MarkerPattern)) {
+    $HomeText = [regex]::Replace($HomeText, $MarkerPattern, $Marker, 1)
+} elseif ($HomeText -match '<body[^>]*>') {
+    $HomeText = [regex]::Replace($HomeText, '(<body[^>]*>)', ('$1' + "`r`n" + $Marker), 1)
+} else {
+    throw 'Body tag was not found in home.html'
+}
+
+[System.IO.File]::WriteAllText($HomePath, $HomeText, $Utf8NoBom)
 [System.IO.File]::WriteAllText($VersionPath, $Build, $Utf8NoBom)
 
 Write-Output $Build

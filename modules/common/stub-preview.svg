@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 220">
+  <rect width="320" height="220" fill="#f7f7f7"/>
+  <path d="M70 135 L150 82 L250 105 L168 164 Z" fill="#bcbcbc" stroke="#777" stroke-width="2"/>
+  <path d="M150 82 L150 132 L168 164 L168 112 Z" fill="#d8d8d8" stroke="#777" stroke-width="2"/>
+  <path d="M168 112 L250 105 L250 154 L168 164 Z" fill="#9f9f9f" stroke="#777" stroke-width="2"/>
+  <path d="M70 135 L70 170 L168 164 L150 132 Z" fill="#cfcfcf" stroke="#777" stroke-width="2"/>
+  <text x="160" y="198" text-anchor="middle" font-family="Arial" font-size="16" font-weight="700" fill="#d97706">module draft</text>
+</svg>

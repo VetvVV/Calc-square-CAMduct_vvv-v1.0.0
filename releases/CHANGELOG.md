@@ -1,4 +1,6 @@
-# История изменений
+# Changelog
 
-## v1.01
-- Первый опубликованный релиз на GitHub Pages.
+## clean-panel-v1
+
+- Rebuilt app around a clean flexible-panels calculator engine.
+- Preserved image assets.
