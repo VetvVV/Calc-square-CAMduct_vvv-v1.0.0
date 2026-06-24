@@ -22,7 +22,8 @@ h1{font-size:28px;line-height:1.15;margin:0}
 .result-row small{display:block;color:var(--muted);font-size:12px;margin-top:3px}
 .calc-details{margin:8px 0 12px;padding-top:10px;border-top:1px solid #e2e2e2}
 .calc-details summary{cursor:pointer;font-weight:700}
-.calc-details p{font-size:14px;line-height:1.45;margin:8px 0 0}
+.calc-details p{font-size:14px;line-height:1.45;margin:8px 0 0;white-space:pre-line}
+.guest-limit-note{margin:10px 0 12px;padding:8px 10px;border:1px solid #ead4b5;border-radius:7px;background:#fff7ed;color:#8a5a10;font-size:13px;font-weight:700}
 .comment-label{font-size:13px;color:#555;margin:10px 0 5px}
 textarea{width:100%;min-height:58px;border:1px solid #bbb;border-radius:6px;padding:8px 10px;resize:vertical;background:#fff}
 .add-btn{margin-top:12px;border:0;border-radius:8px;background:var(--accent);color:#fff;font-weight:700;font-size:15px;padding:12px 22px;cursor:pointer}
@@ -63,7 +64,7 @@ textarea{width:100%;min-height:58px;border:1px solid #bbb;border-radius:6px;padd
 .connection-row{display:grid;grid-template-columns:1fr auto auto auto;gap:6px;align-items:center;padding:8px;border:1px solid #ded8c4;border-radius:8px;background:#fff}
 .connection-row span{font-size:13.5px;color:#5b4e2a;font-weight:600}
 .connection-row label{display:flex;gap:4px;align-items:center;font-size:12px}
-.tab-empty,.help-text{margin:0;color:#6d6247;font-size:13px;line-height:1.45}
+.tab-empty,.help-text{margin:0;color:#6d6247;font-size:13px;line-height:1.45;white-space:pre-line}
 .hidden-bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:9px 12px;background:#f0ead8;border-top:1px solid #e7ddc2;font-size:13px;color:#8a7c52}
 .hidden-bar .chip{background:#fff;border:1px solid var(--line);border-radius:14px;padding:3px 11px;cursor:pointer;font-size:12px;font-weight:600;color:#5b4e2a}
 .hidden-bar .chip::before{content:"+ ";color:var(--blue)}

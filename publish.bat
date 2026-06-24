@@ -19,6 +19,16 @@ if errorlevel 1 (
 echo %BUILD_LABEL%
 echo.
 
+echo Running publication validation...
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0scripts\validate-publish.ps1"
+if errorlevel 1 (
+    echo.
+    echo Publication validation failed. Publication stopped.
+    pause
+    exit /b 1
+)
+echo.
+
 git --version >nul 2>nul
 if errorlevel 1 (
     echo Git was not found. Publication stopped.
@@ -38,17 +48,51 @@ if exist "check-roles.bat" (
     echo.
 )
 
+if exist "test-areas.bat" (
+    echo Running area regression tests...
+    call "test-areas.bat"
+    if errorlevel 1 (
+        echo.
+        echo Area tests failed. Publication stopped.
+        pause
+        exit /b 1
+    )
+    echo.
+)
+
 git status --short
 echo.
-for /f "usebackq delims=" %%M in (`powershell -NoProfile -ExecutionPolicy Bypass -Command "$status=git status --short; $files=($status | ForEach-Object { if($_.Length -gt 3){ $_.Substring(3) } else { $_ } }) -join ';'; $parts=@(); if($files -match 'assets|home\.html|modules|scripts|publish\.bat'){$parts+='Update Calc Square'}; if($files -match 'PUBLISH_CHECKLIST\.md|README\.md|docs'){$parts+='Update docs'}; if($files -match 'index\.html'){$parts+='Update site entry page'}; if($parts.Count -eq 0){$parts+='Publish Calc Square'}; (($parts | Select-Object -Unique) -join '; ')"`) do set "AUTO_MSG=%%M"
-set "DEFAULT_MSG=%AUTO_MSG% - %BUILD_LABEL%"
-echo Suggested commit message:
-echo %DEFAULT_MSG%
+if exist "PUBLISH_CHECKLIST.md" (
+    echo Quick reminder before publishing:
+    echo  - Local home page opens
+    echo  - Guest/User/Client/Admin basics checked after major UI changes
+    echo  - Saved file and language switch checked after localization/import changes
+    echo  - GitHub page hard-refresh if an old build is still visible
+    echo.
+)
+set "COMMIT_MSG_FILE=%TEMP%\CALC_SQUARE_COMMIT_MESSAGE.txt"
+for /f "usebackq delims=" %%M in (`powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0scripts\make-commit-message.ps1" -BuildLabel "%BUILD_LABEL%" -OutputPath "%COMMIT_MSG_FILE%"`) do set "DEFAULT_MSG=%%M"
+if errorlevel 1 (
+    echo.
+    echo Commit message generation failed. Publication stopped.
+    pause
+    exit /b 1
+)
+echo Automatic commit message:
+type "%COMMIT_MSG_FILE%"
 echo.
-set /p "MSG=Enter publication description (Enter = suggested message): "
+set /p "PUBLISH_CONFIRM=Press Enter to publish with this message, type another title, or C to cancel: "
 
-if "%MSG%"=="" (
-    set "MSG=%DEFAULT_MSG%"
+if /I "%PUBLISH_CONFIRM%"=="C" (
+    echo Publication cancelled.
+    pause
+    exit /b 0
+)
+
+if not "%PUBLISH_CONFIRM%"=="" (
+    > "%COMMIT_MSG_FILE%" echo %PUBLISH_CONFIRM%
+    >> "%COMMIT_MSG_FILE%" echo.
+    >> "%COMMIT_MSG_FILE%" echo %BUILD_LABEL%
 )
 
 echo.
@@ -72,7 +116,7 @@ echo.
 git status --short
 echo.
 echo Creating commit...
-git commit -m "%MSG%"
+git commit -F "%COMMIT_MSG_FILE%"
 if errorlevel 1 (
     echo.
     echo Commit failed. Publication stopped.

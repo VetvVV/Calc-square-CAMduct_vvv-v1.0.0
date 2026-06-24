@@ -11,21 +11,27 @@
   const root=document.getElementById("app");
   const standardSizes=[80,100,125,150,160,180,200,225,250,280,300,315,350,355,400,450,500,560,600,630,700,710,800,900,1000,1120,1200,1250,1400,1500,1600,1800,2000,2500,3000];
   const i18n={
-    ru:{atlas:"← Атлас",category:"Категория →",sizes:"Размеры",options:"Опции",detail:"Деталь",connectors:"Соединители",help:"Помощь",expand:"Развернуть всё",collapse:"Свернуть всё",simple:"Простой",full:"Полный",reset:"Сброс",hidden:"Скрыто",area:"Площадь",mass:"Масса изделия",desc:"Описание (спецификация)",calc:"Расчёт",comment:"Комментарий",commentPh:"Примечание для спецификации",add:"Добавить в проект",update:"Сохранить",guest:"Для гостя добавление в проект отключено.",material:"Материал",thickness:"Толщина",qty:"Количество",galv:"Оцинкованная сталь",ss430:"Нержавеющая 430 техническая",ss304:"Нержавеющая 304 пищевая",mm:"мм",kg:"кг",standard:"Стандарт ✓",custom:"Нестандарт ✎",formula:"По формуле",calcHidden:"Формульная часть скрыта в клиентском режиме. Инженерный доступ можно запросить у менеджера.",notReady:"Расчёт будет уточнён по CAMduct-таблице.",minus:"−",nom:"ном",plus:"+",connectionHelp:"− ниппельное, ном - номинальное, + муфтовое. У переходов соединение задаётся по торцам.",saved:"Добавлено.",top:"верх",bottom:"низ",left:"лево",right:"право",angle:"Угол",main:"магистраль",branch:"патрубок",avgDiameter:"Dср",inclinedLength:"Lнакл",avgPerimeter:"средний периметр"},
-    uk:{atlas:"← Атлас",category:"Категорія →",sizes:"Розміри",options:"Опції",detail:"Деталь",connectors:"З'єднувачі",help:"Допомога",expand:"Розгорнути все",collapse:"Згорнути все",simple:"Простий",full:"Повний",reset:"Скидання",hidden:"Приховано",area:"Площа",mass:"Маса виробу",desc:"Опис (специфікація)",calc:"Розрахунок",comment:"Коментар",commentPh:"Примітка для специфікації",add:"Додати в проєкт",update:"Зберегти",guest:"Для гостя додавання в проєкт вимкнено.",material:"Матеріал",thickness:"Товщина",qty:"Кількість",galv:"Оцинкована сталь",ss430:"Нержавіюча 430 технічна",ss304:"Нержавіюча 304 харчова",mm:"мм",kg:"кг",standard:"Стандарт ✓",custom:"Нестандарт ✎",formula:"За формулою",calcHidden:"Формульну частину приховано в клієнтському режимі. Інженерний доступ можна запросити в менеджера.",notReady:"Розрахунок буде уточнено за CAMduct-таблицею.",minus:"−",nom:"ном",plus:"+",connectionHelp:"− ніпельне, ном - номінальне, + муфтове. У переходів з'єднання задається по торцях.",saved:"Додано.",top:"верх",bottom:"низ",left:"ліво",right:"право",angle:"Кут",main:"магістраль",branch:"патрубок",avgDiameter:"Dсер",inclinedLength:"Lпох",avgPerimeter:"середній периметр"},
-    en:{atlas:"← Atlas",category:"Category →",sizes:"Dimensions",options:"Options",detail:"Detail",connectors:"Connectors",help:"Help",expand:"Expand all",collapse:"Collapse all",simple:"Simple",full:"Full",reset:"Reset",hidden:"Hidden",area:"Area",mass:"Product mass",desc:"Specification description",calc:"Calculation",comment:"Comment",commentPh:"Specification note",add:"Add to project",update:"Save",guest:"Project adding is disabled for guests.",material:"Material",thickness:"Thickness",qty:"Quantity",galv:"Galvanized steel",ss430:"Stainless 430 technical",ss304:"Stainless 304 food",mm:"mm",kg:"kg",standard:"Standard ✓",custom:"Custom ✎",formula:"Formula",calcHidden:"Formula details are hidden in client mode. Engineering access can be requested from a manager.",notReady:"Calculation will be refined from CAMduct table.",minus:"−",nom:"nom",plus:"+",connectionHelp:"− nipple, nom - nominal, + coupling. Transitions have connection settings per end.",saved:"Added.",top:"top",bottom:"bottom",left:"left","right":"right",angle:"Angle",main:"main",branch:"branch",avgDiameter:"average D",inclinedLength:"sloped L",avgPerimeter:"average perimeter"}
+    ru:{atlas:"← Атлас",category:"Категория →",sizes:"Размеры",options:"Опции",detail:"Деталь",connectors:"Соединители",help:"Помощь",expand:"Развернуть всё",collapse:"Свернуть всё",simple:"Простой",full:"Полный",reset:"Сброс",hidden:"Скрыто",area:"Площадь",mass:"Масса изделия",desc:"Описание (спецификация)",calc:"Расчёт",comment:"Комментарий",commentPh:"Примечание для спецификации",add:"Добавить в проект",update:"Сохранить",guest:"Для гостя добавление в проект отключено.",material:"Материал",thickness:"Толщина",qty:"Количество",galv:"Оцинкованная сталь",ss430:"Нержавеющая 430 техническая",ss304:"Нержавеющая 304 пищевая",aluminum:"Алюминий",mm:"мм",kg:"кг",standard:"Стандарт ✓",custom:"Нестандарт ✎",formula:"По формуле",calcHidden:"Формульная часть скрыта.",notReady:"Расчёт будет уточнён по CAMduct-таблице.",minus:"−",nom:"ном",plus:"+",connectionHelp:"− ниппельное, ном - номинальное, + муфтовое. У переходов соединение задаётся по торцам.",saved:"Добавлено.",top:"верх",bottom:"низ",left:"лево",right:"право",angle:"Угол",main:"магистраль",branch:"патрубок",avgDiameter:"Dср",inclinedLength:"Lнакл",avgPerimeter:"средний периметр"},
+    uk:{atlas:"← Атлас",category:"Категорія →",sizes:"Розміри",options:"Опції",detail:"Деталь",connectors:"З'єднувачі",help:"Допомога",expand:"Розгорнути все",collapse:"Згорнути все",simple:"Простий",full:"Повний",reset:"Скидання",hidden:"Приховано",area:"Площа",mass:"Маса виробу",desc:"Опис (специфікація)",calc:"Розрахунок",comment:"Коментар",commentPh:"Примітка для специфікації",add:"Додати в проєкт",update:"Зберегти",guest:"Для гостя додавання в проєкт вимкнено.",material:"Матеріал",thickness:"Товщина",qty:"Кількість",galv:"Оцинкована сталь",ss430:"Нержавіюча 430 технічна",ss304:"Нержавіюча 304 харчова",aluminum:"Алюміній",mm:"мм",kg:"кг",standard:"Стандарт ✓",custom:"Нестандарт ✎",formula:"За формулою",calcHidden:"Формульну частину приховано.",notReady:"Розрахунок буде уточнено за CAMduct-таблицею.",minus:"−",nom:"ном",plus:"+",connectionHelp:"− ніпельне, ном - номінальне, + муфтове. У переходів з'єднання задається по торцях.",saved:"Додано.",top:"верх",bottom:"низ",left:"ліво",right:"право",angle:"Кут",main:"магістраль",branch:"патрубок",avgDiameter:"Dсер",inclinedLength:"Lпох",avgPerimeter:"середній периметр"},
+    en:{atlas:"← Atlas",category:"Category →",sizes:"Dimensions",options:"Options",detail:"Detail",connectors:"Connectors",help:"Help",expand:"Expand all",collapse:"Collapse all",simple:"Simple",full:"Full",reset:"Reset",hidden:"Hidden",area:"Area",mass:"Product mass",desc:"Specification description",calc:"Calculation",comment:"Comment",commentPh:"Specification note",add:"Add to project",update:"Save",guest:"Project adding is disabled for guests.",material:"Material",thickness:"Thickness",qty:"Quantity",galv:"Galvanized steel",ss430:"Stainless 430 technical",ss304:"Stainless 304 food",aluminum:"Aluminum",mm:"mm",kg:"kg",standard:"Standard ✓",custom:"Custom ✎",formula:"Formula",calcHidden:"Formula details are hidden.",notReady:"Calculation will be refined from CAMduct table.",minus:"−",nom:"nom",plus:"+",connectionHelp:"− nipple, nom - nominal, + coupling. Transitions have connection settings per end.",saved:"Added.",top:"top",bottom:"bottom",left:"left","right":"right",angle:"Angle",main:"main",branch:"branch",avgDiameter:"average D",inclinedLength:"sloped L",avgPerimeter:"average perimeter"}
   };
   const t=i18n[lang]||i18n.ru;
   Object.assign(i18n.ru,{units:"Ед. измерения",unitMM:"мм",unitIN:"дюймы",ft2:"ft²",lb:"lb",conn1:"Соединение 1",conn2:"Соединение 2",lock:"Продольный замок (S1)",lockAm:"Американский",lockSize:"Размер замка",sheetSplit:"Панель не влезает на лист — разделить, русский замок",pdf:"Сохранить PDF"});
   Object.assign(i18n.uk,{units:"Од. виміру",unitMM:"мм",unitIN:"дюйми",ft2:"ft²",lb:"lb",conn1:"З'єднання 1",conn2:"З'єднання 2",lock:"Поздовжній замок (S1)",lockAm:"Американський",lockSize:"Розмір замка",sheetSplit:"Панель не влазить на лист — розділити, російський замок",pdf:"Зберегти PDF"});
   Object.assign(i18n.en,{units:"Units",unitMM:"mm",unitIN:"inch",ft2:"ft²",lb:"lb",conn1:"Connection 1",conn2:"Connection 2",lock:"Longitudinal lock (S1)",lockAm:"American",lockSize:"Lock size",sheetSplit:"Panel exceeds sheet — split, Russian lock",pdf:"Save PDF"});
+  Object.assign(i18n.ru,{guestRemaining:"Гостевой доступ: осталось {left} из {limit} расчётов.",guestUsed:"Гостевой лимит на сегодня исчерпан. Войдите или зарегистрируйтесь, чтобы продолжить."});
+  Object.assign(i18n.uk,{guestRemaining:"Гостьовий доступ: залишилось {left} з {limit} розрахунків.",guestUsed:"Гостьовий ліміт на сьогодні вичерпано. Увійдіть або зареєструйтесь, щоб продовжити."});
+  Object.assign(i18n.en,{guestRemaining:"Guest access: {left} of {limit} calculations left.",guestUsed:"Today's guest limit is used. Sign in or register to continue."});
+  Object.assign(i18n.ru,{optionsReserved:"Здесь будут настройки отверстий и дополнительных параметров изделия.",formulaHelpPending:"Инженерная расшифровка появится после расчёта."});
+  Object.assign(i18n.uk,{optionsReserved:"Тут будуть налаштування отворів і додаткових параметрів виробу.",formulaHelpPending:"Інженерна розшифровка з'явиться після розрахунку."});
+  Object.assign(i18n.en,{optionsReserved:"Opening and additional product options will appear here.",formulaHelpPending:"Engineering breakdown will appear after calculation."});
   let UNIT="mm";const UF=()=>UNIT==="in"?25.4:1;
   const RAILMM=10;const RECT_CONN=["Ш20","Ш30","Ш20 Сам","Ш30 Сам","Рейка","ГК"];
-  const canExportPdf=["client","admin"].includes(role);
   const materials=[
     {key:"galv",label:t.galv,density:7850,thickness:[0.5,0.7,0.9,1.0]},
     {key:"ss430",label:t.ss430,density:7850,thickness:[0.55,0.7,0.8,1.0]},
-    {key:"ss304",label:t.ss304,density:8000,thickness:[0.55,0.7,0.8,1.0]}
+    {key:"ss304",label:t.ss304,density:8000,thickness:[0.55,0.7,0.8,1.0]},
+    {key:"aluminum",label:t.aluminum,density:2700,thickness:[0.5,0.7,0.8,1.0]}
   ];
   const modules={
     "round-duct":{category:"round",title:{ru:"Воздуховод круглый",uk:"Повітропровід круглий",en:"Round duct"},type:"formula",image:"../../assets/products/round_duct.svg",fields:[num("D","D",250),num("L","L",1000)],connections:["D"],formula:"roundDuct"},
@@ -37,16 +43,16 @@
     "round-cap":{category:"round",title:{ru:"Заглушка круглая",uk:"Заглушка кругла",en:"Round cap"},type:"formula",image:"../../modules/round/cap/preview.svg",fields:[num("D","D",250)],connections:["D"],formula:"roundCap"},
     "round-inset":{category:"round",title:{ru:"Врезка круглая",uk:"Врізка кругла",en:"Round inset"},type:"formula",image:"../../modules/common/stub-preview.svg",fields:[num("D","D",250),num("H","H",120)],connections:["D"],formula:"roundInset"},
     "round-saddle":{category:"round",title:{ru:"Седло",uk:"Сідло",en:"Saddle"},type:"formula",image:"../../modules/round/saddle/preview.svg",fields:[num("D","D",315),num("D1","D1",200)],connections:["D1"],formula:"stub"},
-    "round-nipple":{category:"round",title:{ru:"Ниппель круглый",uk:"Ніпель круглий",en:"Round nipple"},type:"formula",image:"../../modules/round/nipple/preview.svg",fields:[num("D","D",250),num("L","L",120)],connections:["D"],formula:"stub"},
-    "round-silencer":{category:"round",title:{ru:"Шумоглушитель круглый",uk:"Шумоглушник круглий",en:"Round silencer"},type:"formula",image:"../../modules/round/silencer/preview.svg",fields:[num("D","D",250),num("L","L",900)],connections:["D"],formula:"stub"},
+    "round-nipple":{category:"round",title:{ru:"Ниппель круглый",uk:"Ніпель круглий",en:"Round nipple"},type:"formula",image:"../../modules/round/nipple/preview.svg",fields:[num("D","D",250),num("L","L",120)],connections:["D"],formula:"roundShell"},
+    "round-silencer":{category:"round",title:{ru:"Шумоглушитель круглый",uk:"Шумоглушник круглий",en:"Round silencer"},type:"formula",image:"../../modules/round/silencer/preview.svg",fields:[num("D","D",250),num("L","L",900)],connections:["D"],formula:"roundShell"},
     "round-umbrella":{category:"round",title:{ru:"Зонт круглый",uk:"Зонт круглий",en:"Round umbrella"},type:"formula",image:"../../modules/round/umbrella/preview.svg",fields:[num("D","D",250),num("H","H",300)],connections:["D"],formula:"stub"},
-    "round-damper":{category:"round",title:{ru:"Дроссель круглый",uk:"Дросель круглий",en:"Round damper"},type:"formula",image:"../../modules/round/damper/preview.svg",fields:[num("D","D",250),num("L","L",120)],connections:["D"],formula:"stub"},
-    "round-flange":{category:"round",title:{ru:"Фланец круглый",uk:"Фланець круглий",en:"Round flange"},type:"formula",image:"../../modules/round/flange/preview.svg",fields:[num("D","D",250),num("B","B",30)],connections:["D"],formula:"stub"},
+    "round-damper":{category:"round",title:{ru:"Дроссель круглый",uk:"Дросель круглий",en:"Round damper"},type:"formula",image:"../../modules/round/damper/preview.svg",fields:[num("D","D",250),num("L","L",120)],connections:["D"],formula:"roundShell"},
+    "round-flange":{category:"round",title:{ru:"Фланец круглый",uk:"Фланець круглий",en:"Round flange"},type:"formula",image:"../../modules/round/flange/preview.svg",fields:[num("D","D",250),num("B","B",30)],connections:["D"],formula:"roundFlange"},
     "round-cross":{category:"round",title:{ru:"Крестовина круглая",uk:"Хрестовина кругла",en:"Round cross"},type:"formula",image:"../../modules/round/cross/preview.svg",fields:[num("D","D",315),num("D1","D1",250),num("D2","D2",250),num("L","L",600)],connections:["D","D1","D2"],formula:"stub"},
     "round-duck":{category:"round",title:{ru:"Утка круглая",uk:"Качка кругла",en:"Round offset duct"},type:"formula",image:"../../modules/round/duck/preview.svg",fields:[num("D","D",250),num("L","L",600),num("Offset","Offset",150)],connections:["D"],formula:"stub"},
-    "round-check-valve":{category:"round",title:{ru:"Обратный клапан круглый",uk:"Зворотний клапан круглий",en:"Round check valve"},type:"formula",image:"../../modules/round/check-valve/preview.svg",fields:[num("D","D",250),num("L","L",180)],connections:["D"],formula:"stub"},
+    "round-check-valve":{category:"round",title:{ru:"Обратный клапан круглый",uk:"Зворотний клапан круглий",en:"Round check valve"},type:"formula",image:"../../modules/round/check-valve/preview.svg",fields:[num("D","D",250),num("L","L",180)],connections:["D"],formula:"roundShell"},
     "round-deflector":{category:"round",title:{ru:"Дефлектор",uk:"Дефлектор",en:"Deflector"},type:"formula",image:"../../modules/round/deflector/preview.svg",fields:[num("D","D",250),num("H","H",300)],connections:["D"],formula:"stub"},
-    "round-coupling":{category:"round",title:{ru:"Муфта",uk:"Муфта",en:"Coupling"},type:"formula",image:"../../modules/round/coupling/preview.svg",fields:[num("D","D",250),num("L","L",120)],connections:["D"],formula:"stub"},
+    "round-coupling":{category:"round",title:{ru:"Муфта",uk:"Муфта",en:"Coupling"},type:"formula",image:"../../modules/round/coupling/preview.svg",fields:[num("D","D",250),num("L","L",120)],connections:["D"],formula:"roundShell"},
     "rectangular-duct":{category:"rectangular",title:{ru:"Воздуховод прямоугольный",uk:"Повітропровід прямокутний",en:"Rectangular duct"},type:"formula",image:"../../assets/products/rectangular_duct.svg",fields:[num("A","A",400),num("B","B",300),num("L","L",1000)],formula:"rectDuct"},
     "rectangular-elbow":{category:"rectangular",title:{ru:"Отвод прямоугольный",uk:"Відвід прямокутний",en:"Rectangular elbow"},type:"formula",image:"../../assets/products/rectangular_elbow.svg",fields:[num("A","A",400),num("B","B",300),select("Angle",{ru:"Угол",uk:"Кут",en:"Angle"},[15,30,45,60,90],90),num("R","R",300)],formula:"rectElbow"},
     "rectangular-elbow-transition":{category:"rectangular",title:{ru:"Колено прямоугольное переходное",uk:"Коліно прямокутне перехідне",en:"Rectangular transition elbow"},type:"formula",image:"../../modules/common/stub-preview.svg",fields:[num("A","A",400),num("B","B",300),num("C","C",300),num("D","D",200),select("Angle",{ru:"Угол",uk:"Кут",en:"Angle"},[15,30,45,60,90],90)],formula:"stub"},
@@ -57,15 +63,15 @@
     "rectangular-cap":{category:"rectangular",title:{ru:"Заглушка прямоугольная",uk:"Заглушка прямокутна",en:"Rectangular cap"},type:"formula",image:"../../assets/products/rectangular_cap.svg",fields:[num("A","A",400),num("B","B",300),num("F","F",30)],formula:"rectCap"},
     "rectangular-inset":{category:"rectangular",title:{ru:"Врезка прямоугольная",uk:"Врізка прямокутна",en:"Rectangular inset"},type:"formula",image:"../../modules/common/stub-preview.svg",fields:[num("A","A",250),num("B","B",200),num("H","H",120)],formula:"rectInset"},
     "rectangular-saddle":{category:"rectangular",title:{ru:"Врезка прямоугольная в плоскость",uk:"Врізка прямокутна в площину",en:"Rectangular saddle"},type:"formula",image:"../../modules/common/stub-preview.svg",fields:[num("A","A",250),num("B","B",200),num("H","H",120)],formula:"rectInset"},
-    "rectangular-silencer":{category:"rectangular",title:{ru:"Шумоглушитель прямоугольный",uk:"Шумоглушник прямокутний",en:"Rectangular silencer"},type:"formula",image:"../../modules/common/stub-preview.svg",fields:[num("A","A",400),num("B","B",300),num("L","L",900)],formula:"stub"},
+    "rectangular-silencer":{category:"rectangular",title:{ru:"Шумоглушитель прямоугольный",uk:"Шумоглушник прямокутний",en:"Rectangular silencer"},type:"formula",image:"../../modules/common/stub-preview.svg",fields:[num("A","A",400),num("B","B",300),num("L","L",900)],formula:"rectShell"},
     "rectangular-umbrella":{category:"rectangular",title:{ru:"Зонт прямоугольный",uk:"Зонт прямокутний",en:"Rectangular umbrella"},type:"formula",image:"../../modules/common/stub-preview.svg",fields:[num("A","A",400),num("B","B",300),num("H","H",350)],formula:"stub"},
-    "rectangular-damper":{category:"rectangular",title:{ru:"Дроссель прямой",uk:"Дросель прямий",en:"Rectangular damper"},type:"formula",image:"../../modules/common/stub-preview.svg",fields:[num("A","A",400),num("B","B",300),num("L","L",120)],formula:"stub"},
+    "rectangular-damper":{category:"rectangular",title:{ru:"Дроссель прямой",uk:"Дросель прямий",en:"Rectangular damper"},type:"formula",image:"../../modules/common/stub-preview.svg",fields:[num("A","A",400),num("B","B",300),num("L","L",120)],formula:"rectShell"},
     "round-to-rectangular":{category:"combined",title:{ru:"Переход круг-прямоугольник",uk:"Перехід круг-прямокутник",en:"Round to rectangular"},type:"formula",image:"../../assets/products/round_to_rectangular.svg",fields:[num("D","D",250),num("A","A",400),num("B","B",300),num("L","L",400)],connections:["D"],formula:"roundRect"},
     "combined-seat-rect":{category:"combined",title:{ru:"Седло с прямоугольной врезкой",uk:"Сідло з прямокутною врізкою",en:"Saddle with rectangular inset"},type:"formula",image:"../../modules/common/stub-preview.svg",fields:[num("D","D",315),num("A","A",250),num("B","B",200),num("H","H",120)],connections:["D"],formula:"stub"},
     "tee-round-rect":{category:"combined",title:{ru:"Тройник круг-прямоугольник",uk:"Трійник круг-прямокутник",en:"Round-rect tee"},type:"formula",image:"../../modules/common/stub-preview.svg",fields:[num("D","D",315),num("A","A",300),num("B","B",250),num("L","L",600)],connections:["D"],formula:"stub"},
     "rect-tee-round":{category:"combined",title:{ru:"Тройник прямоугольник-круг",uk:"Трійник прямокутник-круг",en:"Rect-round tee"},type:"formula",image:"../../modules/common/stub-preview.svg",fields:[num("A","A",400),num("B","B",300),num("D","D",250),num("L","L",600)],connections:["D"],formula:"stub"},
-    "round-adapter":{category:"combined",title:{ru:"Адаптер круглый",uk:"Адаптер круглий",en:"Round adapter"},type:"formula",image:"../../modules/common/stub-preview.svg",fields:[num("D","D",250),num("L","L",300)],connections:["D"],formula:"stub"},
-    "rectangular-adapter":{category:"combined",title:{ru:"Адаптер прямоугольный",uk:"Адаптер прямокутний",en:"Rectangular adapter"},type:"formula",image:"../../modules/common/stub-preview.svg",fields:[num("A","A",400),num("B","B",300),num("L","L",300)],formula:"stub"},
+    "round-adapter":{category:"combined",title:{ru:"Адаптер круглый",uk:"Адаптер круглий",en:"Round adapter"},type:"formula",image:"../../modules/common/stub-preview.svg",fields:[num("D","D",250),num("L","L",300)],connections:["D"],formula:"roundShell"},
+    "rectangular-adapter":{category:"combined",title:{ru:"Адаптер прямоугольный",uk:"Адаптер прямокутний",en:"Rectangular adapter"},type:"formula",image:"../../modules/common/stub-preview.svg",fields:[num("A","A",400),num("B","B",300),num("L","L",300)],formula:"rectShell"},
     "grease-trap":{category:"combined",title:{ru:"Жироуловитель",uk:"Жировловлювач",en:"Grease trap"},type:"formula",image:"../../modules/common/stub-preview.svg",fields:[num("A","A",400),num("B","B",300),num("L","L",500)],formula:"stub"}
   };
   function num(key,label,def){return{key,label,type:"number",default:def}}
@@ -76,9 +82,11 @@
   let result={area:0,mass:0,description:""};
   const canAddProject=["user","client","admin"].includes(role);
   const canUpdateProject=["client","admin"].includes(role);
-  const canViewFormulas=role!=="client";
+  const canViewFormulas=role==="admin";
   function localDateKey(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
   function readGuestUsage(){try{const data=JSON.parse(localStorage.getItem(guestUsageKey)||"{}");return data.date===localDateKey()?data:{date:localDateKey(),count:0}}catch(e){return{date:localDateKey(),count:0}}}
+  function guestLeft(){return Math.max(0,guestDailyLimit-readGuestUsage().count)}
+  function guestLimitNote(){const left=guestLeft();return left>0?t.guestRemaining.replace("{left}",left).replace("{limit}",guestDailyLimit):t.guestUsed}
   function moduleAllowed(){
     if(role!=="guest")return true;
     return readGuestUsage().count<=guestDailyLimit;
@@ -106,9 +114,10 @@
               <div class="result-row">${t.area}<b id="area">0.000 м²</b></div>
               <div class="result-row">${t.mass}<b id="mass">0.00 ${t.kg}</b></div>
               <div class="result-row">${t.desc}<b id="descLine">-</b><small id="statusLine"></small></div>
+              ${role==="guest"?`<div class="guest-limit-note" id="guestLimitNote">${guestLimitNote()}</div>`:""}
               ${canViewFormulas?`<details class="calc-details" open><summary>${t.calc}</summary><p id="calcNote"></p></details>`:""}
-              <div class="comment-label">${t.comment}</div><textarea id="comment" placeholder="${t.commentPh}"></textarea>
-              ${(editIndex!==null?canUpdateProject:canAddProject)?`<button class="add-btn" type="button" id="addBtn">${editIndex!==null?t.update:t.add}</button>`:""}${canExportPdf?`<button class="add-btn" type="button" id="pdfBtn" style="background:#fff;color:#b86510;border:1px solid #c9743b">${t.pdf}</button>`:""}${!canAddProject&&role==="guest"&&editIndex===null?`<div class="guest-note">${t.guest}</div>`:""}
+              ${role!=="guest"?`<div class="comment-label">${t.comment}</div><textarea id="comment" placeholder="${t.commentPh}"></textarea>`:""}
+              ${(editIndex!==null?canUpdateProject:canAddProject)?`<button class="add-btn" type="button" id="addBtn">${editIndex!==null?t.update:t.add}</button>`:""}${!canAddProject&&role==="guest"&&editIndex===null?`<div class="guest-note">${t.guest}</div>`:""}
             </section>
           </div>
           <section class="form-panel">
@@ -148,7 +157,7 @@
     return typeof code==="number"?String(code):optionText(code);
   }
   function qtyHtml(){return`<div class="field"><label for="f-Q">${t.qty}</label><input id="f-Q" data-key="Q" type="number" min="1" step="1" value="1"></div>`}
-  function optionsHtml(){return cfg.type==="table"?`<p class="tab-empty">${t.notReady}</p>`:(canViewFormulas?`<p class="tab-empty">${t.formula}</p>`:`<p class="tab-empty">${t.calcHidden}</p>`)}
+  function optionsHtml(){return cfg.type==="table"?`<p class="tab-empty">${t.notReady}</p>`:(canViewFormulas?`<p class="tab-empty">${t.optionsReserved}</p>`:`<p class="tab-empty">${t.calcHidden}</p>`)}
   function detailHtml(){return`<div class="field"><label for="material">${t.material}</label><select id="material">${materials.map(m=>`<option value="${m.key}">${m.label}</option>`).join("")}</select></div><div class="field"><label for="thickness">${t.thickness}</label><select id="thickness"></select></div>`}
   function connectorsHtml(){
     if(cfg.category==="rectangular"){
@@ -166,10 +175,7 @@
   function setUnit(u){const from=UF();UNIT=u;const to=UF();document.querySelectorAll("[data-key]").forEach(el=>{const k=el.dataset.key;if(k==="Q")return;if(el.type==="number"){const val=parseFloat(el.value);if(!isNaN(val)){el.value=(u==="in")?(+(val*from/to).toFixed(2)):Math.round(val*from/to);state[k]=el.value;}}else if(el.type==="text"){const c=offsetCode(el.value);if(typeof c==="number"){const nv=(u==="in")?(+(c*from/to).toFixed(2)):Math.round(c*from/to);el.value=offsetDisplay(nv);state[k]=el.value;}}});update();}
   function setRail(connId,fieldKey){const sl=document.getElementById(connId),f=document.getElementById("f-"+fieldKey);if(!sl||!f)return;if(sl.value==="Рейка"){if(!f.readOnly)f.dataset.prev=f.value;f.value=0;f.readOnly=true;f.style.opacity=.6;}else if(f.readOnly){f.value=f.dataset.prev||25;f.readOnly=false;f.style.opacity=1;}state[f.dataset.key]=f.value;}
   function toMM(values){const v={...values};cfg.fields.filter(f=>f.type==="number").forEach(f=>{if(typeof v[f.key]==="number")v[f.key]=v[f.key]*UF();});cfg.fields.filter(f=>f.type==="offset").forEach(f=>{if(typeof v[f.key]==="number")v[f.key]=v[f.key]*UF();});return v;}
-  let robotoLoaded=false;
-  function ensureFont(doc,cb){if(robotoLoaded){doc.setFont("Roboto","normal");cb();return;}fetch("https://cdn.jsdelivr.net/npm/@fontsource/roboto@5.0.8/files/roboto-cyrillic-400-normal.woff").then(r=>r.arrayBuffer()).then(buf=>{const b=new Uint8Array(buf);let bin="";for(let i=0;i<b.length;i++)bin+=String.fromCharCode(b[i]);doc.addFileToVFS("Roboto.ttf",btoa(bin));doc.addFont("Roboto.ttf","Roboto","normal");doc.setFont("Roboto","normal");robotoLoaded=true;cb();}).catch(()=>{doc.setFont("helvetica","normal");cb();});}
-  function exportPdf(){const J=(window.jspdf&&window.jspdf.jsPDF)||window.jsPDF;if(!J){alert("PDF library not loaded");return;}const v=currentValues();const doc=new J({orientation:"portrait",unit:"mm",format:"a4"});ensureFont(doc,()=>{const now=new Date(),x=20;let y=24;doc.setFontSize(18);doc.text("Calc Square",x,y);doc.setFontSize(11);doc.text("ST Spetsmontazh",x,y+6);y+=20;doc.setFontSize(15);doc.text(pick(cfg.title),x,y);y+=4;doc.setDrawColor(200);doc.line(x,y,190,y);y+=12;doc.setFontSize(12);const mat=materials.find(m=>m.key===v.material)?.label||"";const rows=[[t.desc,result.description||""],[t.material,mat],[t.thickness,String(v.thickness)],[t.qty,String(v.quantity)],[t.area,nf(result.area)+" м²"],[t.mass,nf(result.mass,2)+" "+t.kg]];rows.forEach(r=>{doc.setTextColor(120);doc.text(r[0]+":",x,y);doc.setTextColor(20);doc.text(String(r[1]||"-"),x+55,y);y+=9;});doc.save("CalcSquare_"+moduleKey+"_"+now.getTime()+".pdf");});}
-  function helpHtml(){return`<p class="help-text">${t.connectionHelp}</p>`}
+  function helpHtml(){return canViewFormulas?`<p class="help-text" id="formulaHelp">${t.formulaHelpPending}</p>`:`<p class="help-text">${t.connectionHelp}</p>`}
   function bind(){
     document.getElementById("toAtlas").addEventListener("click",()=>sendOpen(moduleUrl("")));
     document.getElementById("toCategory").addEventListener("click",()=>sendOpen(moduleUrl(cfg.category)));
@@ -238,10 +244,11 @@
       update();
     }));
     const comment=document.getElementById("comment");
-    if(params.has("comment"))comment.value=params.get("comment");
-    comment.addEventListener("input",update);
+    if(comment){
+      if(params.has("comment"))comment.value=params.get("comment");
+      comment.addEventListener("input",update);
+    }
     document.getElementById("addBtn")?.addEventListener("click",addToProject);
-    document.getElementById("pdfBtn")?.addEventListener("click",exportPdf);
     const unitsSel=document.getElementById("units");if(unitsSel)unitsSel.addEventListener("change",()=>setUnit(unitsSel.value));
     const c1=document.getElementById("conn1"),c2=document.getElementById("conn2");
     if(c1)c1.addEventListener("change",()=>{setRail("conn1","F");update();});
@@ -277,17 +284,28 @@
     document.getElementById("mass").textContent=nf(mDisp,2)+mU;
     document.getElementById("descLine").textContent=result.description;
     document.getElementById("statusLine").textContent=result.status||"";
+    const guestLimitNode=document.getElementById("guestLimitNote");
+    if(guestLimitNode)guestLimitNode.textContent=guestLimitNote();
     const calcNote=document.getElementById("calcNote");
     if(calcNote)calcNote.textContent=result.note||"";
+    const formulaHelp=document.getElementById("formulaHelp");
+    if(formulaHelp)formulaHelp.textContent=result.help||result.note||"";
     document.getElementById("modeBadge").textContent=canViewFormulas?(result.badge||document.getElementById("modeBadge").textContent):(cfg.type==="table"?result.badge:t.calc);
-    if(cfg.category==="rectangular"){const ls=document.getElementById("lockSizeVal");if(ls)ls.value=(values.thickness>=0.9?"5/28":"6/30");const sw=document.getElementById("sheetWarn");if(sw){if(result.sheetWarn){sw.style.display="block";sw.textContent="⚠ "+result.sheetWarn;}else sw.style.display="none";}}
+    if(cfg.category==="rectangular"){
+      const lv=document.getElementById("lockVal");
+      if(lv)lv.value=result.lockName||t.lockAm;
+      const ls=document.getElementById("lockSizeVal");
+      if(ls)ls.value=result.lockSize||(values.thickness>=0.9?"5/28":"6/30");
+      const sw=document.getElementById("sheetWarn");
+      if(sw){if(result.sheetWarn){sw.style.display="block";sw.textContent="⚠ "+result.sheetWarn;}else sw.style.display="none";}
+    }
     const box=document.getElementById("previewBox");
-    const pv=window.CalcSquarePreview?window.CalcSquarePreview(moduleKey,values):null;
+    const pv=window.CalcSquarePreview?window.CalcSquarePreview(moduleKey,values,lang):null;
     if(pv&&box){box.innerHTML=pv;}else{updateLabels(values);}
   }
   function calculate(v){
     const q=v.quantity||1;
-    let area=0,note="",sheetWarn="";
+    let area=0,note="",help="",sheetWarn="",lockName="",lockSize="";
     switch(cfg.formula){
       case"roundDuct":area=Math.PI*v.D*v.L*q/1e6;note=`S = π × D × L × Q`;break;
       case"roundElbow":{const arc=Math.PI*v.R*v.Angle/180;area=Math.PI*v.D*arc*q/1e6;note=`S = π × D × arc × Q`;break}
@@ -295,16 +313,77 @@
       case"roundTee":area=(Math.PI*v.D*v.L+Math.PI*v.D1*v.H)*q/1e6;note=`S = ${t.main} + ${t.branch}`;break;
       case"roundCap":area=Math.PI*v.D*v.D/4*q/1e6;note=`S = π × D² / 4 × Q`;break;
       case"roundInset":area=(Math.PI*v.D+8)*v.H*q/1e6;note=`P = πD + 8`;break;
-      case"rectDuct":area=2*(v.A+v.B)*v.L*q/1e6;note=`S = 2 × (A+B) × L × Q`;break;
+      case"rectDuct":{const r=rectDuct(v);area=r.area;note=r.note;help=r.help;sheetWarn=r.sheetWarn;lockName=r.lockName;lockSize=r.lockSize;break}
       case"rectElbow":{const arc=Math.PI*v.R*v.Angle/180;area=2*(v.A+v.B)*arc*q/1e6;note=`S = 2 × (A+B) × arc × Q`;break}
       case"rectTransition":{const r=rectTransition(v);area=r.area*q;note=r.note;sheetWarn=r.sheetWarn;break}
       case"rectTee":area=(2*(v.A+v.B)*v.L+2*(v.A1+v.B1)*v.H)*q/1e6;note=`S = ${t.main} + ${t.branch}`;break;
       case"rectCap":area=(v.A*v.B+2*v.F*(v.A+v.B))*q/1e6;note=`S = A×B + 2F(A+B)`;break;
       case"rectInset":area=2*(v.A+v.B)*v.H*q/1e6;note=`S = 2 × (A+B) × H × Q`;break;
       case"roundRect":area=((Math.PI*v.D+2*(v.A+v.B))/2)*v.L*q/1e6;note=`S = ${t.avgPerimeter} × L`;break;
+      case"roundShell":area=Math.PI*v.D*v.L*q/1e6;note=`S = π × D × L × Q`;break;
+      case"roundFlange":area=Math.PI*v.B*(v.D+v.B)*q/1e6;note=`S = π × B × (D + B) × Q`;break;
+      case"rectShell":area=2*(v.A+v.B)*v.L*q/1e6;note=`S = 2 × (A + B) × L × Q`;break;
       default:area=0;note=t.notReady;
     }
-    return{area,description:"",note,sheetWarn,badge:cfg.type==="table"?tableBadge(v):t.formula,status:cfg.type==="table"?tableStatus(v):""};
+    return{area,description:"",note,help,sheetWarn,lockName,lockSize,badge:cfg.type==="table"?tableBadge(v):t.formula,status:cfg.type==="table"?tableStatus(v):""};
+  }
+  function rectDuct(v){
+    const A=v.A||0,B=v.B||0,L=v.L||0,Q=v.quantity||1,T=v.thickness||0.5;
+    const P=2*(A+B);
+    const clean=P*L*Q/1e6;
+    const cleanFinal=Math.max(0,clean);
+    const welded=L<=200;
+    const Z1=welded?15:(T<0.9?6:5);
+    const Z2=welded?0:(T<0.9?30:28);
+    const lockName=welded?"Сварка":t.lockAm;
+    const lockSize=`${Z1}/${Z2}`;
+    const sheetW=1245,sheetL=2960;
+    const fitABAB=(P<=sheetW&&L<=sheetL)||(P<=sheetL&&L<=sheetW);
+    const fitABA=(A+B+A<=sheetW&&L<=sheetL)||(A+B+A<=sheetL&&L<=sheetW);
+    const fitAB=(A+B<=sheetW&&L<=sheetL)||(A+B<=sheetL&&L<=sheetW);
+    let parts=4,layout="A + B + A + B";
+    if(fitABAB){parts=1;layout="ABAB";}
+    else if(fitABA&&L<=sheetL){parts=2;layout="ABA + B";}
+    else if(fitAB&&L<=sheetL){parts=2;layout="AB + AB";}
+    let russianLocks=0;
+    if(parts===2){if(L>sheetL)russianLocks=2;}
+    else if(parts===4){if(A>sheetW)russianLocks+=2;if(B>sheetW)russianLocks+=2;}
+    const mainArea=parts*(Z1+Z2)*L*Q/1e6;
+    const russianLockSize=T<0.9?25:28;
+    const russianArea=russianLocks*russianLockSize*P*Q/1e6;
+    const lockArea=mainArea+russianArea;
+    const area=cleanFinal+lockArea;
+    const sheetWarn=(parts>1||russianLocks>0)?`${t.sheetSplit}: ${layout}, ${parts}${russianLocks?`, +${russianLocks}`:""}`:"";
+    const note=`S = ${nf(cleanFinal)} + ${nf(lockArea)} = ${nf(area)} м²; ${lockName} ${lockSize}; ${layout}`;
+    const help=[
+      "ПАРАМЕТРЫ",
+      `A — ширина изделия, ${nf(A,0)} ${t.mm}`,
+      `B — высота изделия, ${nf(B,0)} ${t.mm}`,
+      `L — длина изделия, ${nf(L,0)} ${t.mm}`,
+      `Q — количество, ${Q}`,
+      `t — толщина металла, ${nf(T)} ${t.mm}`,
+      "P — периметр прямоугольного сечения",
+      "Sчист — чистовая площадь без замков",
+      "Sзамк — добавка на замки",
+      "Sрус — добавка на русские замки, если лист делится по ширине/длине",
+      "",
+      "ЛОГИКА РАСЧЁТА",
+      `P = 2 × (A + B) = 2 × (${nf(A,0)} + ${nf(B,0)}) = ${nf(P,0)} ${t.mm}`,
+      `Sчист = P × L × Q / 1 000 000 = ${nf(P,0)} × ${nf(L,0)} × ${Q} / 1 000 000 = ${nf(cleanFinal)} м²`,
+      "",
+      "ЗАМКИ",
+      `Замок: ${lockName}; Z1 = ${Z1} ${t.mm}, Z2 = ${Z2} ${t.mm}, размер ${lockSize}`,
+      `Sзамк = частей × (Z1 + Z2) × L × Q / 1 000 000 = ${parts} × ${Z1+Z2} × ${nf(L,0)} × ${Q} / 1 000 000 = ${nf(mainArea)} м²`,
+      russianLocks?`Русские замки: ${russianLocks} × ${russianLockSize} × P × Q / 1 000 000 = ${nf(russianArea)} м²`:"Русские замки: 0",
+      "",
+      "РАСКЛАДКА ЛИСТА",
+      `Лист: 1245 × 2960 ${t.mm}`,
+      `Раскладка: ${layout}; частей: ${parts}`,
+      "",
+      "ИТОГ",
+      `Sитог = Sчист + Sзамк + Sрус = ${nf(cleanFinal)} + ${nf(mainArea)} + ${nf(russianArea)} = ${nf(area)} м²`
+    ].join("\n");
+    return{area,note,help,sheetWarn,lockName,lockSize};
   }
   function rectTransition(v){
     const railF=v.conn1==="Рейка",railG=v.conn2==="Рейка";

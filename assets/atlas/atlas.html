@@ -56,7 +56,7 @@ const text={
 if(!text[lang])lang="ru";
 document.documentElement.lang=lang;
 document.getElementById("title").textContent=(text[lang]||text.ru).title;
-document.querySelector(".version").textContent=params.get("v")||"dev";
+document.querySelector(".version").textContent=params.get("label")||params.get("v")||"dev";
 document.title="Calc Square · "+(text[lang]||text.ru).title;
 const cats=document.getElementById("cats");
 function pick(value){return value?.[lang]||value?.ru||value?.en||""}

@@ -11,13 +11,11 @@
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Exo 2",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;font-style:italic}
 button,input,select,textarea{font:inherit}
 .topbar{height:72px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.08);display:flex;align-items:center;justify-content:space-between;gap:24px;padding:0 38px;position:sticky;top:0;z-index:30}
-.brand{display:flex;align-items:center;gap:12px;min-width:220px}
-.brand img{width:40px;height:40px;object-fit:contain}
-.brand h1{font-size:18px;line-height:1;margin:0;font-weight:800;font-style:italic;letter-spacing:.02em}
-.brand small{display:block;color:var(--muted);font-size:11px;margin-top:2px;text-transform:uppercase;letter-spacing:.08em}
+.brand{display:flex;align-items:center;min-width:220px;text-decoration:none;color:inherit}
+.brand img{width:156px;height:auto;object-fit:contain;display:block}
 .top-actions{margin-left:auto;display:flex;align-items:center;justify-content:flex-end;gap:22px}
 .top-nav{display:flex;align-items:center;gap:28px}
-.top-nav button{border:0;background:transparent;padding:4px 0;color:#1f2328;font-size:13px;font-weight:800;font-style:italic;text-transform:uppercase;cursor:pointer}
+.top-nav button{border:0;background:transparent;padding:4px 0;color:#1f2328;font-family:"Open Sans Condensed","Arial Narrow",Arial,sans-serif;font-size:14px;font-weight:700;font-style:normal;text-transform:uppercase;cursor:pointer}
 .top-nav button:hover{color:var(--accent)}
 .toolbar{display:flex;align-items:center;justify-content:flex-end;gap:8px}
 .toolbar label{position:relative;font-size:0;line-height:0;color:transparent}
@@ -28,9 +26,12 @@ button,input,select,textarea{font:inherit}
 .login-btn:focus-visible,.top-nav button:focus-visible,.nav-actions button:focus-visible,.project-actions button:focus-visible{outline:2px solid #f5b15a;outline-offset:2px}
 .role-chip{border:1px solid #d9dde3;border-radius:7px;background:#fff;color:#5b6573;padding:8px 11px;font-size:12px;line-height:1;font-weight:800;text-transform:uppercase}
 .guest-counter{border:1px solid #ead4b5;border-radius:7px;background:#fff7ed;color:#9a5800;padding:8px 11px;font-size:12px;line-height:1;font-weight:800}
+.admin-guest-reset{border:1px solid #ead4b5;border-radius:7px;background:#fff7ed;color:#9a5800;padding:8px 10px;font-size:12px;line-height:1;font-weight:800;cursor:pointer}
+.admin-guest-reset:hover{background:#ffedd5}
 body:not([data-role="guest"]) .guest-counter{display:none}
 body[data-role="guest"] .role-chip{display:none}
-.app{--project-width:78vw;height:calc(100vh - 72px);display:grid;grid-template-columns:minmax(520px,min(var(--project-width),calc(100vw - 360px))) 10px minmax(300px,1fr);gap:10px;padding:0}
+body:not([data-role="admin"]) .admin-guest-reset{display:none}
+.app{--project-width:78vw;height:calc(100vh - 72px);display:grid;grid-template-columns:minmax(300px,1fr) 10px minmax(520px,min(var(--project-width),calc(100vw - 360px)));gap:10px;padding:0}
 body[data-layout="project"] .app{grid-template-columns:minmax(0,1fr)}
 body[data-layout="atlas"] .app{grid-template-columns:minmax(0,1fr)}
 body[data-layout="project"] .work{display:none}
@@ -41,9 +42,17 @@ body[data-layout="atlas"] .resizer{left:0}
 body[data-role="guest"] .app{grid-template-columns:minmax(0,1fr)}
 body[data-role="guest"] .side,body[data-role="guest"] .resizer,body[data-role="guest"] .mobile-switch{display:none}
 body[data-role="guest"] .top-nav button:not(#topAtlas){display:none}
-body[data-role="user"] .project-comment{background:#f6f7f8;color:#6b7280;resize:none;pointer-events:none}
+body[data-role="user"] .project-comment{background:#f6f7f8;color:#6b7280;resize:none;cursor:not-allowed}
 .side,.work{background:transparent;border-radius:0;box-shadow:none}
-.side{padding:0 18px 0 0;display:flex;flex-direction:column;gap:10px;min-height:0}
+.work{order:1}
+.resizer{order:2}
+.side{order:3;padding:0 0 0 18px;display:flex;flex-direction:column;gap:10px;min-height:0}
+body[data-panel-layout="project-left"] .app{grid-template-columns:minmax(520px,min(var(--project-width),calc(100vw - 360px))) 10px minmax(300px,1fr)}
+body[data-panel-layout="project-left"] .work{order:3}
+body[data-panel-layout="project-left"] .side{order:1;padding:0 18px 0 0}
+body[data-role="guest"] .app{grid-template-columns:minmax(0,1fr)!important}
+body[data-role="guest"] .work{display:block!important;order:1!important}
+body[data-role="guest"] .side,body[data-role="guest"] .resizer,body[data-role="guest"] .mobile-switch{display:none!important}
 body.summary-flow .side{overflow-y:auto;overflow-x:hidden;padding-bottom:16px}
 .nav-actions{display:none;justify-content:flex-start;gap:6px}
 body[data-layout="project"] .nav-actions{display:flex}
@@ -53,16 +62,17 @@ body[data-layout="project"] .nav-actions{display:flex}
 .project-hero h2{margin:0 0 22px;color:#5b6573;font-size:32px;line-height:1;font-weight:800;font-style:italic;letter-spacing:.04em;text-transform:uppercase}
 .project-meta{display:flex;justify-content:center;gap:18px;flex-wrap:wrap}
 .project-meta input{width:min(280px,100%);height:42px;border:1px solid #d1d5db;border-radius:8px;background:#fff;padding:0 14px;font-size:14px}
-.spec-panel{display:flex;flex-direction:column;align-items:center;gap:8px}
-.spec-panel-toggle{height:30px;border:1px solid #cfd3da;border-radius:999px;background:#fff;color:#4b5563;padding:0 12px;font-size:12px;font-weight:800;font-style:italic;display:inline-flex;align-items:center;gap:8px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.spec-panel{display:flex;flex-direction:column;align-items:center;gap:6px}
+.spec-panel-toggle{height:26px;border:1px solid #cfd3da;border-radius:999px;background:#fff;color:#4b5563;padding:0 10px;font-size:11px;font-weight:800;font-style:italic;display:inline-flex;align-items:center;gap:7px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.04)}
 .spec-panel-toggle:hover{border-color:#e5b56e;color:#b86205;background:#fff8ec}
 .spec-panel-toggle::after{content:"⌃";font-size:13px;line-height:1;color:#df7a12}
 body.spec-controls-collapsed .spec-panel-toggle::after{content:"⌄"}
-.spec-controls{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;max-height:160px;overflow:hidden;transition:max-height .22s ease,opacity .18s ease,transform .18s ease}
-body.spec-controls-collapsed .spec-controls{max-height:0;opacity:0;transform:translateY(-4px);pointer-events:none}
-.spec-controls button,.spec-controls label{height:24px;border:1px solid #cfd3da;border-radius:6px;background:#fff;color:#4b5563;padding:4px 8px;font-size:11px;font-weight:600;font-style:italic;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.spec-controls{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;max-height:148px;overflow:hidden;padding:6px 10px;border:1px solid rgba(207,211,218,.75);border-radius:10px;background:rgba(255,255,255,.58);box-shadow:0 6px 18px rgba(31,35,40,.04);transition:max-height .22s ease,opacity .18s ease,transform .18s ease,padding .18s ease,border-color .18s ease}
+body.spec-controls-collapsed .spec-controls{max-height:0;opacity:0;transform:translateY(-4px);pointer-events:none;padding-top:0;padding-bottom:0;border-color:transparent}
+.spec-controls button,.spec-controls label{height:22px;border:1px solid #cfd3da;border-radius:6px;background:#fff;color:#4b5563;padding:3px 7px;font-size:10.5px;font-weight:600;font-style:italic;display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
 .spec-controls button{cursor:pointer;font-style:normal}
 .spec-controls input{margin:0}
+.spec-controls select{height:18px;min-width:106px;border:0;background:transparent;color:#4b5563;font-size:10.5px;font-weight:700}
 .project-head-row .project-cell.sortable{cursor:pointer}
 .project-head-row .project-cell.sortable:hover{background:#c96d0b}
 .project-head-row .project-cell.sortable::after{content:attr(data-sort-mark);margin-left:auto;color:#fff;font-size:11px}
@@ -73,7 +83,8 @@ body.reordering-cols{cursor:grabbing;user-select:none}
 .name-dims{display:none;color:#6b7280;margin-top:4px;font-size:12px;font-weight:600;white-space:normal;overflow-wrap:anywhere;max-width:100%}
 body.dims-under-name:not(.dims-column-off) .name-dims:not(:empty){display:block}
 .name-dims:empty{display:none}
-.project-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.project-head{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.project-head .spec-panel{flex:1 1 260px}
 .project-head h2{font-size:18px;margin:0}
 .project-head-tools{display:flex;align-items:center;gap:8px}
 .project-table{overflow-y:auto;overflow-x:hidden;border:0;border-radius:16px;background:#fff;min-height:120px;width:100%;max-width:100%;margin:0;flex:1 1 auto;box-shadow:0 4px 18px rgba(0,0,0,.06)}
@@ -97,6 +108,9 @@ body.summary-flow .project-table.has-x-overflow{overflow-x:auto}
 .project-head-row .project-cell:hover .col-resizer::after,.col-resizer:focus-visible::after{opacity:1}
 .resizing-cols{cursor:col-resize;user-select:none}
 .project-row:nth-child(even) .project-cell{background:#fafafa}
+.project-row.has-language-conflict .project-cell{background:#fffaf0}
+.project-row.has-language-conflict:nth-child(even) .project-cell{background:#fff7e8}
+.language-conflict{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;margin-left:4px;border-radius:50%;background:#f5b15a;color:#7c3f00;font-size:11px;font-weight:900;font-style:normal;vertical-align:middle}
 .project-grid .project-cell:nth-child(11){position:sticky;right:0;z-index:4;background:transparent;border-left:0;box-shadow:none;padding-left:2px;padding-right:4px}
 .project-row:nth-child(even) .project-cell:nth-child(11){background:transparent}
 .project-head-row .project-cell:nth-child(11){z-index:9;background:#d97a1c;box-shadow:-1px 0 0 rgba(255,255,255,.25)}
@@ -159,12 +173,18 @@ body[data-role="user"] .project-actions button:hover{background:#fff3df;color:#b
 .mobile-switch{display:none;position:fixed;left:12px;right:12px;bottom:12px;z-index:20;background:#fff;border:1px solid #d1d5db;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.18);padding:6px;gap:6px}
 .mobile-switch button{flex:1;border:0;border-radius:8px;background:#eef0f3;padding:11px 10px;font-weight:700}
 .mobile-switch button.active{background:var(--accent);color:#fff}
+.print-watermark{display:none}
+.print-spec-report{display:none}
 .login-modal[hidden]{display:none}
 .login-modal{position:fixed;inset:0;z-index:80;display:grid;place-items:center;background:rgba(0,0,0,.55);padding:18px}
 .login-card{position:relative;width:min(340px,calc(100vw - 36px));border-radius:14px;background:#fff;box-shadow:0 22px 70px rgba(0,0,0,.28);padding:28px 28px 24px}
 .login-card h2{margin:0 0 22px;text-align:center;color:#5b6573;font-size:20px;font-weight:800;font-style:italic;text-transform:uppercase}
 .login-close{position:absolute;right:12px;top:10px;width:30px;height:30px;border:0;background:transparent;color:#6b7280;font-size:26px;line-height:1;cursor:pointer}
 .login-field{width:100%;height:38px;margin-bottom:12px;border:1px solid #d1d5db;border-radius:7px;background:#fff;padding:0 12px;font-size:13px}
+.password-wrap{position:relative;margin-bottom:12px}
+.password-wrap .login-field{margin-bottom:0;padding-right:42px}
+.password-toggle{position:absolute;right:5px;top:5px;width:28px;height:28px;border:0;border-radius:6px;background:#f3f4f6;color:#4b5563;font-size:14px;line-height:1;cursor:pointer}
+.password-toggle:hover{background:#fff3df;color:#b86205}
 .login-submit,.register-submit,.guest-submit{width:100%;height:38px;border:0;border-radius:7px;font-weight:800;text-transform:uppercase;cursor:pointer}
 .login-submit{background:var(--accent);color:#fff}
 .register-submit{margin-top:8px;background:#fff;color:var(--accent);border:1px solid var(--accent)}
@@ -201,8 +221,7 @@ iframe{display:block;width:100%;height:100%;min-height:0;border:0;background:#ec
   body{padding-bottom:72px}
   .topbar{height:auto;position:static;align-items:flex-start;gap:12px;padding:12px;flex-wrap:wrap}
   .brand{min-width:0}
-  .brand h1{font-size:16px}
-  .brand small{font-size:10px}
+  .brand img{width:144px}
   .top-actions{width:100%;gap:10px;flex-wrap:wrap;justify-content:flex-start}
   .top-nav{gap:14px}
   .login-btn{padding:8px 12px}
@@ -219,14 +238,90 @@ iframe{display:block;width:100%;height:100%;min-height:0;border:0;background:#ec
   .mobile-switch{display:flex}
   .project-table{max-height:calc(100vh - 260px)}
 }
+@media print{
+  @page{size:A4 landscape;margin:10mm}
+  html,body{height:auto!important;overflow:visible!important;background:#fff!important}
+  body{font-size:10px!important;color:#111!important}
+  .print-watermark{display:block!important;position:fixed;left:0;right:0;top:34mm;bottom:0;z-index:2;pointer-events:none;overflow:hidden;mix-blend-mode:multiply}
+  .print-watermark span{position:absolute;width:360mm;color:#5d6673;opacity:.055;font-family:"Open Sans Condensed","Arial Narrow",Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;white-space:nowrap;transform:rotate(-23deg)}
+  .print-watermark span:nth-child(2n){color:#df7a12;opacity:.052}
+  .print-watermark span:nth-child(1){left:-78mm;top:6mm}.print-watermark span:nth-child(2){left:34mm;top:37mm}.print-watermark span:nth-child(3){left:-52mm;top:71mm}.print-watermark span:nth-child(4){left:54mm;top:106mm}.print-watermark span:nth-child(5){left:-66mm;top:142mm}.print-watermark span:nth-child(6){left:36mm;top:176mm}.print-watermark span:nth-child(7){left:-44mm;top:210mm}.print-watermark span:nth-child(8){left:58mm;top:242mm}.print-watermark span:nth-child(9){left:-30mm;top:274mm}
+  .print-watermark img{position:absolute;width:31mm;height:auto;opacity:.035;filter:grayscale(.15)}
+  .print-watermark img:nth-of-type(1){left:106mm;top:12mm;transform:rotate(-18deg)}.print-watermark img:nth-of-type(2){left:238mm;top:18mm;transform:rotate(-27deg)}.print-watermark img:nth-of-type(3){left:22mm;top:80mm;transform:rotate(-16deg)}.print-watermark img:nth-of-type(4){left:170mm;top:94mm;transform:rotate(-30deg)}.print-watermark img:nth-of-type(5){left:242mm;top:144mm;transform:rotate(-18deg)}.print-watermark img:nth-of-type(6){left:64mm;top:182mm;transform:rotate(-25deg)}.print-watermark img:nth-of-type(7){left:190mm;top:216mm;transform:rotate(-14deg)}
+  .topbar{position:static!important;height:16mm!important;display:flex!important;box-shadow:none!important;border-bottom:1px solid #ddd!important;padding:0 0 4mm!important;margin:0 0 5mm!important;background:#fff!important}
+  .topbar .brand img{width:40mm!important;height:auto!important}
+  .top-actions,.work,.resizer,.mobile-switch,.nav-actions,.spec-panel,.project-actions,.project-row-actions,.project-clear-all,.project-edit,.project-remove,.filter-menu,.clear-menu,.project-tip,.login-modal{display:none!important}
+  .app{display:block!important;height:auto!important;min-height:0!important;padding:0!important}
+  .side{display:block!important;padding:0!important;overflow:visible!important;min-height:0!important}
+  .project{display:block!important;min-height:0!important}
+  .project-hero{padding:0 0 8px!important}
+  .project-hero h2{font-size:22px!important;margin:0 0 10px!important}
+  .project-meta{gap:6px!important}
+  .project-meta input{height:26px!important;font-size:10px!important;border-color:#ddd!important}
+  .project-head{display:none!important}
+  .project-table,.summary-table{overflow:visible!important;max-height:none!important;min-height:0!important;border-radius:0!important;box-shadow:none!important;border:1px solid #ddd!important;break-inside:auto!important;position:relative!important;z-index:1!important;background:rgba(255,255,255,.88)!important}
+  .project-grid{min-width:100%!important;grid-template-columns:8mm 42mm 34mm 44mm 10mm 42mm 8mm 20mm 20mm 49mm 0!important}
+  .summary-table .project-grid{grid-template-columns:8mm 12mm 72mm 8mm 24mm 24mm!important}
+  .project-cell{padding:4px 5px!important;font-size:8px!important;line-height:1.16!important;overflow:visible!important;white-space:normal!important;overflow-wrap:anywhere!important;word-break:normal!important}
+  .project-cell:nth-child(-n+10){display:block!important}
+  .project-head-row .project-cell:nth-child(-n+10){display:flex!important}
+  .project-cell:nth-child(1){order:1!important;grid-column:1!important}.project-cell:nth-child(2){order:2!important;grid-column:2!important}.project-cell:nth-child(3){order:3!important;grid-column:3!important}.project-cell:nth-child(4){order:4!important;grid-column:4!important}.project-cell:nth-child(5){order:5!important;grid-column:5!important}.project-cell:nth-child(6){order:6!important;grid-column:6!important}.project-cell:nth-child(7){order:7!important;grid-column:7!important}.project-cell:nth-child(8){order:8!important;grid-column:8!important}.project-cell:nth-child(9){order:9!important;grid-column:9!important}.project-cell:nth-child(10){order:10!important;grid-column:10!important}.project-cell:nth-child(11){order:11!important;grid-column:11!important}
+  .project-head-row{position:static!important}
+  .project-head-row .project-cell{height:auto!important;min-height:24px!important;max-height:none!important;padding:5px 6px!important;background:#df7a12!important;color:#fff!important}
+  .project-cell strong{font-size:9px!important;line-height:1.1!important}
+  .project-cell small{font-size:7px!important}
+  .project-grid .project-cell:nth-child(11){display:none!important}
+  .project-comment{border:0!important;background:transparent!important;min-height:0!important;padding:0!important;resize:none!important;white-space:pre-wrap!important;overflow:visible!important}
+  .material-summary{display:block!important;margin-top:10px!important;max-height:none!important;min-height:0!important;border-radius:0!important;overflow:visible!important}
+  .summary-title{padding:7px 10px!important}
+  .summary-table .project-cell:nth-child(1){display:block!important;grid-column:1!important;order:1!important}
+  .summary-table .project-cell:nth-child(5){display:block!important;grid-column:2!important;order:2!important}
+  .summary-table .project-cell:nth-child(6){display:block!important;grid-column:3!important;order:3!important}
+  .summary-table .project-cell:nth-child(7){display:block!important;grid-column:4!important;order:4!important}
+  .summary-table .project-cell:nth-child(8){display:block!important;grid-column:5!important;order:5!important}
+  .summary-table .project-cell:nth-child(9){display:block!important;grid-column:6!important;order:6!important}
+  .summary-table .project-cell:nth-child(2),.summary-table .project-cell:nth-child(3),.summary-table .project-cell:nth-child(4),.summary-table .project-cell:nth-child(10),.summary-table .project-cell:nth-child(11){display:none!important}
+  .summary-table .project-head-row .project-cell:nth-child(1),.summary-table .project-head-row .project-cell:nth-child(5),.summary-table .project-head-row .project-cell:nth-child(6),.summary-table .project-head-row .project-cell:nth-child(7),.summary-table .project-head-row .project-cell:nth-child(8),.summary-table .project-head-row .project-cell:nth-child(9){display:flex!important}
+  .project-table,.material-summary{display:none!important}
+  .print-spec-report{display:block!important;position:relative;z-index:1;background:transparent!important}
+  .print-spec-section{margin:0 0 6mm!important;break-inside:auto}
+  .print-spec-title{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin:0 0 2mm;font-size:14px;font-weight:800;font-style:italic}
+  .print-spec-title small{font-size:10px;font-weight:700;font-style:normal}
+  .print-spec-table{width:100%;border-collapse:collapse;table-layout:fixed;background:transparent;font-size:8px;line-height:1.18}
+  .print-spec-table thead{display:table-header-group}
+  .print-spec-table tfoot{display:table-row-group}
+  .print-spec-table tr{break-inside:avoid}
+  .print-spec-table th,.print-spec-table td{border:1px solid #e1e4e8;padding:3px 4px;vertical-align:top;white-space:normal;overflow-wrap:anywhere;word-break:normal}
+  .print-spec-table th{color:#7b838e;font-weight:800;font-style:italic;text-align:left;background:rgba(255,255,255,.72)}
+  .print-spec-table td.num,.print-spec-table th.num{text-align:center}
+  .print-spec-table td.total{font-weight:800;background:rgba(246,247,249,.9);border-top:2px solid #df7a12}
+  .print-spec-table strong{font-size:8.5px}
+}
 </style>
 </head>
 <body>
-<div class="build-marker" hidden>build 2026-06-21-0147</div>
+<div class="print-watermark" aria-hidden="true">
+  <span>ST SPETSMONTAZH · +38 (044) 502-25-92 · +38 (067) 468-55-51 · office@stspecmontag.com.ua · stspecmontag.com.ua ·</span>
+  <span>ST SPETSMONTAZH · stspecmontag.com.ua · office@stspecmontag.com.ua · +38 (044) 502-25-92 ·</span>
+  <span>ST SPETSMONTAZH · +38 (067) 468-55-51 · office@stspecmontag.com.ua · stspecmontag.com.ua ·</span>
+  <span>ST SPETSMONTAZH · +38 (044) 502-25-92 · +38 (067) 468-55-51 · office@stspecmontag.com.ua ·</span>
+  <span>ST SPETSMONTAZH · stspecmontag.com.ua · office@stspecmontag.com.ua · +38 (067) 468-55-51 ·</span>
+  <span>ST SPETSMONTAZH · +38 (044) 502-25-92 · +38 (067) 468-55-51 · office@stspecmontag.com.ua · stspecmontag.com.ua ·</span>
+  <span>ST SPETSMONTAZH · stspecmontag.com.ua · office@stspecmontag.com.ua · +38 (044) 502-25-92 ·</span>
+  <span>ST SPETSMONTAZH · +38 (067) 468-55-51 · office@stspecmontag.com.ua · stspecmontag.com.ua ·</span>
+  <span>ST SPETSMONTAZH · +38 (044) 502-25-92 · +38 (067) 468-55-51 · office@stspecmontag.com.ua ·</span>
+  <img src="assets/images/stspecmontazh-logo-dark.png" alt="">
+  <img src="assets/images/stspecmontazh-logo-dark.png" alt="">
+  <img src="assets/images/stspecmontazh-logo-dark.png" alt="">
+  <img src="assets/images/stspecmontazh-logo-dark.png" alt="">
+  <img src="assets/images/stspecmontazh-logo-dark.png" alt="">
+  <img src="assets/images/stspecmontazh-logo-dark.png" alt="">
+  <img src="assets/images/stspecmontazh-logo-dark.png" alt="">
+</div>
+<div class="build-marker" hidden data-cache="build-2026-06-24-185631">build 2026-06-24-1856</div>
 <header class="topbar">
   <div class="brand">
-    <img src="assets/images/calc_square_logo.png" alt="">
-    <div><h1>ST SPETSMONTAZH</h1><small>Ventilation systems</small></div>
+    <img src="assets/images/stspecmontazh-logo-dark.png" alt="ST Spetsmontazh">
   </div>
   <div class="top-actions">
     <nav class="top-nav" aria-label="Главная навигация">
@@ -245,6 +340,7 @@ iframe{display:block;width:100%;height:100%;min-height:0;border:0;background:#ec
     </div>
     <span class="role-chip" id="roleChip">guest</span>
     <span class="guest-counter" id="guestCounter"></span>
+    <button class="admin-guest-reset" id="adminGuestReset" type="button"></button>
     <button class="login-btn" id="loginBtn" type="button" data-i="login">Вход / регистрация</button>
   </div>
 </header>
@@ -262,28 +358,34 @@ iframe{display:block;width:100%;height:100%;min-height:0;border:0;background:#ec
           <input id="projectObject" data-i-ph="projectObject" placeholder="Объект">
         </div>
       </div>
-      <div class="spec-panel">
-        <button class="spec-panel-toggle" id="specPanelToggle" type="button" data-i="specSettings">Настройки спецификации</button>
-        <div class="spec-controls" id="specControls">
-          <button type="button" id="autoFitAll" data-i="autoWidth">Автоширина</button>
-          <button type="button" id="resetLayout" data-i="resetView">Скинуть вид</button>
-          <button type="button" id="resetSorting" data-i="resetSort">Сбросить порядок</button>
-          <label><input type="checkbox" id="dimsUnderName"> <span data-i="dimsUnderName">Размеры под названием</span></label>
-          <label><input type="checkbox" id="summaryPinned" checked> <span data-i="summaryPinned">Фиксировать итог</span></label>
-          <label><input type="checkbox" data-col-toggle="0" checked> №</label>
-          <label><input type="checkbox" data-col-toggle="1" checked> <span data-i="name">Наименование</span></label>
-          <label><input type="checkbox" data-col-toggle="2" checked> <span data-i="dimensions">Размеры</span></label>
-          <label><input type="checkbox" data-col-toggle="3" checked> <span data-i="description">Описание</span></label>
-          <label><input type="checkbox" data-col-toggle="4" checked> <span data-i="quantity">К-во</span></label>
-          <label><input type="checkbox" data-col-toggle="5" checked> <span data-i="material">Материал</span></label>
-          <label><input type="checkbox" data-col-toggle="6" checked> t</label>
-          <label><input type="checkbox" data-col-toggle="7" checked> <span data-i="area">Площадь</span></label>
-          <label><input type="checkbox" data-col-toggle="8" checked> <span data-i="mass">Масса</span></label>
-          <label><input type="checkbox" data-col-toggle="9" checked> <span data-i="comment">Комментарий</span></label>
-        </div>
-      </div>
       <div class="project-head">
         <h2 data-i="spec">Спецификация</h2>
+        <div class="spec-panel">
+          <button class="spec-panel-toggle" id="specPanelToggle" type="button" data-i="specSettings" aria-controls="specControls">Настройки</button>
+          <div class="spec-controls" id="specControls">
+            <label><span data-i="panelLayout">Панели</span>
+              <select id="panelLayout">
+                <option value="atlas-left" data-i="atlasLeft">Атлас слева</option>
+                <option value="project-left" data-i="projectLeft">Проект слева</option>
+              </select>
+            </label>
+            <button type="button" id="autoFitAll" data-i="autoWidth">Автоширина</button>
+            <button type="button" id="resetLayout" data-i="resetView">Сбросить вид</button>
+            <button type="button" id="resetSorting" data-i="resetSort">Сбросить порядок</button>
+            <label><input type="checkbox" id="dimsUnderName"> <span data-i="dimsUnderName">Размеры под названием</span></label>
+            <label><input type="checkbox" id="summaryPinned" checked> <span data-i="summaryPinned">Фиксировать итог</span></label>
+            <label><input type="checkbox" data-col-toggle="0" checked> №</label>
+            <label><input type="checkbox" data-col-toggle="1" checked> <span data-i="name">Наименование</span></label>
+            <label><input type="checkbox" data-col-toggle="2" checked> <span data-i="dimensions">Размеры</span></label>
+            <label><input type="checkbox" data-col-toggle="3" checked> <span data-i="description">Описание</span></label>
+            <label><input type="checkbox" data-col-toggle="4" checked> <span data-i="quantity">К-во</span></label>
+            <label><input type="checkbox" data-col-toggle="5" checked> <span data-i="material">Материал</span></label>
+            <label><input type="checkbox" data-col-toggle="6" checked> t</label>
+            <label><input type="checkbox" data-col-toggle="7" checked> <span data-i="area">Площадь</span></label>
+            <label><input type="checkbox" data-col-toggle="8" checked> <span data-i="mass">Масса</span></label>
+            <label><input type="checkbox" data-col-toggle="9" checked> <span data-i="comment">Комментарий</span></label>
+          </div>
+        </div>
         <div class="project-head-tools">
           <span id="count">0</span>
           <button class="project-clear-all" id="clearProjectHeader" type="button" title="Очистить спецификацию">×</button>
@@ -326,6 +428,7 @@ iframe{display:block;width:100%;height:100%;min-height:0;border:0;background:#ec
           <div class="project-grid project-total" id="materialTotal"></div>
         </div>
       </section>
+      <div class="print-spec-report" id="printSpecReport" aria-hidden="true"></div>
       <div class="project-actions">
         <button id="printSpec" type="button" data-i="print">Печать</button>
         <button id="exportSpec" type="button" data-i="export">Экспорт</button>
@@ -366,7 +469,10 @@ iframe{display:block;width:100%;height:100%;min-height:0;border:0;background:#ec
     <h2 data-i="cabinet">Кабинет</h2>
     <div class="login-help" id="loginHelp"></div>
     <input class="login-field" id="loginName" autocomplete="username" data-i-ph="loginName" placeholder="Логин">
-    <input class="login-field" id="loginPassword" type="password" autocomplete="current-password" data-i-ph="loginPassword" placeholder="Пароль">
+    <div class="password-wrap">
+      <input class="login-field" id="loginPassword" type="password" autocomplete="current-password" data-i-ph="loginPassword" placeholder="Пароль">
+      <button class="password-toggle" id="passwordToggle" type="button" aria-label="Показать пароль" title="Показать пароль">◐</button>
+    </div>
     <button class="login-submit" type="submit" data-i="signIn">Войти</button>
     <button class="register-submit" id="registerBtn" type="button" data-i="registerDemo">Зарегистрировать демо</button>
     <div class="role-grid" id="roleGrid">
@@ -427,21 +533,25 @@ const accessLater=document.getElementById("accessLater");
 const loginForm=document.getElementById("loginForm");
 const loginName=document.getElementById("loginName");
 const loginPassword=document.getElementById("loginPassword");
+const passwordToggle=document.getElementById("passwordToggle");
 const loginError=document.getElementById("loginError");
 const registerBtn=document.getElementById("registerBtn");
 const loginHelp=document.getElementById("loginHelp");
 const roleHint=document.getElementById("roleHint");
 const roleChip=document.getElementById("roleChip");
+const adminGuestReset=document.getElementById("adminGuestReset");
 const projectRows=document.getElementById("projectRows");
 const projectTotal=document.getElementById("projectTotal");
 const materialRows=document.getElementById("materialRows");
 const materialTotal=document.getElementById("materialTotal");
+const printSpecReport=document.getElementById("printSpecReport");
 const projectTip=document.getElementById("projectTip");
 const clearMenu=document.getElementById("clearMenu");
 const projectNameInput=document.getElementById("projectName");
 const projectCustomerInput=document.getElementById("projectCustomer");
 const projectObjectInput=document.getElementById("projectObject");
 const specPanelToggle=document.getElementById("specPanelToggle");
+const panelLayoutSelect=document.getElementById("panelLayout");
 const dimsUnderNameInput=document.getElementById("dimsUnderName");
 const summaryPinnedInput=document.getElementById("summaryPinned");
 const filterMenu=document.getElementById("filterMenu");
@@ -476,9 +586,9 @@ let selectedLoginRole="guest";
 let layoutMode="split";
 const UI_TEXT={
   ru:{
-    language:"Язык",role:"Роль",home:"Главная",atlas:"Атлас",tables:"Таблицы",login:"Вход / регистрация",logout:"Выход",clear:"Очистить",spec:"Спецификация",
+    language:"Язык",role:"Роль",home:"Главная",atlas:"Атлас",tables:"Таблицы",login:"Вход / регистрация",logout:"Выход",clear:"Очистить",spec:"Спецификация",showPassword:"Показать пароль",hidePassword:"Скрыть пароль",
     projectSpec:"Проект / Спецификация",projectName:"Название проекта",projectCustomer:"Заказчик",projectObject:"Объект",
-    autoWidth:"Автоширина",resetView:"Скинуть вид",resetSort:"Сбросить порядок",specSettings:"Настройки спецификации",filterNo:"№",filterName:"Наименование",filterQty:"К-во",filterMaterial:"Материал",filterThickness:"t",dimsUnderName:"Размеры под названием",summaryPinned:"Фиксировать итог",
+    autoWidth:"Автоширина",resetView:"Сбросить вид",resetSort:"Сбросить порядок",specSettings:"Настройки",panelLayout:"Панели",atlasLeft:"Атлас слева",projectLeft:"Проект слева",filterNo:"№",filterName:"Наименование",filterQty:"К-во",filterMaterial:"Материал",filterThickness:"t",dimsUnderName:"Размеры под названием",summaryPinned:"Фиксировать итог",
     name:"Наименование",dimensions:"Размеры",description:"Описание",quantity:"К-во",
     material:"Материал",area:"Площадь",mass:"Масса",comment:"Комментарий",
     total:"Итого",totalAreaLabel:"Итого площадь",totalMassLabel:"Итого масса",
@@ -490,13 +600,14 @@ const UI_TEXT={
     demoHelp:"Демо-режим: user/user или client/client. Админ откроется, если в роли Клиент ввести пароль admin.",
     currentLogin:"Текущий вход: {role}{login}",roleHintGuest:"Гость: только атлас и калькуляторы, до 5 открытий калькулятора в сутки.",roleHintUser:"Пользователь: атлас, расчёты и добавление в спецификацию без редактирования, удаления, сохранения, печати и экспорта.",roleHintClient:"Клиент: добавление, редактирование, сохранение, печать и экспорт без просмотра формул.",roleHintAdmin:"Админ: полный демо-доступ ко всем действиям.",
     guestLimit:"Гостевой лимит: 5 расчётов в сутки. Войдите как пользователь, клиент или админ.",
-    guestCounter:"Гость: {left}/5",materialSummary:"Итог по материалам",materialCount:"Материалов: {count}",print:"Печать",export:"Экспорт",saveFile:"Сохранить в файл",openFile:"Открыть",image:"Изображение",clearConfirm:"Очистить всю спецификацию?",
+    guestCounter:"Гость: осталось {left}/5",resetGuestLimit:"Сбросить гостя",guestLimitResetDone:"Гостевой лимит сброшен",materialSummary:"Итог по материалам",materialCount:"Материалов: {count}",print:"Печать",export:"Экспорт",saveFile:"Сохранить в файл",openFile:"Открыть",image:"Изображение",clearConfirm:"Очистить всю спецификацию?",
     accessTitle:"Приглашение к сотрудничеству",accessLead:"Эта возможность доступна клиентам ST Spetsmontazh.",accessBody:"Если вы уже подбираете изделия для проекта, свяжитесь с нами любым удобным способом. Менеджер поможет с заказом и выдаст персональный QR-код, чтобы открыть сохранение, печать и другие рабочие функции.",accessQrCaption:"QR-код выдаёт менеджер после обращения",accessLogin:"Открыть кабинет",accessSite:"Сайт компании",accessLater:"Позже",accessHours:"Пн-пт 9:00 - 18:00"
+    ,languageConflictTitle:"Проверьте язык строки",languageConflictProduct:"Название изделия не распознано в каталоге",languageConflictMaterial:"Материал не распознан",languageConflictOpen:"Файл открыт, но часть строк требует проверки локализации:"
   },
   uk:{
-    language:"Мова",role:"Роль",home:"Головна",atlas:"Атлас",tables:"Таблиці",login:"Вхід / реєстрація",logout:"Вихід",clear:"Очистити",spec:"Специфікація",
+    language:"Мова",role:"Роль",home:"Головна",atlas:"Атлас",tables:"Таблиці",login:"Вхід / реєстрація",logout:"Вихід",clear:"Очистити",spec:"Специфікація",showPassword:"Показати пароль",hidePassword:"Сховати пароль",
     projectSpec:"Проєкт / Специфікація",projectName:"Назва проєкту",projectCustomer:"Замовник",projectObject:"Об'єкт",
-    autoWidth:"Автоширина",resetView:"Скинути вигляд",resetSort:"Скинути порядок",specSettings:"Налаштування специфікації",filterNo:"№",filterName:"Найменування",filterQty:"К-ть",filterMaterial:"Матеріал",filterThickness:"t",dimsUnderName:"Розміри під назвою",summaryPinned:"Фіксувати підсумок",
+    autoWidth:"Автоширина",resetView:"Скинути вигляд",resetSort:"Скинути порядок",specSettings:"Налаштування",panelLayout:"Панелі",atlasLeft:"Атлас ліворуч",projectLeft:"Проєкт ліворуч",filterNo:"№",filterName:"Найменування",filterQty:"К-ть",filterMaterial:"Матеріал",filterThickness:"t",dimsUnderName:"Розміри під назвою",summaryPinned:"Фіксувати підсумок",
     name:"Найменування",dimensions:"Розміри",description:"Опис",quantity:"К-ть",
     material:"Матеріал",area:"Площа",mass:"Маса",comment:"Коментар",
     total:"Підсумок",totalAreaLabel:"Підсумкова площа",totalMassLabel:"Підсумкова маса",
@@ -508,13 +619,14 @@ const UI_TEXT={
     demoHelp:"Демо-режим: user/user або client/client. Адмін відкриється, якщо в ролі Клієнт ввести пароль admin.",
     currentLogin:"Поточний вхід: {role}{login}",roleHintGuest:"Гість: тільки атлас і калькулятори, до 5 відкриттів калькулятора на добу.",roleHintUser:"Користувач: атлас, розрахунки і додавання в специфікацію без редагування, видалення, збереження, друку й експорту.",roleHintClient:"Клієнт: додавання, редагування, збереження, друк і експорт без перегляду формул.",roleHintAdmin:"Адмін: повний демо-доступ до всіх дій.",
     guestLimit:"Гостьовий ліміт: 5 розрахунків на добу. Увійдіть як користувач, клієнт або адмін.",
-    guestCounter:"Гість: {left}/5",materialSummary:"Підсумок за матеріалами",materialCount:"Матеріалів: {count}",print:"Друк",export:"Експорт",saveFile:"Зберегти у файл",openFile:"Відкрити",image:"Зображення",clearConfirm:"Очистити всю специфікацію?",
+    guestCounter:"Гість: залишилось {left}/5",resetGuestLimit:"Скинути гостя",guestLimitResetDone:"Гостьовий ліміт скинуто",materialSummary:"Підсумок за матеріалами",materialCount:"Матеріалів: {count}",print:"Друк",export:"Експорт",saveFile:"Зберегти у файл",openFile:"Відкрити",image:"Зображення",clearConfirm:"Очистити всю специфікацію?",
     accessTitle:"Запрошення до співпраці",accessLead:"Ця можливість доступна клієнтам ST Spetsmontazh.",accessBody:"Якщо ви вже підбираєте вироби для проєкту, зв'яжіться з нами будь-яким зручним способом. Менеджер допоможе із замовленням і видасть персональний QR-код, щоб відкрити збереження, друк та інші робочі функції.",accessQrCaption:"QR-код видає менеджер після звернення",accessLogin:"Відкрити кабінет",accessSite:"Сайт компанії",accessLater:"Пізніше",accessHours:"Пн-пт 9:00 - 18:00"
+    ,languageConflictTitle:"Перевірте мову рядка",languageConflictProduct:"Назву виробу не розпізнано в каталозі",languageConflictMaterial:"Матеріал не розпізнано",languageConflictOpen:"Файл відкрито, але частина рядків потребує перевірки локалізації:"
   },
   en:{
-    language:"Language",role:"Role",home:"Home",atlas:"Atlas",tables:"Tables",login:"Login / sign up",logout:"Logout",clear:"Clear",spec:"Specification",
+    language:"Language",role:"Role",home:"Home",atlas:"Atlas",tables:"Tables",login:"Login / sign up",logout:"Logout",clear:"Clear",spec:"Specification",showPassword:"Show password",hidePassword:"Hide password",
     projectSpec:"Project / Specification",projectName:"Project name",projectCustomer:"Customer",projectObject:"Object",
-    autoWidth:"Auto width",resetView:"Reset view",resetSort:"Reset order",specSettings:"Specification settings",filterNo:"No.",filterName:"Item",filterQty:"Qty",filterMaterial:"Material",filterThickness:"t",dimsUnderName:"Dimensions under name",summaryPinned:"Pin summary",
+    autoWidth:"Auto width",resetView:"Reset view",resetSort:"Reset order",specSettings:"Settings",panelLayout:"Panels",atlasLeft:"Atlas left",projectLeft:"Project left",filterNo:"No.",filterName:"Item",filterQty:"Qty",filterMaterial:"Material",filterThickness:"t",dimsUnderName:"Dimensions under name",summaryPinned:"Pin summary",
     name:"Item",dimensions:"Dimensions",description:"Description",quantity:"Qty",
     material:"Material",area:"Area",mass:"Mass",comment:"Comment",
     total:"Total",totalAreaLabel:"Total area",totalMassLabel:"Total mass",
@@ -526,8 +638,9 @@ const UI_TEXT={
     demoHelp:"Demo mode: user/user or client/client. Admin appears after entering admin as the Client password.",
     currentLogin:"Current login: {role}{login}",roleHintGuest:"Guest: atlas and calculators only, up to 5 calculator opens per day.",roleHintUser:"User: atlas, calculations, and adding to the specification without editing, deleting, saving, printing, or export.",roleHintClient:"Client: add, edit, save, print, and export without calculator formulas.",roleHintAdmin:"Admin: full demo access to all actions.",
     guestLimit:"Guest limit: 5 calculations per day. Sign in as user, client, or admin.",
-    guestCounter:"Guest: {left}/5",materialSummary:"Material summary",materialCount:"Materials: {count}",print:"Print",export:"Export",saveFile:"Save file",openFile:"Open",image:"Image",clearConfirm:"Clear the whole specification?",
+    guestCounter:"Guest: {left}/5 left",resetGuestLimit:"Reset guest",guestLimitResetDone:"Guest limit reset",materialSummary:"Material summary",materialCount:"Materials: {count}",print:"Print",export:"Export",saveFile:"Save file",openFile:"Open",image:"Image",clearConfirm:"Clear the whole specification?",
     accessTitle:"Invitation to cooperate",accessLead:"This option is available to ST Spetsmontazh clients.",accessBody:"If you are already selecting products for a project, contact us in whichever way is convenient. A manager will help with the order and provide a personal QR code to unlock saving, printing, and other working tools.",accessQrCaption:"A manager provides the QR code after contact",accessLogin:"Open cabinet",accessSite:"Company website",accessLater:"Later",accessHours:"Mon-Fri 9:00 - 18:00"
+    ,languageConflictTitle:"Check row language",languageConflictProduct:"Product name is not recognized in the catalog",languageConflictMaterial:"Material is not recognized",languageConflictOpen:"File opened, but some rows need localization review:"
   }
 };
 const PRODUCT_TEXT={
@@ -536,23 +649,47 @@ const PRODUCT_TEXT={
   "round-transition":{ru:"Переход круглый",uk:"Перехід круглий",en:"Round transition"},
   "round-offset-transition":{ru:"Переход круглый со смещением",uk:"Перехід круглий зі зміщенням",en:"Offset round transition"},
   "round-tee":{ru:"Тройник круглый",uk:"Трійник круглий",en:"Round tee"},
+  "round-tee-custom":{ru:"Тройник нестандартный круглый",uk:"Трійник нестандартний круглий",en:"Custom round tee"},
   "round-cap":{ru:"Заглушка круглая",uk:"Заглушка кругла",en:"Round cap"},
   "round-inset":{ru:"Врезка круглая",uk:"Врізка кругла",en:"Round inset"},
   "round-saddle":{ru:"Седло круглое",uk:"Сідло кругле",en:"Round saddle"},
+  "round-nipple":{ru:"Ниппель круглый",uk:"Ніпель круглий",en:"Round nipple"},
+  "round-silencer":{ru:"Шумоглушитель круглый",uk:"Шумоглушник круглий",en:"Round silencer"},
+  "round-umbrella":{ru:"Зонт круглый",uk:"Зонт круглий",en:"Round umbrella"},
+  "round-damper":{ru:"Дроссель круглый",uk:"Дросель круглий",en:"Round damper"},
+  "round-flange":{ru:"Фланец круглый",uk:"Фланець круглий",en:"Round flange"},
+  "round-cross":{ru:"Крестовина круглая",uk:"Хрестовина кругла",en:"Round cross"},
+  "round-duck":{ru:"Утка круглая",uk:"Качка кругла",en:"Round offset duct"},
+  "round-check-valve":{ru:"Обратный клапан круглый",uk:"Зворотний клапан круглий",en:"Round check valve"},
+  "round-deflector":{ru:"Дефлектор",uk:"Дефлектор",en:"Deflector"},
+  "round-coupling":{ru:"Муфта",uk:"Муфта",en:"Coupling"},
   "rectangular-duct":{ru:"Воздуховод прямоугольный",uk:"Повітропровід прямокутний",en:"Rectangular duct"},
   "rectangular-elbow":{ru:"Отвод прямоугольный",uk:"Відвід прямокутний",en:"Rectangular elbow"},
+  "rectangular-elbow-transition":{ru:"Колено прямоугольное переходное",uk:"Коліно прямокутне перехідне",en:"Rectangular transition elbow"},
   "rectangular-transition":{ru:"Переход прямоугольный",uk:"Перехід прямокутний",en:"Rectangular transition"},
   "rectangular-tee":{ru:"Тройник прямоугольный",uk:"Трійник прямокутний",en:"Rectangular tee"},
+  "rectangular-cross":{ru:"Крестовина прямоугольная",uk:"Хрестовина прямокутна",en:"Rectangular cross"},
+  "rectangular-duck":{ru:"Утка прямоугольная",uk:"Качка прямокутна",en:"Rectangular offset duct"},
   "rectangular-cap":{ru:"Заглушка прямоугольная",uk:"Заглушка прямокутна",en:"Rectangular cap"},
   "rectangular-inset":{ru:"Врезка прямоугольная",uk:"Врізка прямокутна",en:"Rectangular inset"},
+  "rectangular-saddle":{ru:"Врезка прямоугольная в плоскость",uk:"Врізка прямокутна в площину",en:"Rectangular saddle"},
+  "rectangular-silencer":{ru:"Шумоглушитель прямоугольный",uk:"Шумоглушник прямокутний",en:"Rectangular silencer"},
+  "rectangular-umbrella":{ru:"Зонт прямоугольный",uk:"Зонт прямокутний",en:"Rectangular umbrella"},
+  "rectangular-damper":{ru:"Дроссель прямой",uk:"Дросель прямий",en:"Rectangular damper"},
   "round-to-rectangular":{ru:"Переход круг-прямоугольник",uk:"Перехід круг-прямокутник",en:"Round to rectangular"},
+  "combined-seat-rect":{ru:"Седло с прямоугольной врезкой",uk:"Сідло з прямокутною врізкою",en:"Saddle with rectangular inset"},
   "tee-round-rect":{ru:"Тройник круг-прямоугольник",uk:"Трійник круг-прямокутник",en:"Round-rect tee"},
   "rect-tee-round":{ru:"Тройник прямоугольник-круг",uk:"Трійник прямокутник-круг",en:"Rect-round tee"},
+  "round-adapter":{ru:"Адаптер круглый",uk:"Адаптер круглий",en:"Round adapter"},
+  "rectangular-adapter":{ru:"Адаптер прямоугольный",uk:"Адаптер прямокутний",en:"Rectangular adapter"},
   "grease-trap":{ru:"Жироуловитель",uk:"Жировловлювач",en:"Grease trap"}
 };
 const PRODUCT_ALIASES={
   "round-duct":["круглый воздуховод","круглий повітропровід","повітропровод круглий"],
   "round-elbow":["колено круглое","коліно кругле"],
+  "round-saddle":["седло","сідло"],
+  "round-coupling":["муфта круглая","муфта кругла"],
+  "round-deflector":["дефлектор круглый","дефлектор круглий"],
   "round-offset-transition":["смещенный круглый переход","перехід круглий зі зміщенням"],
   "rectangular-duct":["прямоугольный воздуховод","прямокутний повітропровід","повітропровод прямокутний"],
   "rectangular-elbow":["колено прямоугольное","коліно прямокутне"],
@@ -564,7 +701,8 @@ const PRODUCT_ALIASES={
 const MATERIAL_TEXT={
   galv:{ru:"Оцинкованная сталь",uk:"Оцинкована сталь",en:"Galvanized steel"},
   ss430:{ru:"Нержавеющая 430 техническая",uk:"Нержавіюча 430 технічна",en:"Stainless 430 technical"},
-  ss304:{ru:"Нержавеющая 304 пищевая",uk:"Нержавіюча 304 харчова",en:"Stainless 304 food"}
+  ss304:{ru:"Нержавеющая 304 пищевая",uk:"Нержавіюча 304 харчова",en:"Stainless 304 food"},
+  aluminum:{ru:"Алюминий",uk:"Алюміній",en:"Aluminum"}
 };
 const PRODUCT_IMAGES={
   "round-duct":"assets/catalog-images/round-duct-dalap.jpg",
@@ -595,6 +733,7 @@ function applyLanguage(){
   resizer.setAttribute("aria-label",t("resize"));
   document.querySelectorAll("[data-i]").forEach((node)=>{node.textContent=t(node.dataset.i)});
   document.querySelectorAll("[data-i-ph]").forEach((node)=>{node.placeholder=t(node.dataset.iPh)});
+  updatePasswordToggle();
   renderRole();
   bindColumnResizers();
   renderProject();
@@ -685,6 +824,7 @@ function setColumnVisibility(index,checked){
   saveInterfaceState(patch);
   if(index===2){renderProject();return}
   applyColumnVisibility();
+  renderPrintSpecReport();
 }
 function applyDimsUnderName(){
   const enabled=!!readInterfaceState().dimsUnderName;
@@ -719,16 +859,30 @@ function applySummaryPin(){
   requestAnimationFrame(()=>{updateProjectOverflow();restoreScrollPositions()});
 }
 function specControlsCollapsed(){
-  return readInterfaceState().specControlsCollapsed===true;
+  return readInterfaceState().specControlsCollapsed!==false;
 }
 function applySpecControlsState(){
   document.body.classList.toggle("spec-controls-collapsed",specControlsCollapsed());
   specPanelToggle.setAttribute("aria-expanded",String(!specControlsCollapsed()));
+  specControls.setAttribute("aria-hidden",String(specControlsCollapsed()));
 }
 function toggleSpecControls(){
   saveInterfaceState({specControlsCollapsed:!specControlsCollapsed()});
   applySpecControlsState();
   setTimeout(()=>{applyColumnWidths();updateProjectOverflow()},240);
+}
+function currentPanelLayout(){
+  return readInterfaceState().panelLayout==="project-left"?"project-left":"atlas-left";
+}
+function applyPanelLayout(){
+  const panelLayout=currentPanelLayout();
+  document.body.dataset.panelLayout=panelLayout;
+  panelLayoutSelect.value=panelLayout;
+  requestAnimationFrame(()=>{applyColumnWidths();updateProjectOverflow()});
+}
+function setPanelLayout(panelLayout){
+  saveInterfaceState({panelLayout:panelLayout==="project-left"?"project-left":"atlas-left"});
+  applyPanelLayout();
 }
 function currentFilters(){
   const saved=readInterfaceState().filters||{};
@@ -836,7 +990,7 @@ function resetProjectView(){
     visibleColumns:[...defaultColumnWidths].map(()=>true),
     dimsUnderName:false,
     summaryPinned:true,
-    specControlsCollapsed:false,
+    specControlsCollapsed:true,
     columnOrder:defaultColumnOrder(),
     sort:null,
     filters:{pos:"",name:"",dimensions:"",qty:"",material:"",thickness:""},
@@ -859,7 +1013,17 @@ function saveRole(role,loginValue=""){
   localStorage.setItem(settingsKey,JSON.stringify(settings));
   selectedLoginRole=role;
   renderRole();
-  openUrl(role==="guest"?"assets/atlas/atlas.html":currentFrameUrl(),{countGuest:false});
+  if(role==="guest"){
+    openUrl("assets/atlas/atlas.html",{countGuest:false});
+    return;
+  }
+  setLayoutMode("split");
+  openUrl(currentFrameUrl()||"assets/atlas/atlas.html",{countGuest:false});
+  requestAnimationFrame(()=>{
+    renderProject();
+    applyColumnWidths();
+    updateProjectOverflow();
+  });
 }
 function roleLabel(role){
   const map={guest:"guestRole",user:"userRole",client:"clientRole",admin:"adminRole"};
@@ -880,10 +1044,20 @@ function updateLoginInfo(){
   const adminUnlocked=selectedLoginRole==="admin"||(selectedLoginRole==="client"&&loginPassword.value===adminUnlockPassword);
   adminButton?.classList.toggle("admin-unlocked",adminUnlocked);
 }
+function updatePasswordToggle(){
+  if(!passwordToggle)return;
+  const visible=loginPassword.type==="text";
+  const label=t(visible?"hidePassword":"showPassword");
+  passwordToggle.textContent=visible?"◑":"◐";
+  passwordToggle.setAttribute("aria-label",label);
+  passwordToggle.title=label;
+}
 function renderRole(){
   const role=currentRole();
   document.body.dataset.role=role;
   roleChip.textContent=roleLabel(role);
+  adminGuestReset.textContent=t("resetGuestLimit");
+  adminGuestReset.title=t("resetGuestLimit");
   loginBtn.textContent=role==="guest"?t("login"):t("logout");
   renderGuestCounter();
   document.querySelectorAll(".role-option").forEach((button)=>button.classList.toggle("active",button.dataset.role===selectedLoginRole));
@@ -956,13 +1130,20 @@ function isTrustedFrameMessage(event){
   return event.origin===location.origin;
 }
 function buildVersion(){
-  return document.querySelector(".build-marker")?.textContent?.replace(/\s+/g,"-")||"dev";
+  const marker=document.querySelector(".build-marker");
+  return marker?.dataset.cache||marker?.textContent?.replace(/\s+/g,"-")||"dev";
+}
+function buildLabel(){
+  return document.querySelector(".build-marker")?.textContent?.trim()||"dev";
 }
 function urlWithState(url){
   const next=new URL(url,location.href);
   next.searchParams.set("lang",lang.value);
   next.searchParams.set("role",currentRole());
-  if(next.pathname.replaceAll("\\","/").endsWith("/assets/atlas/atlas.html"))next.searchParams.set("v",buildVersion());
+  if(next.pathname.replaceAll("\\","/").endsWith("/assets/atlas/atlas.html")){
+    next.searchParams.set("v",buildVersion());
+    next.searchParams.set("label",buildLabel());
+  }
   return next.href;
 }
 function localDateKey(){
@@ -980,6 +1161,14 @@ function renderGuestCounter(){
   const left=Math.max(0,guestDailyLimit-usage.count);
   guestCounter.textContent=t("guestCounter").replace("{left}",left);
 }
+function resetGuestLimit(){
+  localStorage.setItem(guestUsageKey,JSON.stringify({date:localDateKey(),count:0}));
+  renderGuestCounter();
+  adminGuestReset.textContent=t("guestLimitResetDone");
+  setTimeout(()=>{adminGuestReset.textContent=t("resetGuestLimit")},1600);
+  const url=currentFrameUrl();
+  if(isCalculatorUrl(url))openUrl(url,{countGuest:false});
+}
 function isCalculatorUrl(url){
   const next=new URL(url,location.href);
   return next.pathname.replaceAll("\\","/").endsWith("/modules/common/calculator.html")&&next.searchParams.has("module");
@@ -987,7 +1176,10 @@ function isCalculatorUrl(url){
 function consumeGuestCalculation(url){
   if(currentRole()!=="guest"||!isCalculatorUrl(url))return true;
   const usage=readGuestUsage();
-  if(usage.count>=guestDailyLimit){alert(t("guestLimit"));return false}
+  if(usage.count>=guestDailyLimit){
+    openAccessInvite(t("guestLimit"));
+    return false;
+  }
   usage.count+=1;
   localStorage.setItem(guestUsageKey,JSON.stringify(usage));
   renderGuestCounter();
@@ -998,21 +1190,41 @@ function openUrl(url,options={}){
   frame.src=urlWithState(url);
 }
 function normalizeProjectItem(item){
-  const productType=item.productType||productKeyFromName(item.name||item.title||item.label);
+  const lookupName=item.name||item.title||item.label||item.description||item.size||"";
+  const productType=PRODUCT_TEXT[item.productType]?item.productType:productKeyFromName(lookupName);
   const materialKey=item.materialKey||materialKeyFromLabel(item.material);
+  const dimensions=typeof item.dimensions==="string"||item.dimensions&&typeof item.dimensions==="object"?item.dimensions:(item.size||{});
   return {
     ...item,
     name:item.name||item.title||item.label||"",
     productType:productType||item.productType||"",
     materialKey:materialKey||item.materialKey||"",
-    dimensions:item.dimensions&&typeof item.dimensions==="object"?item.dimensions:{},
-    quantity:Number(item.quantity||1)||1,
+    dimensions,
+    description:item.description||item.desc||item.size||"",
+    quantity:Number(item.quantity||item.qty||1)||1,
     area:Number(item.area||0)||0,
     mass:Number(item.mass||0)||0
   };
 }
 function normalizeProject(items){
   return Array.isArray(items)?items.filter((item)=>item&&typeof item==="object").map(normalizeProjectItem):[];
+}
+function localizationIssues(item){
+  const issues=[];
+  const hasProductText=Boolean(item.name||item.title||item.label||item.description||item.size);
+  const hasMaterialText=Boolean(item.material);
+  const knownProduct=Boolean(item.productType&&PRODUCT_TEXT[item.productType]);
+  const knownMaterial=Boolean(item.materialKey&&MATERIAL_TEXT[item.materialKey]);
+  if(hasProductText&&!(knownProduct||productKeyFromName(item.name||item.title||item.label||item.description||item.size)))issues.push(t("languageConflictProduct"));
+  if(hasMaterialText&&!(knownMaterial||materialKeyFromLabel(item.material)))issues.push(t("languageConflictMaterial"));
+  return issues;
+}
+function reportLocalizationIssues(items){
+  const lines=items.map((item,index)=>({index,issues:localizationIssues(item),name:item.name||item.title||item.label||item.description||item.size||t("product")}))
+    .filter((entry)=>entry.issues.length)
+    .slice(0,8)
+    .map((entry)=>`${entry.index+1}. ${entry.name}: ${entry.issues.join(", ")}`);
+  if(lines.length)alert(`${t("languageConflictOpen")}\n\n${lines.join("\n")}`);
 }
 function loadProject(){try{project=normalizeProject(JSON.parse(localStorage.getItem(storageKey)||"[]"))}catch(e){project=[]}renderProject()}
 function saveProject(){project=normalizeProject(project);localStorage.setItem(storageKey,JSON.stringify(project));renderProject()}
@@ -1078,6 +1290,7 @@ function openSpecFile(file){
       const data=JSON.parse(String(reader.result||"{}"));
       project=normalizeProject(Array.isArray(data)?data:Array.isArray(data.items)?data.items:[]);
       if(data.meta){saveInterfaceState({projectMeta:data.meta});restoreProjectMeta()}
+      reportLocalizationIssues(project);
       saveProject();
     }catch(e){alert("Не удалось открыть файл спецификации.")}
   };
@@ -1406,10 +1619,12 @@ function renderProject(){
   const showNameDims=showDimensionsUnderName();
   entries.forEach(({item,index})=>{
     const el=document.createElement("div");
-    el.className="project-grid project-row";
+    const issues=localizationIssues(item);
+    el.className=`project-grid project-row${issues.length?" has-language-conflict":""}`;
     const dimensions=formatDimensions(item);
+    const issueTitle=issues.length?escapeHtml(`${t("languageConflictTitle")}: ${issues.join(", ")}`):"";
     el.innerHTML=`
-      <span class="project-cell is-numeric project-pos" data-tip-index="${index}">${index+1}</span>
+      <span class="project-cell is-numeric project-pos" data-tip-index="${index}">${index+1}${issues.length?`<span class="language-conflict" title="${issueTitle}">!</span>`:""}</span>
       <span class="project-cell"><strong>${escapeHtml(displayProductName(item))}</strong>${showNameDims&&dimensions?`<small class="name-dims">${escapeHtml(dimensions)}</small>`:""}</span>
       <span class="project-cell">${escapeHtml(dimensions)}</span>
       <span class="project-cell">${escapeHtml(displayDescription(item))}</span>
@@ -1444,13 +1659,14 @@ function renderProject(){
   totalArea.textContent=area.toFixed(3)+" м²";
   totalMass.textContent=mass.toFixed(2)+" "+t("kg");
   renderMaterialSummary(visibleItems);
+  renderPrintSpecReport(entries,visibleItems,{qty,area,mass});
   applySortMarks();
   applyColumnVisibility();
   applyDimsUnderName();
   updateProjectOverflow();
   restoreScrollPositions();
 }
-function renderMaterialSummary(items=project){
+function materialSummaryRows(items=project){
   const groups=new Map();
   items.forEach((item)=>{
     const material=displayMaterial(item);
@@ -1461,7 +1677,10 @@ function renderMaterialSummary(items=project){
     group.mass+=Number(item.mass||0);
     groups.set(key,group);
   });
-  const rows=[...groups.values()];
+  return [...groups.values()];
+}
+function renderMaterialSummary(items=project){
+  const rows=materialSummaryRows(items);
   materialRows.innerHTML=rows.map((row,index)=>`
     <div class="project-grid project-row">
       <span class="project-cell is-numeric">${index+1}</span>
@@ -1491,6 +1710,135 @@ function renderMaterialSummary(items=project){
     <span class="project-cell is-numeric">${mass.toFixed(2)} ${t("kg")}</span>
     <span class="project-cell"></span>
     <span class="project-cell"></span>`;
+}
+function printSpecColumns(){
+  const dimsUnderName=showDimensionsUnderName();
+  const indexes=orderedColumnIndexes().filter((index)=>index!==10);
+  const fallback=[0,1,2,3,4,5,6,7,8,9].filter((index)=>!(dimsUnderName&&index===2));
+  const active=indexes.length?indexes:fallback;
+  const labels={
+    0:"№",
+    1:t("name"),
+    2:t("dimensions"),
+    3:t("description"),
+    4:t("quantity"),
+    5:t("material"),
+    6:"t",
+    7:t("area"),
+    8:t("mass"),
+    9:t("comment")
+  };
+  const classes={0:"num",4:"num",6:"num",7:"num",8:"num"};
+  const minMm={0:7,1:30,2:22,3:24,4:9,5:34,6:8,7:18,8:18,9:30};
+  const maxMm={0:9,1:54,2:42,3:62,4:12,5:52,6:10,7:24,8:24,9:58};
+  const preferredMm={0:8,1:42,2:34,3:46,4:10,5:42,6:8,7:20,8:20,9:44};
+  const raw=effectiveColumnWidths();
+  const available=277;
+  const minSum=active.reduce((sum,index)=>sum+(minMm[index]||12),0);
+  const preferredSum=active.reduce((sum,index)=>sum+(preferredMm[index]||minMm[index]||12),0);
+  const source=raw.some((value)=>value>0)?raw:columnWidths;
+  const weightSum=active.reduce((sum,index)=>sum+Math.max(1,source[index]||preferredMm[index]||1),0)||1;
+  let widths=active.map((index)=>{
+    if(preferredSum<=available){
+      return preferredMm[index]||minMm[index]||12;
+    }
+    const min=minMm[index]||12;
+    const extra=Math.max(0,available-minSum);
+    return min+(extra*(Math.max(1,source[index]||preferredMm[index]||1)/weightSum));
+  });
+  let spare=available-widths.reduce((sum,width)=>sum+width,0);
+  let guard=0;
+  while(spare>0.1&&guard++<20){
+    const growable=active.map((index,i)=>({index,i,room:(maxMm[index]||80)-widths[i]})).filter((item)=>item.room>0.1);
+    if(!growable.length)break;
+    const roomSum=growable.reduce((sum,item)=>sum+item.room,0);
+    growable.forEach((item)=>{
+      const add=Math.min(item.room,spare*(item.room/roomSum));
+      widths[item.i]+=add;
+    });
+    spare=available-widths.reduce((sum,width)=>sum+width,0);
+  }
+  return active.map((index,i)=>({
+    index,
+    key:["no","name","dimensions","description","quantity","material","thickness","area","mass","comment"][index],
+    label:labels[index]||"",
+    width:`${Math.max(minMm[index]||12,widths[i]).toFixed(2)}mm`,
+    cls:classes[index]||""
+  }));
+}
+function printSpecCellValue(item,index,visibleIndex){
+  const dimensions=formatDimensions(item);
+  if(index===0)return visibleIndex+1;
+  if(index===1)return `<strong>${escapeHtml(displayProductName(item))}</strong>${showDimensionsUnderName()&&dimensions?`<br><small>${escapeHtml(dimensions)}</small>`:""}`;
+  if(index===2)return escapeHtml(dimensions);
+  if(index===3)return escapeHtml(displayDescription(item));
+  if(index===4)return escapeHtml(item.quantity||1);
+  if(index===5)return escapeHtml(displayMaterial(item));
+  if(index===6)return escapeHtml(item.thickness||"");
+  if(index===7)return `${Number(item.area||0).toFixed(3)} м²`;
+  if(index===8)return `${Number(item.mass||0).toFixed(2)} ${t("kg")}`;
+  if(index===9)return escapeHtml(item.comment||"");
+  return "";
+}
+function renderPrintSpecReport(entries=filteredProjectEntries(),visibleItems=entries.map(({item})=>item),totals=null){
+  const items=visibleItems;
+  const total=totals||{
+    qty:items.reduce((sum,item)=>sum+Number(item.quantity||1),0),
+    area:items.reduce((sum,item)=>sum+Number(item.area||0),0),
+    mass:items.reduce((sum,item)=>sum+Number(item.mass||0),0)
+  };
+  const specColumns=printSpecColumns();
+  const colgroup=(columns)=>`<colgroup>${columns.map((column)=>`<col style="width:${column.width}">`).join("")}</colgroup>`;
+  const head=(columns)=>`<thead><tr>${columns.map((column)=>`<th class="${column.cls||""}">${escapeHtml(column.label)}</th>`).join("")}</tr></thead>`;
+  const specBody=entries.map(({item,index})=>{
+    return `<tr>${specColumns.map((column)=>`<td class="${column.cls||""}">${printSpecCellValue(item,column.index,index)}</td>`).join("")}</tr>`;
+  }).join("");
+  const totalLabelColumn=specColumns.find((column)=>column.index===1)||specColumns.find((column)=>!column.cls)||specColumns[0];
+  const specTotal=`<tr>${specColumns.map((column,index)=>{
+    let value="";
+    if(column===totalLabelColumn)value=t("total");
+    if(column.index===4)value=total.qty;
+    if(column.index===7)value=`${total.area.toFixed(3)} м²`;
+    if(column.index===8)value=`${total.mass.toFixed(2)} ${t("kg")}`;
+    return `<td class="total ${column.cls||""}">${escapeHtml(value)}</td>`;
+  }).join("")}</tr>`;
+  const summaryRows=materialSummaryRows(items);
+  const summaryColumns=[
+    {key:"no",label:"№",width:"8mm",cls:"num"},
+    {key:"quantity",label:t("quantity"),width:"16mm",cls:"num"},
+    {key:"material",label:t("material"),width:"86mm"},
+    {key:"thickness",label:"t",width:"10mm",cls:"num"},
+    {key:"area",label:t("area"),width:"34mm",cls:"num"},
+    {key:"mass",label:t("mass"),width:"34mm",cls:"num"}
+  ];
+  const summaryBody=summaryRows.map((row,index)=>`<tr>
+    <td class="num">${index+1}</td>
+    <td class="num">${row.quantity}</td>
+    <td><strong>${escapeHtml(row.material)}</strong></td>
+    <td class="num">${escapeHtml(row.thickness)}</td>
+    <td class="num">${row.area.toFixed(3)} м²</td>
+    <td class="num">${row.mass.toFixed(2)} ${t("kg")}</td>
+  </tr>`).join("");
+  const summaryTotal=`<tr>
+    <td class="total"></td>
+    <td class="total num">${summaryRows.reduce((sum,row)=>sum+row.quantity,0)}</td>
+    <td class="total"><strong>${t("materialCount").replace("{count}",summaryRows.length)}</strong></td>
+    <td class="total"></td>
+    <td class="total num">${summaryRows.reduce((sum,row)=>sum+row.area,0).toFixed(3)} м²</td>
+    <td class="total num">${summaryRows.reduce((sum,row)=>sum+row.mass,0).toFixed(2)} ${t("kg")}</td>
+  </tr>`;
+  printSpecReport.innerHTML=`
+    <section class="print-spec-section">
+      <div class="print-spec-title"><span>${t("spec")}</span><small>${entries.length===project.length?project.length:`${entries.length}/${project.length}`}</small></div>
+      <table class="print-spec-table">${colgroup(specColumns)}${head(specColumns)}<tbody>${specBody}${specTotal}</tbody></table>
+    </section>
+    <section class="print-spec-section">
+      <div class="print-spec-title"><span>${t("materialSummary")}</span></div>
+      <table class="print-spec-table print-summary-table">${colgroup(summaryColumns)}${head(summaryColumns)}<tbody>${summaryBody}${summaryTotal}</tbody></table>
+    </section>`;
+}
+function preparePrintSpecReport(){
+  renderPrintSpecReport();
 }
 function escapeHtml(value){
   return String(value??"").replace(/[&<>"']/g,(char)=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[char]));
@@ -1522,6 +1870,7 @@ function materialKeyFromLabel(label){
   const value=normalizeLookupText(label);
   if(value.includes("304"))return "ss304";
   if(value.includes("430"))return "ss430";
+  if(value.includes("алюм")||value.includes("alum"))return "aluminum";
   if(value.includes("galvanized")||value.includes("zinc")||value.includes("оцинк"))return "galv";
   return "";
 }
@@ -1540,7 +1889,7 @@ function productKeyFromName(name){
     ||"";
 }
 function displayProductName(item){
-  const key=item.productType||productKeyFromName(item.name);
+  const key=PRODUCT_TEXT[item.productType]?item.productType:productKeyFromName(item.name||item.title||item.label||item.description||item.size);
   return pickText(PRODUCT_TEXT[key],item.name||t("product"));
 }
 function displayMaterial(item){
@@ -1589,7 +1938,9 @@ function openProjectItem(index){
 projectRows.addEventListener("click",(event)=>{
   const edit=event.target.closest(".project-edit");
   const button=event.target.closest(".project-remove");
+  const comment=event.target.closest(".project-comment");
   if(!canModifyProject()){
+    if(comment){openAccessInvite(t("comment"));comment.blur();return}
     if(edit){openAccessInvite(t("edit"));return}
     if(button){openAccessInvite(t("delete"));return}
     return;
@@ -1602,11 +1953,12 @@ projectRows.addEventListener("click",(event)=>{
 projectRows.addEventListener("input",(event)=>{
   const textarea=event.target.closest(".project-comment");
   if(!textarea)return;
-  if(!canModifyProject())return;
+  if(!canModifyProject()){openAccessInvite(t("comment"));return}
   const index=Number(textarea.dataset.commentIndex);
   if(!project[index])return;
   project[index].comment=textarea.value;
   localStorage.setItem(storageKey,JSON.stringify(project));
+  renderPrintSpecReport();
 });
 projectRows.addEventListener("pointerover",(event)=>{
   const cell=event.target.closest(".project-pos");
@@ -1622,6 +1974,7 @@ projectNameInput.addEventListener("input",saveProjectMeta);
 projectCustomerInput.addEventListener("input",saveProjectMeta);
 projectObjectInput.addEventListener("input",saveProjectMeta);
 specPanelToggle.addEventListener("click",toggleSpecControls);
+panelLayoutSelect.addEventListener("change",()=>setPanelLayout(panelLayoutSelect.value));
 dimsUnderNameInput.addEventListener("change",()=>{
   const visible=currentColumnVisibility();
   visible[2]=!dimsUnderNameInput.checked;
@@ -1681,6 +2034,7 @@ document.addEventListener("pointerdown",(event)=>{
   closeFilterMenu();
 });
 window.addEventListener("resize",closeFilterMenu);
+window.addEventListener("beforeprint",preparePrintSpecReport);
 document.getElementById("printSpec").addEventListener("click",()=>gatedProjectAction(t("print"),()=>window.print()));
 document.getElementById("exportSpec").addEventListener("click",()=>gatedProjectAction(t("export"),exportCsv));
 document.getElementById("excelSpec").addEventListener("click",()=>gatedProjectAction("Excel",exportExcel));
@@ -1690,10 +2044,16 @@ document.getElementById("openSpecFile").addEventListener("change",(event)=>{cons
 document.getElementById("fullscreenSpec").addEventListener("click",()=>gatedProjectAction("Fullscreen",()=>side.requestFullscreen?.()));
 lang.addEventListener("change",()=>{saveSettings();applyLanguage();openUrl(currentFrameUrl(),{countGuest:false})});
 loginBtn.addEventListener("click",()=>{currentRole()==="guest"?openLogin():saveRole("guest")});
+adminGuestReset.addEventListener("click",resetGuestLimit);
 document.getElementById("loginClose").addEventListener("click",closeLogin);
 loginForm.addEventListener("submit",(event)=>{event.preventDefault();tryLogin()});
 registerBtn.addEventListener("click",registerDemoAccount);
 loginPassword.addEventListener("input",updateLoginInfo);
+passwordToggle.addEventListener("click",()=>{
+  loginPassword.type=loginPassword.type==="password"?"text":"password";
+  updatePasswordToggle();
+  loginPassword.focus();
+});
 loginModal.addEventListener("click",(event)=>{if(event.target===loginModal)closeLogin()});
 accessClose.addEventListener("click",closeAccessInvite);
 accessLater.addEventListener("click",closeAccessInvite);
@@ -1755,7 +2115,10 @@ function restoreProjectWidth(){
 }
 function bindResizer(){
   let startX=0,startWidth=0;
-  const move=(event)=>setProjectWidth(startWidth+event.clientX-startX);
+  const move=(event)=>{
+    const delta=event.clientX-startX;
+    setProjectWidth(currentPanelLayout()==="project-left"?startWidth+delta:startWidth-delta);
+  };
   const up=()=>{
     document.body.style.userSelect="";
     window.removeEventListener("pointermove",move);
@@ -1791,6 +2154,7 @@ mobileSwitch.addEventListener("click",(event)=>{
   if(button)setMobileView(button.dataset.mobileView);
 });
 window.addEventListener("resize",()=>{clampProjectWidth();applyColumnWidths();updateProjectOverflow();setMobileView(localStorage.getItem(mobileViewKey)||"atlas")});
+applyPanelLayout();
 restoreProjectWidth();
 setLayoutMode(localStorage.getItem(layoutModeKey)||"split");
 bindResizer();
@@ -1801,46 +2165,3 @@ openUrl("assets/atlas/atlas.html");
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -5,6 +5,7 @@
    Запуск (через check-roles.bat): node scripts/check-roles.js --build="build YYYY-MM-DD-HHMM"
    Код выхода: 0 — ок, 1 — провал. */
 "use strict";
+const out=(...a)=>process.stdout.write(a.join(" ")+"\n");
 const path = require("path");
 const { pathToFileURL } = require("url");
 const { chromium } = require("playwright");
@@ -26,8 +27,8 @@ const calcUrl = (role) => `${calcBase}?module=${MODULE}&role=${role}&lang=ru`;
 const EXPECT = {
   guest:  { add: false, pdf: false },
   user:   { add: true,  pdf: false },
-  client: { add: true,  pdf: true  },
-  admin:  { add: true,  pdf: true  },
+  client: { add: true,  pdf: false },
+  admin:  { add: true,  pdf: false },
 };
 
 async function launchBrowser() {
@@ -54,8 +55,8 @@ async function launchBrowser() {
 
 (async () => {
   let ok = true;
-  console.log("Base:", homeUrl);
-  if (expectedBuild) console.log("Expected build:", expectedBuild);
+  out("Base:", homeUrl);
+  if (expectedBuild) out("Expected build:", expectedBuild);
 
   const browser = await launchBrowser();
   const context = await browser.newContext();
@@ -67,10 +68,10 @@ async function launchBrowser() {
     const norm = (x) => (x || "").replace(/\s+/g, " ").trim();
     const pageBuild = norm(await page.locator(".build-marker").first().textContent());
     if (expectedBuild && norm(pageBuild) !== norm(expectedBuild)) {
-      console.log(`FAIL build-marker: page="${pageBuild}" expected="${expectedBuild}"`);
+      out(`FAIL build-marker: page="${pageBuild}" expected="${expectedBuild}"`);
       ok = false;
     } else {
-      console.log("OK build-marker:", pageBuild || "(пусто)");
+      out("OK build-marker:", pageBuild || "(пусто)");
     }
 
     /* 2) роли */
@@ -85,14 +86,14 @@ async function launchBrowser() {
         const area = ((await rp.locator("#area").first().textContent()) || "").trim();
         const exp = EXPECT[role];
         const pass = hasAdd === exp.add && hasPdf === exp.pdf && /м²|ft²/.test(area);
-        console.log(`role=${role}: add=${hasAdd}(${exp.add}) pdf=${hasPdf}(${exp.pdf}) area="${area}" -> ${pass ? "OK" : "FAIL"}`);
+        out(`role=${role}: add=${hasAdd}(${exp.add}) pdf=${hasPdf}(${exp.pdf}) area="${area}" -> ${pass ? "OK" : "FAIL"}`);
         if (!pass) ok = false;
       } finally {
         await fresh.close();
       }
     }
   } catch (e) {
-    console.log("Check error:", e && e.message);
+    out("Check error:", e && e.message);
     ok = false;
   } finally {
     await browser.close();
