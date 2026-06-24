@@ -147,6 +147,6 @@ if errorlevel 1 (
 echo.
 echo Publication complete.
 echo Site:
-echo https://vetvvv.github.io/calc-square-camduct-stspetsmontazh-v1/home.html
-start "" "https://vetvvv.github.io/calc-square-camduct-stspetsmontazh-v1/home.html?v=published"
+echo https://vetvvv.github.io/Calc-square-CAMduct_vvv-v1.0.0/home.html
+start "" "https://vetvvv.github.io/Calc-square-CAMduct_vvv-v1.0.0/home.html?v=published"
 pause
