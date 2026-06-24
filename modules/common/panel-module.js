@@ -43,16 +43,16 @@
     "round-cap":{category:"round",title:{ru:"Заглушка круглая",uk:"Заглушка кругла",en:"Round cap"},type:"formula",image:"../../modules/round/cap/preview.svg",fields:[num("D","D",250)],connections:["D"],formula:"roundCap"},
     "round-inset":{category:"round",title:{ru:"Врезка круглая",uk:"Врізка кругла",en:"Round inset"},type:"formula",image:"../../modules/common/stub-preview.svg",fields:[num("D","D",250),num("H","H",120)],connections:["D"],formula:"roundInset"},
     "round-saddle":{category:"round",title:{ru:"Седло",uk:"Сідло",en:"Saddle"},type:"formula",image:"../../modules/round/saddle/preview.svg",fields:[num("D","D",315),num("D1","D1",200)],connections:["D1"],formula:"stub"},
-    "round-nipple":{category:"round",title:{ru:"Ниппель круглый",uk:"Ніпель круглий",en:"Round nipple"},type:"formula",image:"../../modules/round/nipple/preview.svg",fields:[num("D","D",250),num("L","L",120)],connections:["D"],formula:"roundShell"},
-    "round-silencer":{category:"round",title:{ru:"Шумоглушитель круглый",uk:"Шумоглушник круглий",en:"Round silencer"},type:"formula",image:"../../modules/round/silencer/preview.svg",fields:[num("D","D",250),num("L","L",900)],connections:["D"],formula:"roundShell"},
+    "round-nipple":{category:"round",title:{ru:"Ниппель круглый",uk:"Ніпель круглий",en:"Round nipple"},type:"formula",image:"../../modules/round/nipple/preview.svg",fields:[num("D","D",250),num("L","L",120)],connections:["D"],formula:"roundDuct"},
+    "round-silencer":{category:"round",title:{ru:"Шумоглушитель круглый",uk:"Шумоглушник круглий",en:"Round silencer"},type:"formula",image:"../../modules/round/silencer/preview.svg",fields:[num("D","D",250),num("L","L",900)],connections:["D"],formula:"roundDuct"},
     "round-umbrella":{category:"round",title:{ru:"Зонт круглый",uk:"Зонт круглий",en:"Round umbrella"},type:"formula",image:"../../modules/round/umbrella/preview.svg",fields:[num("D","D",250),num("H","H",300)],connections:["D"],formula:"stub"},
-    "round-damper":{category:"round",title:{ru:"Дроссель круглый",uk:"Дросель круглий",en:"Round damper"},type:"formula",image:"../../modules/round/damper/preview.svg",fields:[num("D","D",250),num("L","L",120)],connections:["D"],formula:"roundShell"},
+    "round-damper":{category:"round",title:{ru:"Дроссель круглый",uk:"Дросель круглий",en:"Round damper"},type:"formula",image:"../../modules/round/damper/preview.svg",fields:[num("D","D",250),num("L","L",120)],connections:["D"],formula:"roundDuct"},
     "round-flange":{category:"round",title:{ru:"Фланец круглый",uk:"Фланець круглий",en:"Round flange"},type:"formula",image:"../../modules/round/flange/preview.svg",fields:[num("D","D",250),num("B","B",30)],connections:["D"],formula:"roundFlange"},
     "round-cross":{category:"round",title:{ru:"Крестовина круглая",uk:"Хрестовина кругла",en:"Round cross"},type:"formula",image:"../../modules/round/cross/preview.svg",fields:[num("D","D",315),num("D1","D1",250),num("D2","D2",250),num("L","L",600)],connections:["D","D1","D2"],formula:"stub"},
     "round-duck":{category:"round",title:{ru:"Утка круглая",uk:"Качка кругла",en:"Round offset duct"},type:"formula",image:"../../modules/round/duck/preview.svg",fields:[num("D","D",250),num("L","L",600),num("Offset","Offset",150)],connections:["D"],formula:"stub"},
-    "round-check-valve":{category:"round",title:{ru:"Обратный клапан круглый",uk:"Зворотний клапан круглий",en:"Round check valve"},type:"formula",image:"../../modules/round/check-valve/preview.svg",fields:[num("D","D",250),num("L","L",180)],connections:["D"],formula:"roundShell"},
+    "round-check-valve":{category:"round",title:{ru:"Обратный клапан круглый",uk:"Зворотний клапан круглий",en:"Round check valve"},type:"formula",image:"../../modules/round/check-valve/preview.svg",fields:[num("D","D",250),num("L","L",180)],connections:["D"],formula:"roundDuct"},
     "round-deflector":{category:"round",title:{ru:"Дефлектор",uk:"Дефлектор",en:"Deflector"},type:"formula",image:"../../modules/round/deflector/preview.svg",fields:[num("D","D",250),num("H","H",300)],connections:["D"],formula:"stub"},
-    "round-coupling":{category:"round",title:{ru:"Муфта",uk:"Муфта",en:"Coupling"},type:"formula",image:"../../modules/round/coupling/preview.svg",fields:[num("D","D",250),num("L","L",120)],connections:["D"],formula:"roundShell"},
+    "round-coupling":{category:"round",title:{ru:"Муфта",uk:"Муфта",en:"Coupling"},type:"formula",image:"../../modules/round/coupling/preview.svg",fields:[num("D","D",250),num("L","L",120)],connections:["D"],formula:"roundDuct"},
     "rectangular-duct":{category:"rectangular",title:{ru:"Воздуховод прямоугольный",uk:"Повітропровід прямокутний",en:"Rectangular duct"},type:"formula",image:"../../assets/products/rectangular_duct.svg",fields:[num("A","A",400),num("B","B",300),num("L","L",1000)],formula:"rectDuct"},
     "rectangular-elbow":{category:"rectangular",title:{ru:"Отвод прямоугольный",uk:"Відвід прямокутний",en:"Rectangular elbow"},type:"formula",image:"../../assets/products/rectangular_elbow.svg",fields:[num("A","A",400),num("B","B",300),select("Angle",{ru:"Угол",uk:"Кут",en:"Angle"},[15,30,45,60,90],90),num("R","R",300)],formula:"rectElbow"},
     "rectangular-elbow-transition":{category:"rectangular",title:{ru:"Колено прямоугольное переходное",uk:"Коліно прямокутне перехідне",en:"Rectangular transition elbow"},type:"formula",image:"../../modules/common/stub-preview.svg",fields:[num("A","A",400),num("B","B",300),num("C","C",300),num("D","D",200),select("Angle",{ru:"Угол",uk:"Кут",en:"Angle"},[15,30,45,60,90],90)],formula:"stub"},
@@ -70,7 +70,7 @@
     "combined-seat-rect":{category:"combined",title:{ru:"Седло с прямоугольной врезкой",uk:"Сідло з прямокутною врізкою",en:"Saddle with rectangular inset"},type:"formula",image:"../../modules/common/stub-preview.svg",fields:[num("D","D",315),num("A","A",250),num("B","B",200),num("H","H",120)],connections:["D"],formula:"stub"},
     "tee-round-rect":{category:"combined",title:{ru:"Тройник круг-прямоугольник",uk:"Трійник круг-прямокутник",en:"Round-rect tee"},type:"formula",image:"../../modules/common/stub-preview.svg",fields:[num("D","D",315),num("A","A",300),num("B","B",250),num("L","L",600)],connections:["D"],formula:"stub"},
     "rect-tee-round":{category:"combined",title:{ru:"Тройник прямоугольник-круг",uk:"Трійник прямокутник-круг",en:"Rect-round tee"},type:"formula",image:"../../modules/common/stub-preview.svg",fields:[num("A","A",400),num("B","B",300),num("D","D",250),num("L","L",600)],connections:["D"],formula:"stub"},
-    "round-adapter":{category:"combined",title:{ru:"Адаптер круглый",uk:"Адаптер круглий",en:"Round adapter"},type:"formula",image:"../../modules/common/stub-preview.svg",fields:[num("D","D",250),num("L","L",300)],connections:["D"],formula:"roundShell"},
+    "round-adapter":{category:"combined",title:{ru:"Адаптер круглый",uk:"Адаптер круглий",en:"Round adapter"},type:"formula",image:"../../modules/common/stub-preview.svg",fields:[num("D","D",250),num("L","L",300)],connections:["D"],formula:"roundDuct"},
     "rectangular-adapter":{category:"combined",title:{ru:"Адаптер прямоугольный",uk:"Адаптер прямокутний",en:"Rectangular adapter"},type:"formula",image:"../../modules/common/stub-preview.svg",fields:[num("A","A",400),num("B","B",300),num("L","L",300)],formula:"rectShell"},
     "grease-trap":{category:"combined",title:{ru:"Жироуловитель",uk:"Жировловлювач",en:"Grease trap"},type:"formula",image:"../../modules/common/stub-preview.svg",fields:[num("A","A",400),num("B","B",300),num("L","L",500)],formula:"stub"}
   };
@@ -303,12 +303,14 @@
     const pv=window.CalcSquarePreview?window.CalcSquarePreview(moduleKey,values,lang):null;
     if(pv&&box){box.innerHTML=pv;}else{updateLabels(values);}
   }
+  const ELBOW_AREA={15:{100:0.029,125:0.061,150:0.074,160:0.08,180:0.091,200:0.107,224:0.122,250:0.139,280:0.16,315:0.183,355:0.216,400:0.288,450:0.322,500:0.423,560:0.426,630:0.578,710:0.631,800:0.683,900:0.823,1000:0.974,1250:1.571},30:{100:0.04,125:0.078,150:0.097,160:0.104,180:0.117,200:0.141,224:0.163,250:0.187,280:0.219,315:0.252,355:0.303,400:0.408,450:0.455,500:0.607,560:0.636,630:0.855,710:0.968,800:1.086,900:1.332,1000:1.602,1250:2.559},45:{100:0.0526,125:0.102,150:0.128,160:0.138,180:0.153,200:0.186,224:0.217,250:0.249,280:0.294,315:0.34,355:0.412,400:0.551,450:0.614,500:0.82,560:0.88,630:1.171,710:1.349,800:1.54,900:1.9,1000:2.295,1250:3.633},60:{100:0.063,125:0.105,150:0.135,160:0.149,180:0.177,200:0.205,224:0.24,250:0.286,280:0.34,315:0.405,355:0.495,400:0.588,450:0.74,500:0.911,560:1.097,630:1.433,710:1.758,800:2.123,900:2.382,1000:2.889,1250:4.358},90:{100:0.078,125:0.138,150:0.182,160:0.2,180:0.24,200:0.279,224:0.328,250:0.393,280:0.471,315:0.563,355:0.692,400:0.827,450:1.034,500:1.276,560:1.554,630:2.03,710:2.505,800:3.09,900:3.467,1000:4.218,1250:6.323}};
+  function elbowLookup(angle,D){var t=ELBOW_AREA[angle];if(!t)return null;var ks=Object.keys(t).map(Number).sort(function(a,b){return a-b});if(t[D]!=null)return t[D];if(D<=ks[0])return t[ks[0]];if(D>=ks[ks.length-1])return t[ks[ks.length-1]];var lo=ks[0],hi=ks[ks.length-1];for(var i=0;i<ks.length-1;i++){if(D>=ks[i]&&D<=ks[i+1]){lo=ks[i];hi=ks[i+1];break}}return t[lo]+(t[hi]-t[lo])*(D-lo)/(hi-lo);}
   function calculate(v){
     const q=v.quantity||1;
     let area=0,note="",help="",sheetWarn="",lockName="",lockSize="";
     switch(cfg.formula){
-      case"roundDuct":area=Math.PI*v.D*v.L*q/1e6;note=`S = π × D × L × Q`;break;
-      case"roundElbow":{const arc=Math.PI*v.R*v.Angle/180;area=Math.PI*v.D*arc*q/1e6;note=`S = π × D × arc × Q`;break}
+      case"roundDuct":{const weld=v.L<450,Z=weld?6:(v.thickness>=0.9?28:25),seam=weld?"сварка 3-3":(v.thickness>=0.9?"рус. замок 14-14":"рус. замок 12,5-12,5");area=v.L*(Math.PI*v.D+Z)*q/1e6;note=`S = L × (π·D + Z) × Q, Z=${Z} мм (${seam})`+(v.L>2000?"  ⚠ L>2000 мм (макс), делится на секции":"");break}
+      case"roundElbow":{const a=elbowLookup(v.Angle,v.D);if(a==null){area=0;note=t.notReady;}else{const std=ELBOW_AREA[v.Angle]&&ELBOW_AREA[v.Angle][v.D]!=null;area=a*q;note=`S = развёртка по базе (отвод ${v.Angle}°)`+(std?"":", интерполяция по D");}break}
       case"roundTransition":area=Math.PI*((v.D1+v.D2)/2)*Math.sqrt((v.L||0)**2+(v.Offset||0)**2)*q/1e6;note=`S = π × ${t.avgDiameter} × ${t.inclinedLength} × Q`;break;
       case"roundTee":area=(Math.PI*v.D*v.L+Math.PI*v.D1*v.H)*q/1e6;note=`S = ${t.main} + ${t.branch}`;break;
       case"roundCap":area=Math.PI*v.D*v.D/4*q/1e6;note=`S = π × D² / 4 × Q`;break;
@@ -320,7 +322,6 @@
       case"rectCap":area=(v.A*v.B+2*v.F*(v.A+v.B))*q/1e6;note=`S = A×B + 2F(A+B)`;break;
       case"rectInset":area=2*(v.A+v.B)*v.H*q/1e6;note=`S = 2 × (A+B) × H × Q`;break;
       case"roundRect":area=((Math.PI*v.D+2*(v.A+v.B))/2)*v.L*q/1e6;note=`S = ${t.avgPerimeter} × L`;break;
-      case"roundShell":area=Math.PI*v.D*v.L*q/1e6;note=`S = π × D × L × Q`;break;
       case"roundFlange":area=Math.PI*v.B*(v.D+v.B)*q/1e6;note=`S = π × B × (D + B) × Q`;break;
       case"rectShell":area=2*(v.A+v.B)*v.L*q/1e6;note=`S = 2 × (A + B) × L × Q`;break;
       default:area=0;note=t.notReady;
