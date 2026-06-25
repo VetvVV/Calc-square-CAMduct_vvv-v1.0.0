@@ -96,35 +96,42 @@ function _roundDuct(v){
   }
 function _elbow(v){
     var rad=v.ang*Math.PI/180;
-    var R=v.R, D=v.D, leg=Math.max(110,R*1.3);
-    var dHalf=Math.min(D/2, R*0.62);
-    var tlen=R*Math.tan(rad/2);
+    var D=v.D, dHalf=D/2;
+    var Rin=v.Rax?Math.max(1,v.R-dHalf):v.R;           // внутренний радиус (к нижней хорде)
+    var Rd=Rin+dHalf;                                   // осевой (для геометрии)
+    var leg=Math.max(110,Rd*1.0);
+    var tlen=Rd*Math.tan(rad/2);
     var d1=[0,-1], d2=[Math.sin(rad),-Math.cos(rad)];
     var C=[0,0];
     var T1=[0, tlen], T2=[d2[0]*tlen, d2[1]*tlen];
     var P1=[0, tlen+leg], Pe=[d2[0]*(tlen+leg), d2[1]*(tlen+leg)];
-    var O=[T1[0]+R, T1[1]];
+    var O=[T1[0]+Rd, T1[1]];
     var r1=unit(T1[0]-O[0],T1[1]-O[1]), r2=unit(T2[0]-O[0],T2[1]-O[1]);
-    function off(p,n,s){return [p[0]+n[0]*s,p[1]+n[1]*s];}
+    function off(pt,n,sc){return [pt[0]+n[0]*sc,pt[1]+n[1]*sc];}
     var P1o=off(P1,r1,dHalf),P1i=off(P1,r1,-dHalf),T1o=off(T1,r1,dHalf),T1i=off(T1,r1,-dHalf);
     var T2o=off(T2,r2,dHalf),T2i=off(T2,r2,-dHalf),Peo=off(Pe,r2,dHalf),Pei=off(Pe,r2,-dHalf);
-    var pts=[P1,Pe,T1,T2,O,P1o,P1i,Peo,Pei,T1o,T1i,T2o,T2i,C];
-    var f=makeFit(pts,56), s=f.s, M=function(p){return f(p);};
-    var Ro=(R+dHalf)*s, Ri=Math.max(2,(R-dHalf)*s), Rc=R*s;
+    var bis=unit(r1[0]+r2[0],r1[1]+r2[1]);
+    var axial=!!v.Rax;
+    var wallMid=[O[0]+(axial?Rd:Rin)*bis[0], O[1]+(axial?Rd:Rin)*bis[1]];
+    var pts=[P1,Pe,T1,T2,O,P1o,P1i,Peo,Pei,T1o,T1i,T2o,T2i,C,wallMid];
+    var f=makeFit(pts,56), s=f.s, M=function(pt){return f(pt);};
+    var Ro=(Rd+dHalf)*s, Ri=Math.max(2,(Rd-dHalf)*s), Rind=(axial?Rd:Rin)*s;
     var cen=centroid([M(P1),M(Pe),M(T1),M(T2),M(O)]);
     var body='M'+P(M(P1o))+' L'+P(M(T1o))+' A'+Ro.toFixed(1)+' '+Ro.toFixed(1)+' 0 0 1 '+P(M(T2o))
       +' L'+P(M(Peo))+' L'+P(M(Pei))+' L'+P(M(T2i))+' A'+Ri.toFixed(1)+' '+Ri.toFixed(1)+' 0 0 0 '+P(M(T1i))+' L'+P(M(P1i))+' Z';
-    var arcc='M'+P(M(T1))+' A'+Rc.toFixed(1)+' '+Rc.toFixed(1)+' 0 0 1 '+P(M(T2));
+    var wT1=off(T1,r1,axial?0:-dHalf), wT2=off(T2,r2,axial?0:-dHalf);
+    var indArc='M'+P(M(wT1))+' A'+Rind.toFixed(1)+' '+Rind.toFixed(1)+' 0 0 1 '+P(M(wT2));
     var capRx=dHalf*s, capRy=capRx*0.36;
     var a1=Math.atan2(r1[1],r1[0])*180/Math.PI, a2=Math.atan2(r2[1],r2[0])*180/Math.PI;
-    var P1m=M(P1),Pem=M(Pe),Cm=M(C),ext=M([C[0]+d1[0]*(tlen+leg*0.45),C[1]+d1[1]*(tlen+leg*0.45)]);
+    var P1m=M(P1),Pem=M(Pe),Cm=M(C),Om=M(O),ext=M([C[0]+d1[0]*(tlen+leg*0.45),C[1]+d1[1]*(tlen+leg*0.45)]);
     var g='';
     g+='<path d="'+body+'" fill="#ededed" stroke="#9a9a9a" stroke-width="1.3"/>';
     g+='<g transform="translate('+P1m[0].toFixed(1)+','+P1m[1].toFixed(1)+') rotate('+a1.toFixed(1)+')"><ellipse rx="'+capRx.toFixed(1)+'" ry="'+capRy.toFixed(1)+'" fill="#e9e9e9" stroke="#999" stroke-width="1.2"/></g>';
-    g+='<path d="'+arcc+'" fill="none" stroke="'+RED+'" stroke-width="3"/>';
+    g+='<path d="M'+P(Om)+' L'+P(M(wallMid))+'" stroke="'+RED+'" stroke-width="1.4" stroke-dasharray="4 3"/>';
+    g+='<path d="'+indArc+'" fill="none" stroke="'+RED+'" stroke-width="2.6"/>';
     g+='<g transform="translate('+Pem[0].toFixed(1)+','+Pem[1].toFixed(1)+') rotate('+a2.toFixed(1)+')"><ellipse rx="'+capRx.toFixed(1)+'" ry="'+capRy.toFixed(1)+'" fill="#f5f8ff" stroke="'+BLUE+'" stroke-width="3"/></g>';
     g+='<path d="M'+P(Cm)+' L'+P(ext)+'" stroke="#bbb" stroke-width="1" stroke-dasharray="3 3"/>';
-    g+=lblAt(outward(M(mid(T1,T2)),cen,20),'R '+Math.round(R),RED);
+    g+=lblAt(outward(M(wallMid),cen,16),(axial?'R ось ':'R внутр ')+Math.round(axial?v.R:Rin),RED);
     g+=lblAt(outward(Pem,cen,capRx+10),'⌀'+Math.round(D),BLUE);
     g+=lblAt(outward(Cm,cen,20),'α '+Math.round(v.ang)+'°',GREEN);
     return svgWrap(g);
@@ -189,7 +196,7 @@ global.CalcSquarePreview=function(moduleKey,v,lang){
     ACTIVE_LANG=L10N[lang]?lang:'ru';
     if(moduleKey==="rectangular-duct") return _rectDuct({A:num(v.A),B:num(v.B),L:num(v.L)});
     if(moduleKey==="round-duct")       return _roundDuct({D:num(v.D),L:num(v.L)});
-    if(moduleKey==="round-elbow")      return _elbow({D:num(v.D),R:num(v.R),ang:num(v.Angle)});
+    if(moduleKey==="round-elbow")      return _elbow({D:num(v.D),R:num(v.R),ang:num(v.Angle),Rax:v.Rax});
     if(moduleKey==="rectangular-transition"){
       var off=resolveTransOffsets(v);
       return _rectTrans({A:num(v.A),B:num(v.B),C:num(v.C),D:num(v.D),E:num(v.E),H:off.H,I:off.I});

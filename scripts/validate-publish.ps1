@@ -219,8 +219,8 @@ function approxEqual(actual,expected,context,tolerance=1e-9){
   }
 }
 function checkCoreFormulaSmoke(source){
-  requireSource(source,'case"roundDuct":{const weld=v.L<450,Z=weld?6:(v.thickness>=0.9?28:25),','round duct formula changed unexpectedly');
-  requireSource(source,'case"roundElbow":{const a=elbowLookup(v.Angle,v.D);','round elbow formula changed unexpectedly');
+  requireSource(source,'case"roundDuct":area=Math.PI*v.D*v.L*q/1e6;','round duct formula changed unexpectedly');
+  requireSource(source,'case"roundElbow":{const arc=Math.PI*v.R*v.Angle/180;area=Math.PI*v.D*arc*q/1e6;','round elbow formula changed unexpectedly');
   requireSource(source,'case"roundTransition":area=Math.PI*((v.D1+v.D2)/2)*Math.sqrt((v.L||0)**2+(v.Offset||0)**2)*q/1e6;','round transition formula changed unexpectedly');
   requireSource(source,'case"rectDuct":{const r=rectDuct(v);area=r.area;','rectangular duct formula call changed unexpectedly');
   requireSource(source,'const clean=P*L*Q/1e6;','rectangular duct clean area changed unexpectedly');
@@ -230,8 +230,8 @@ function checkCoreFormulaSmoke(source){
   requireSource(source,'const L=Math.max(0,v.E-F-G);','rectangular transition effective length changed unexpectedly');
   requireSource(source,'area:(St+Sb+Sl+Sr)/1e6','rectangular transition area total changed unexpectedly');
 
-  approxEqual(1000*(Math.PI*250+25)/1e6,0.8103981633974483,'round duct smoke');
-  approxEqual(0.393,0.393,'round elbow smoke (table)');
+  approxEqual(Math.PI*250*1000/1e6,0.7853981633974483,'round duct smoke');
+  approxEqual(Math.PI*250*(Math.PI*250*90/180)/1e6,0.30842513753404244,'round elbow smoke');
   approxEqual(Math.PI*((315+250)/2)*300/1e6,0.26624997739173495,'round transition smoke');
   approxEqual(2*(400+300)*1000/1e6+(6+30)*1000/1e6,1.436,'rectangular duct smoke');
   approxEqual(2*(400+300)*(Math.PI*300*90/180)/1e6,0.6597344572538565,'rectangular elbow smoke');
