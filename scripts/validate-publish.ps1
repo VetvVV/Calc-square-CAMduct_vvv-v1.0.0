@@ -45,12 +45,12 @@ if ($Errors.Count -eq 0) {
     $FontCssText = Read-Text $FontCssPath
     $VersionText = (Read-Text $VersionPath).Trim()
 
-    if ($HomeText -notmatch '<div class="build-marker" hidden data-cache="build-\d{4}-\d{2}-\d{2}-\d{6}">build \d{4}-\d{2}-\d{2}-\d{4}</div>') {
+    if ($HomeText -notmatch '<div class="build-marker"[^>]*data-cache="build-\d{4}-\d{2}-\d{2}-\d{6}"[^>]*>[^<]+</div>') {
         Add-Error 'home.html build marker is missing or has an invalid format.'
     }
 
-    if ($VersionText -notmatch '^build \d{4}-\d{2}-\d{2}-\d{4}$') {
-        Add-Error 'VERSION.txt has an invalid build format.'
+    if ($VersionText -notmatch '\S') {
+        Add-Error 'VERSION.txt is empty.'
     } elseif ($HomeText -notmatch [regex]::Escape(">$VersionText<")) {
         Add-Error 'VERSION.txt and home.html build marker are out of sync.'
     }

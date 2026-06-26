@@ -1,7 +1,7 @@
 $ErrorActionPreference = 'Stop'
 
 $Now = Get-Date
-$Build = 'build ' + $Now.ToString('yyyy-MM-dd-HHmm')
+$Build = 'Calc Square v1.0.0 · build ' + $Now.ToString('yyyy-MM-dd HH:mm')
 $CacheBuild = 'build-' + $Now.ToString('yyyy-MM-dd-HHmmss')
 $Root = Resolve-Path (Join-Path $PSScriptRoot '..')
 $HomePath = Join-Path $Root 'home.html'
@@ -18,8 +18,8 @@ if (-not (Test-Path $CalculatorPath)) {
 
 $HomeText = [System.IO.File]::ReadAllText($HomePath, [System.Text.Encoding]::UTF8)
 $CalculatorText = [System.IO.File]::ReadAllText($CalculatorPath, [System.Text.Encoding]::UTF8)
-$MarkerPattern = '<div class="build-marker"[^>]*>build\s+\d{4}-\d{2}-\d{2}-\d{4,6}</div>'
-$Marker = '<div class="build-marker" hidden data-cache="' + $CacheBuild + '">' + $Build + '</div>'
+$MarkerPattern = '<div class="build-marker"[^>]*>[^<]*</div>'
+$Marker = '<div class="build-marker" data-cache="' + $CacheBuild + '" style="position:fixed;bottom:6px;right:10px;font-size:11px;line-height:1.4;color:#9aa0a6;background:rgba(255,255,255,.85);padding:1px 6px;border-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,.12);z-index:2147483647;pointer-events:none;white-space:nowrap">' + $Build + '</div>'
 
 if ([regex]::IsMatch($HomeText, $MarkerPattern)) {
     $HomeText = [regex]::Replace($HomeText, $MarkerPattern, $Marker, 1)
@@ -29,7 +29,7 @@ if ([regex]::IsMatch($HomeText, $MarkerPattern)) {
     throw 'Body tag was not found in home.html'
 }
 
-$CalculatorText = [regex]::Replace($CalculatorText, '(\?v=)build-\d{4}-\d{2}-\d{2}-\d{6}', ('$1' + $CacheBuild))
+$CalculatorText = [regex]::Replace($CalculatorText, '(\?v=)build-[\d-]+', ('$1' + $CacheBuild))
 
 [System.IO.File]::WriteAllText($HomePath, $HomeText, $Utf8NoBom)
 [System.IO.File]::WriteAllText($CalculatorPath, $CalculatorText, $Utf8NoBom)
