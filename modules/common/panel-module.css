@@ -69,3 +69,6 @@ textarea{width:100%;min-height:58px;border:1px solid #bbb;border-radius:6px;padd
 .hidden-bar .chip{background:#fff;border:1px solid var(--line);border-radius:14px;padding:3px 11px;cursor:pointer;font-size:12px;font-weight:600;color:#5b4e2a}
 .hidden-bar .chip::before{content:"+ ";color:var(--blue)}
 @media(max-width:780px){body{padding:16px}.module-card{padding:18px}.layout{grid-template-columns:1fr}h1{font-size:22px}.field{grid-template-columns:1fr}.panel-body input,.panel-body select{height:40px}}
+
+.num-menu{max-height:230px;overflow-y:auto;overflow-x:hidden}
+.num-combo{position:relative;display:inline-flex;width:100%}
