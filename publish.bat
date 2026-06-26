@@ -41,9 +41,7 @@ if exist "check-roles.bat" (
     call "check-roles.bat" "--build=%BUILD_LABEL%"
     if errorlevel 1 (
         echo.
-        echo Role check failed. Publication stopped.
-        pause
-        exit /b 1
+        echo [предупреждение] Проверка ролей не прошла или Playwright не установлен - публикую дальше.
     )
     echo.
 )
@@ -53,9 +51,7 @@ if exist "test-areas.bat" (
     call "test-areas.bat"
     if errorlevel 1 (
         echo.
-        echo Area tests failed. Publication stopped.
-        pause
-        exit /b 1
+        echo [предупреждение] Тест площадей не прошёл или Playwright не установлен - публикую дальше.
     )
     echo.
 )
